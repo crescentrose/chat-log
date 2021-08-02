@@ -39,8 +39,11 @@ gem 'bootsnap', '>= 1.4.4', require: false
 gem 'slim'
 
 # ⚡ A Scope & Engine based, clean, powerful, customizable and sophisticated
-#paginator for Ruby webapps
+# paginator for Ruby webapps
 gem 'kaminari'
+
+# Object-based searching.
+gem 'ransack'
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console

@@ -1,0 +1,25 @@
+@import '~bootstrap';
+
+$team-red: #B8383B;
+$team-blu: #5885A2;
+$team-spec: #AAAAAA;
+
+span.team-colored {
+  font-weight: bold;
+}
+
+span.team-red {
+  color: $team-red;
+}
+
+span.team-blu {
+  color: $team-blu;
+}
+
+span.team-spec {
+  color: $team-spec;
+}
+
+.font-smaller {
+  font-size: 0.8rem;
+}

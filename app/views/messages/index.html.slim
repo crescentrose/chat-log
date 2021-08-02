@@ -1,19 +1,22 @@
-table
+table.table.table-striped
   thead
     tr
       th Server
       th Player name
-      th Player team
-      th Player SteamID
       th Message
       th Sent at
   tbody
     - @messages.each do |message|
       tr
         td = message.server.name
-        td = message.player_name
-        td = message.player_team
-        td = message.player_steamid3
+        td
+          div
+            = team_color message.player_team, message.player_name
+            span.mx-1.fw-bold.text-muted.font-smaller = "(TEAM)" if message.team?
+          div
+            .text-muted.font-monospace.font-smaller = message.player_steamid3
         td = message.message
-        td = message.sent_at
+        td = time_tag message.sent_at
 
+.d-flex.justify-content-center
+  = paginate @messages

@@ -46,6 +46,8 @@ class LogParserService
       'BLU'
     when 'Red'
       'RED'
+    else
+      'SPEC'
     end
   end
 end
