@@ -41,8 +41,10 @@ table.table.table-striped
           div
             = team_color message.player_team, message.player_name
             span.mx-1.fw-bold.text-muted.font-smaller = "(TEAM)" if message.team?
-          div
-            .font-monospace.font-smaller = link_to message.player_steamid3, messages_path(q: { player_steamid3_cont: message.player_steamid3 }), class: 'text-muted'
+          .d-flex.font-smaller
+            .font-monospace.text-muted = message.player_steamid3
+            .font-smaller.mx-1 = link_to 'Messages', messages_path(q: { player_steamid3_cont: message.player_steamid3 }), class: 'text-muted'
+            .font-smaller.mx-1 = link_to 'Profile', steam_url(message.player_steamid3), class:'text-muted'
         td = message.message
         td = time_tag message.sent_at
 

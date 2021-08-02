@@ -6,7 +6,8 @@ class MessagesController < ApplicationController
 
     @messages = @q
       .result(distinct: true)
-      .order(:sent_at)
+      .order(sent_at: :desc)
       .page(params[:page])
+      .per(50)
   end
 end
