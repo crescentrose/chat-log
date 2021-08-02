@@ -12,4 +12,5 @@ RUN bundle install && yarn install
 
 COPY . /app
 
-CMD ["bundle", "exec", "rails", "server", "-b", "0.0.0.0"]
+EXPOSE 3000
+CMD ["bin/migrate_and_run"]
