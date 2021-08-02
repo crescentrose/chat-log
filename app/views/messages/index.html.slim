@@ -1,0 +1,17 @@
+table
+  thead
+    tr
+      th Server
+      th Player name
+      th Player SteamID
+      th Message
+      th Sent at
+  tbody
+    - @messages.each do |message|
+      tr
+        td = message.server.name
+        td = message.player_name
+        td = message.player_team
+        td = message.message
+        td = message.sent_at
+
