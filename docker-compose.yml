@@ -1,0 +1,34 @@
+version: "3.9"
+
+services:
+  app:
+    build: .
+    ports:
+      - "3000:3000"
+    environment:
+      DATABASE_URL: "postgresql://chat_log:${POSTGRES_PASSWORD}@database/chat_log"
+      REDIS_URL: "redis://redis:6379/0"
+    volumes:
+      - .:/app
+    depends_on:
+      - redis
+      - database
+  sidekiq:
+    build: .
+    volumes:
+      - .:/app
+    environment:
+      DATABASE_URL: "postgresql://chat_log:${POSTGRES_PASSWORD}@database/chat_log"
+      REDIS_URL: "redis://redis:6379/0"
+    command: ['bundle', 'exec', 'sidekiq']
+    depends_on:
+      - redis
+      - database
+  redis:
+    image: redis
+  database:
+    image: postgres:13-alpine
+    environment:
+      POSTGRES_USER: chat_log
+      POSTGRES_DB: chat_log
+      POSTGRES_PASSWORD: "${POSTGRES_PASSWORD}"
