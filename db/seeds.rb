@@ -22,24 +22,3 @@
   Server.create(name: name, last_update: Time.now.utc)
 end
 
-berlin = Server.find_by(name: 'ber-1')
-
-Message.create(
-  message: 'Vayora is a very good pyro man',
-  player_name: 'Uncle Dane',
-  player_steamid3: '[U:1:97733808]',
-  player_team: 'BLU',
-  sent_at: 1.minute.ago,
-  team: false,
-  server: berlin
-)
-
-Message.create(
-  message: 'thank you uncle dane, this is definitely a real message',
-  player_name: 'VIORA',
-  player_steamid3: '[U:1:94714121]',
-  player_team: 'RED',
-  sent_at: 30.seconds.ago,
-  team: false,
-  server: berlin
-)
