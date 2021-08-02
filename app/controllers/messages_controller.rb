@@ -4,6 +4,5 @@ class MessagesController < ApplicationController
   end
 
   def upload
-    
   end
 end

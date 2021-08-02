@@ -19,6 +19,12 @@ class LogParserService
     messages.lines.map { |line| parse_line(line) }.compact
   end
 
+  def parse_blob(blob)
+    blob.open do |tempfile|
+      parse(tempfile.read)
+    end
+  end
+
   private
 
   def parse_line(line)

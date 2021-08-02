@@ -3,19 +3,21 @@
 # Table name: messages
 #
 #  id              :bigint           not null, primary key
-#  message         :text
-#  player_name     :string
-#  player_steamid3 :string
-#  player_team     :string
-#  sent_at         :datetime
-#  team            :boolean
+#  message         :text             not null
+#  player_name     :string           not null
+#  player_steamid3 :string           not null
+#  player_team     :string           not null
+#  sent_at         :datetime         not null
+#  team            :boolean          default(FALSE), not null
 #  created_at      :datetime         not null
 #  updated_at      :datetime         not null
 #  server_id       :bigint           not null
 #
 # Indexes
 #
-#  index_messages_on_server_id  (server_id)
+#  index_messages_on_player_name      (player_name)
+#  index_messages_on_player_steamid3  (player_steamid3)
+#  index_messages_on_server_id        (server_id)
 #
 # Foreign Keys
 #

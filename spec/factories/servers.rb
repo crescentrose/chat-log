@@ -8,10 +8,8 @@
 #  created_at  :datetime         not null
 #  updated_at  :datetime         not null
 #
-class Server < ApplicationRecord
-  validates :name, presence: true
-
-  def self.from_name(name)
-    find_by(name: name)
+FactoryBot.define do
+  factory :server do
+    sequence(:name) { |n| "test-#{n}" }
   end
 end

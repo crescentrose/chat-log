@@ -48,7 +48,9 @@ group :development, :test do
 
   # We use a real testing library
   gem 'rspec-rails'
-  gem 'factory_bot'
+
+  # Factory Bot ♥ Rails
+  gem 'factory_bot_rails'
 end
 
 group :development do

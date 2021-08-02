@@ -35,7 +35,6 @@ module ChatLog
     # Don't generate system test files.
     config.generators.system_tests = nil
 
-    config.active_record.strict_loading_by_default = true
     config.active_job.queue_adapter = :sidekiq
   end
 end
