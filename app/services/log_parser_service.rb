@@ -21,6 +21,8 @@ class LogParserService
 
   def parse_blob(blob)
     blob.open do |tempfile|
+      # We get a byte stream back from ActiveStorage for some cursed reason
+      # this assembles that byte stream back into holy, God given UTF-8
       parse(tempfile.read.bytes.pack("c*").force_encoding('utf-8'))
     end
   end
