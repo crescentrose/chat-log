@@ -20,4 +20,13 @@ RSpec.describe LogParserService do
     expect(parsed_messages.first.team).to eq(false)
     expect(parsed_messages.second.team).to eq(true)
   end
+
+  it 'ensures cheeky little buggers do not fuck encoding up' do
+    log = subject.parse(
+      <<~LOG
+        L 01/01/1970 - 00:00:00: "foo<0><[U:0:000000]><Red>" say "I am naughty \xD1"
+      LOG
+    ) 
+    expect(log.first.message).to eq('I am naughty �')
+  end
 end

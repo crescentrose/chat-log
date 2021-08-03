@@ -16,7 +16,7 @@ class LogParserService
   /x
 
   def parse(messages)
-    messages.lines.map { |line| parse_line(line) }.compact
+    messages.lines.map { |line| parse_line(sanitize(line)) }.compact
   end
 
   def parse_blob(blob)
@@ -49,5 +49,9 @@ class LogParserService
     else
       'SPEC'
     end
+  end
+
+  def sanitize(string)
+    string.encode('utf-8', invalid: :replace, undef: :replace)
   end
 end
