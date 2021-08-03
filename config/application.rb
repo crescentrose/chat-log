@@ -36,8 +36,5 @@ module ChatLog
     config.generators.system_tests = nil
 
     config.active_job.queue_adapter = :sidekiq
-
-    config.serve_static_assets = ENV['RAILS_SERVE_STATIC_FILES'].present?
-    config.public_file_server.enabled = ENV['RAILS_SERVE_STATIC_FILES'].present?
   end
 end
