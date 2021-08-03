@@ -1,32 +1,46 @@
 .my-4
   = search_form_for @q do |f|
-    .row.gx-2
-      .col
+    .row.g-2
+      .col-lg-3.col-sm-12
         .form-floating
           = f.search_field :player_name_cont, class: 'form-control', placeholder: 'VIORA'
           = f.label :player_name_cont, 'Name', class: 'form-label'
 
-      .col
+      .col-lg-3.col-sm-12
         .form-floating
           = f.search_field :player_steamid3_cont, class: 'form-control', placeholder: '[U:1:000000000]'
           = f.label :player_steamid3_cont, 'SteamID3', class: 'form-label'
 
-      .col
+      .col-lg-3.col-sm-12
         .form-floating
           = f.search_field :message_cont, class: 'form-control', placeholder: 'Message'
           = f.label :message_cont, 'Message', class: 'form-label'
 
-      .col
+      .col-lg-3.col-sm-12
         .form-floating
           = f.collection_select :server_name_eq, Server.order(:name), :name, :name, { include_blank: 'All' }, class: 'form-select'
           = f.label :server_name_eq, 'Server', class: 'form-label'
 
-      .col
+      .col-lg-3.col-sm-12
         = f.submit class: 'btn btn-primary mx-2 h-100'
         = link_to messages_path, class: 'btn btn-secondary mx-2 h-100' do
           .d-flex.justify-content-center.align-items-center.h-100 Clear filters
 
-table.table.table-striped
+.d-block.d-md-none.container
+  - @messages.each do |message|
+    .card.my-3
+      .card-header
+        = team_color message.player_team, message.player_name
+        span.mx-1.fw-bold.text-muted.font-smaller = "(TEAM)" if message.team?
+        span.font-monospace.text-muted.font-smaller = message.player_steamid3
+      .card-body
+        = message.message
+      .card-footer
+        span.text-muted = "#{distance_of_time_in_words(message.sent_at, Time.now)} ago"
+        span.font-smaller.mx-1 = link_to 'Messages', messages_path(q: { player_steamid3_cont: message.player_steamid3 }), class: 'text-muted'
+        span.font-smaller.mx-1 = link_to 'Profile', steam_url(message.player_steamid3), class:'text-muted'
+
+table.table.table-striped.d-none.d-md-table
   thead
     tr
       th Server
@@ -46,7 +60,8 @@ table.table.table-striped
             .font-smaller.mx-1 = link_to 'Messages', messages_path(q: { player_steamid3_cont: message.player_steamid3 }), class: 'text-muted'
             .font-smaller.mx-1 = link_to 'Profile', steam_url(message.player_steamid3), class:'text-muted'
         td = message.message
-        td = time_tag message.sent_at
+        td = time_tag message.sent_at do
+          = "#{distance_of_time_in_words(message.sent_at, Time.now)} ago"
 
 .d-flex.justify-content-center
   = paginate @messages
