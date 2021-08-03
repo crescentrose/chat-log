@@ -29,4 +29,14 @@ RSpec.describe LogParserService do
     ) 
     expect(log.first.message).to eq('I am naughty �')
   end
+
+  it 'correctly parses non-English scripts' do
+    log = subject.parse(
+      <<~LOG
+        L 01/01/1970 - 00:00:00: "ネフェルピトー<0><[U:0:000000]><Red>" say "FUCK İ GONNA GET BOPDY SHOT AGİAMN"
+      LOG
+    ) 
+    expect(log.first.player_name).to eq('ネフェルピトー')
+    expect(log.first.message).to eq('FUCK İ GONNA GET BOPDY SHOT AGİAMN')
+  end
 end
