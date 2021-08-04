@@ -18,7 +18,25 @@
 #
 FactoryBot.define do
   factory :log_file do
-    file { Rack::Test::UploadedFile.new(Rails.root + 'spec/fixtures/files/test.log', 'text/plain') }
     server
+
+    transient do
+      contents { nil }
+      tempfile { Tempfile.new('logfile') }
+    end
+
+    before(:create) do |log_file, evaluator|
+      if evaluator.contents.nil?
+        log_file.file = Rack::Test::UploadedFile.new(Rails.root + 'spec/fixtures/files/test.log', 'text/plain')
+      else
+        evaluator.tempfile.write(evaluator.contents)
+        evaluator.tempfile.close
+        log_file.file = Rack::Test::UploadedFile.new(evaluator.tempfile.path, 'text/plain')
+      end
+    end
+
+    after(:create) do |log_file, evaluator|
+      evaluator.tempfile.unlink
+    end
   end
 end

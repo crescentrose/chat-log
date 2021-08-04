@@ -1,0 +1,54 @@
+.my-4.container
+  = search_form_for @q do |f|
+    .row.g-2
+      .col-lg-2.col-sm-12
+        .form-floating
+          = f.search_field :target_name_cont, class: 'form-control', placeholder: 'VIORA'
+          = f.label :target_name_cont, 'Target Name', class: 'form-label'
+
+      .col-lg-2.col-sm-12
+        .form-floating
+          = f.search_field :for_target, class: 'form-control', placeholder: '[U:1:000000000]'
+          = f.label :for_target, 'Target Steam ID', class: 'form-label'
+
+      .col-lg-2.col-sm-12
+        .form-floating
+          = f.search_field :for_initiator, class: 'form-control', placeholder: '[U:1:000000000]'
+          = f.label :for_initiator, 'Initiator Steam ID', class: 'form-label'
+
+      .col-lg-2.col-sm-12
+        .form-floating
+          = f.collection_select :server_name_eq, Server.order(:name), :name, :name, { include_blank: 'All' }, class: 'form-select'
+          = f.label :server_name_eq, 'Server', class: 'form-label'
+
+      .col-lg-3.col-sm-12
+        = f.submit class: 'btn btn-primary md-mx-2 h-100'
+        = link_to messages_path, class: 'btn btn-secondary mx-2 h-100' do
+          .d-flex.justify-content-center.align-items-center.h-100 Clear filters
+.container
+  table.table.table-striped.d-none.d-md-table
+    thead
+      tr
+        th Server
+        th Initiator
+        th Target
+        th Time (UTC)
+    tbody
+      - @votekick_events.each do |event|
+        tr
+          td = event.server.name
+          td
+            .d-flex.font-smaller
+              .font-monospace.text-muted = event.initiator_steamid64
+              .font-smaller.mx-1 = link_to 'Messages', messages_path(q: { for_player: event.initiator_steamid64 }), class: 'text-muted'
+              .font-smaller.mx-1 = link_to 'Profile', steam_url(event.initiator_steamid64), class:'text-muted'
+          td
+            .font-bold = event.target_name
+            .d-flex.font-smaller
+              .font-monospace.text-muted = event.target_steamid64
+              .font-smaller.mx-1 = link_to 'Messages', messages_path(q: { for_player: event.target_steamid64 }), class: 'text-muted'
+              .font-smaller.mx-1 = link_to 'Profile', steam_url(event.target_steamid64), class:'text-muted'
+          td = time_tag event.time
+
+  .d-flex.justify-content-center
+    = paginate @votekick_events
