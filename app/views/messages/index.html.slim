@@ -32,7 +32,7 @@
       .card-header
         = team_color message.player_team, message.player_name
         span.mx-1.fw-bold.text-muted.font-smaller = "(TEAM)" if message.team?
-        span.font-monospace.text-muted.font-smaller = message.player_steamid3
+        span.font-monospace.text-muted.font-smaller = community_id(message.player_steamid3)
       .card-body
         = message.message
       .card-footer.d-flex.justify-content-around.align-items-baseline
@@ -58,7 +58,7 @@
               = team_color message.player_team, message.player_name
               span.mx-1.fw-bold.text-muted.font-smaller = "(TEAM)" if message.team?
             .d-flex.font-smaller
-              .font-monospace.text-muted = message.player_steamid3
+              .font-monospace.text-muted = community_id(message.player_steamid3)
               .font-smaller.mx-1 = link_to 'Messages', messages_path(q: { player_steamid3_cont: message.player_steamid3 }), class: 'text-muted'
               .font-smaller.mx-1 = link_to 'Profile', steam_url(message.player_steamid3), class:'text-muted'
           td = message.message

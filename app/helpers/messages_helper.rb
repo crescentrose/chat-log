@@ -32,16 +32,20 @@ module MessagesHelper
   # ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
   # (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
   # SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-  def steam_url(steam_id)
-    if steam_id =~ /^\[U:([0-1]:[0-9]+)\]$/
-      steam_id = $1.split(':').map { |s| s.to_i }
-      community_id = steam_id[0] + steam_id[1] + 76561197960265727
+  def community_id(steam_id3)
+    if steam_id3 =~ /^\[U:([0-1]:[0-9]+)\]$/
+      steam_id3 = $1.split(':').map { |s| s.to_i }
+      community_id = steam_id3[0] + steam_id3[1] + 76561197960265727
     else
-      raise ArgumentError, 'bad steamid format ' + steam_id
+      raise ArgumentError, 'bad steamid format ' + steam_id3
     end
 
-    "https://steamcommunity.com/profiles/#{community_id}"
+    community_id
   end
   # End of method containing code extracted and modified from the Steam
   # Condenser project
+
+  def steam_url(steam_id3)
+    "https://steamcommunity.com/profiles/#{community_id(steam_id3)}"
+  end
 end
