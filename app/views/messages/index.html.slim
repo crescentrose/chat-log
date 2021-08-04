@@ -1,12 +1,12 @@
-.my-4
+.my-4.container
   = search_form_for @q do |f|
     .row.g-2
-      .col-lg-3.col-sm-12
+      .col-lg-2.col-sm-12
         .form-floating
           = f.search_field :player_name_cont, class: 'form-control', placeholder: 'VIORA'
           = f.label :player_name_cont, 'Name', class: 'form-label'
 
-      .col-lg-3.col-sm-12
+      .col-lg-2.col-sm-12
         .form-floating
           = f.search_field :player_steamid3_cont, class: 'form-control', placeholder: '[U:1:000000000]'
           = f.label :player_steamid3_cont, 'SteamID3', class: 'form-label'
@@ -16,13 +16,13 @@
           = f.search_field :message_cont, class: 'form-control', placeholder: 'Message'
           = f.label :message_cont, 'Message', class: 'form-label'
 
-      .col-lg-3.col-sm-12
+      .col-lg-2.col-sm-12
         .form-floating
           = f.collection_select :server_name_eq, Server.order(:name), :name, :name, { include_blank: 'All' }, class: 'form-select'
           = f.label :server_name_eq, 'Server', class: 'form-label'
 
       .col-lg-3.col-sm-12
-        = f.submit class: 'btn btn-primary mx-2 h-100'
+        = f.submit class: 'btn btn-primary md-mx-2 h-100'
         = link_to messages_path, class: 'btn btn-secondary mx-2 h-100' do
           .d-flex.justify-content-center.align-items-center.h-100 Clear filters
 
@@ -41,27 +41,28 @@
         span.font-smaller.mx-1 = link_to 'Messages', messages_path(q: { player_steamid3_cont: message.player_steamid3 }), class: 'text-muted'
         span.font-smaller.mx-1 = link_to 'Profile', steam_url(message.player_steamid3), class:'text-muted'
 
-table.table.table-striped.d-none.d-md-table
-  thead
-    tr
-      th Server
-      th Player name
-      th Message
-      th Sent at
-  tbody
-    - @messages.each do |message|
+.container
+  table.table.table-striped.d-none.d-md-table
+    thead
       tr
-        td = message.server.name
-        td
-          div
-            = team_color message.player_team, message.player_name
-            span.mx-1.fw-bold.text-muted.font-smaller = "(TEAM)" if message.team?
-          .d-flex.font-smaller
-            .font-monospace.text-muted = message.player_steamid3
-            .font-smaller.mx-1 = link_to 'Messages', messages_path(q: { player_steamid3_cont: message.player_steamid3 }), class: 'text-muted'
-            .font-smaller.mx-1 = link_to 'Profile', steam_url(message.player_steamid3), class:'text-muted'
-        td = message.message
-        td = time_tag message.sent_at 
+        th Server
+        th Player name
+        th Message
+        th Sent at
+    tbody
+      - @messages.each do |message|
+        tr
+          td = message.server.name
+          td
+            div
+              = team_color message.player_team, message.player_name
+              span.mx-1.fw-bold.text-muted.font-smaller = "(TEAM)" if message.team?
+            .d-flex.font-smaller
+              .font-monospace.text-muted = message.player_steamid3
+              .font-smaller.mx-1 = link_to 'Messages', messages_path(q: { player_steamid3_cont: message.player_steamid3 }), class: 'text-muted'
+              .font-smaller.mx-1 = link_to 'Profile', steam_url(message.player_steamid3), class:'text-muted'
+          td = message.message
+          td = time_tag message.sent_at 
 
-.d-flex.justify-content-center
-  = paginate @messages
+  .d-flex.justify-content-center
+    = paginate @messages
