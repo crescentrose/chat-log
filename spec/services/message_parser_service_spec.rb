@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe LogParserService do
+RSpec.describe MessageParserService do
   let(:sample_log) do
     <<~LOG
       L 07/30/2021 - 22:09:09: "scuse me miss!<515><[U:1:97746797]><unknown>" spawned as "undefined"
@@ -19,6 +19,14 @@ RSpec.describe LogParserService do
     expect(parsed_messages.first.sent_at).to eq(DateTime.new(2021, 7, 25, 14, 35, 58))
     expect(parsed_messages.first.team).to eq(false)
     expect(parsed_messages.second.team).to eq(true)
+  end
+
+  it 'is mindful of timezones' do
+    parsed_messages = subject.parse(<<~LOG, 'Europe/Berlin')
+      L 07/25/2021 - 15:34:44: "hexerii<361><[U:1:189701717]><Red>" say_team "play the game instead of complaining 24/7"
+    LOG
+    # Berlin is 2 hours ahead of UTC in summer
+    expect(parsed_messages.first.sent_at.utc).to eq(Time.utc(2021, 7, 25, 13, 34, 44))
   end
 
   it 'ensures cheeky little buggers do not fuck encoding up' do

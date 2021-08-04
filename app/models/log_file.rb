@@ -19,4 +19,12 @@
 class LogFile < ApplicationRecord
   belongs_to :server
   has_one_attached :file
+
+  def contents
+    file.open do |tempfile|
+      # We get a byte stream back from ActiveStorage for some cursed reason
+      # this assembles that byte stream back into holy, God given UTF-8
+      tempfile.read.bytes.pack("c*").force_encoding('utf-8')
+    end
+  end
 end

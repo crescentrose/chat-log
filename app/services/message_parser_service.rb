@@ -1,7 +1,7 @@
-class LogParserService
+class MessageParserService
   ParsedMessage = Struct.new(:message, :player_name, :player_steamid3,
                              :player_team, :sent_at, :team, keyword_init: true)
-  
+
   MESSAGE_REGEX = /
     ^L\                              # Each log line starts with a letter L
                                      # followed by a space.
@@ -15,21 +15,14 @@ class LogParserService
     "(?<message>.*)"$                # Match their actual message
   /x
 
-  def parse(messages)
-    messages.lines.map { |line| parse_line(sanitize(line)) }.compact
-  end
-
-  def parse_blob(blob)
-    blob.open do |tempfile|
-      # We get a byte stream back from ActiveStorage for some cursed reason
-      # this assembles that byte stream back into holy, God given UTF-8
-      parse(tempfile.read.bytes.pack("c*").force_encoding('utf-8'))
-    end
+  def parse(messages, timezone='UTC')
+    Time.zone = timezone
+    messages.lines.map { |line| parse_line(sanitize(line), timezone) }.compact
   end
 
   private
 
-  def parse_line(line)
+  def parse_line(line, timezone)
     return unless matches = line.strip.match(MESSAGE_REGEX)
 
     ParsedMessage.new(
@@ -37,7 +30,7 @@ class LogParserService
       player_name: matches[:player],
       player_steamid3: matches[:steamid],
       player_team: player_team(matches[:team]),
-      sent_at: DateTime.strptime("#{matches[:date]} #{matches[:time]}", '%m/%d/%Y %T'),
+      sent_at: Time.zone.strptime("#{matches[:date]} #{matches[:time]}", '%m/%d/%Y %T'),
       team: !matches[:tc].nil?
     )
   end
