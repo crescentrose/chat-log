@@ -42,3 +42,8 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 ```
+
+## Acknowledgments
+
+This project contains code extracted and modified from the [Steam
+Condenser](https://github.com/koraktor/steam-condenser-ruby) project.

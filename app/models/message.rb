@@ -28,4 +28,16 @@ class Message < ApplicationRecord
 
   validates :player_name, :message, :player_steamid3, :player_team, :sent_at,
             :team, presence: true
+
+  scope :for_player, ->(identifier) do
+    where(player_steamid3: SteamId.from(identifier).id3)
+  end
+
+  def self.ransackable_scopes(_)
+    %i[for_player]
+  end
+
+  def player_steamid64
+    @player_steamid ||= SteamId.from(player_steamid3).id64
+  end
 end
