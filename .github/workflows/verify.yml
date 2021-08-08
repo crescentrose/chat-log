@@ -53,3 +53,5 @@ jobs:
 
       - name: Run tests
         run: bin/rspec
+        env:
+          DATABASE_URL: "postgres://chat_log:foobarbaz@127.0.0.1/chat_log_test"
