@@ -45,6 +45,17 @@ gem 'kaminari'
 # Object-based searching.
 gem 'ransack'
 
+# OmniAuth is a flexible authentication system utilizing Rack middleware.
+gem 'omniauth'
+gem 'omniauth-rails_csrf_protection'
+gem 'rexml'
+
+# Steam authentication strategy for OmniAuth
+gem 'omniauth-steam'
+
+# Minimal authorization through OO design and pure Ruby classes
+gem 'pundit'
+
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
   gem 'byebug', platforms: [:mri, :mingw, :x64_mingw]
@@ -54,6 +65,9 @@ group :development, :test do
 
   # Factory Bot ♥ Rails
   gem 'factory_bot_rails'
+
+  # A Ruby gem to load environment variables from `.env`.
+  gem 'dotenv-rails'
 end
 
 group :development do

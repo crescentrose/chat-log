@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_08_04_143225) do
+ActiveRecord::Schema.define(version: 2021_08_10_215431) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -74,8 +74,33 @@ ActiveRecord::Schema.define(version: 2021_08_04_143225) do
     t.string "timezone", default: "UTC"
   end
 
+  create_table "users", force: :cascade do |t|
+    t.string "name", null: false
+    t.string "steam_id3", null: false
+    t.string "avatar_url", null: false
+    t.datetime "last_login"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["steam_id3"], name: "index_users_on_steam_id3"
+  end
+
+  create_table "votekick_events", force: :cascade do |t|
+    t.string "initiator_steamid3"
+    t.string "target_steamid3"
+    t.string "target_name"
+    t.datetime "time"
+    t.bigint "server_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["initiator_steamid3"], name: "index_votekick_events_on_initiator_steamid3"
+    t.index ["server_id"], name: "index_votekick_events_on_server_id"
+    t.index ["target_name"], name: "index_votekick_events_on_target_name"
+    t.index ["target_steamid3"], name: "index_votekick_events_on_target_steamid3"
+  end
+
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
   add_foreign_key "log_files", "servers"
   add_foreign_key "messages", "servers"
+  add_foreign_key "votekick_events", "servers"
 end

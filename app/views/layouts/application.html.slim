@@ -8,7 +8,14 @@ html
     meta name="theme-color" content="#eeeeee" media="(prefers-color-scheme: dark)"
     = stylesheet_pack_tag 'application', media: 'all', 'data-turbolinks-track': 'reload'
     = javascript_pack_tag 'application', 'data-turbolinks-track': 'reload'
+    = csrf_meta_tags
 
   body
+    .container
+      - if current_user
+        = "Welcome, #{current_user.name} #{current_user.steam_id3}."
+        = link_to 'Log out', logout_path
+      - else
+        = link_to 'Log in', '/auth/steam', method: :post
     .container
       == yield

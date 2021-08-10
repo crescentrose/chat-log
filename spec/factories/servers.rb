@@ -5,6 +5,7 @@
 #  id          :bigint           not null, primary key
 #  last_update :datetime
 #  name        :string           not null
+#  timezone    :string           default("UTC")
 #  created_at  :datetime         not null
 #  updated_at  :datetime         not null
 #
