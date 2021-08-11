@@ -18,6 +18,6 @@ RSpec.describe ConnectionParserService do
       'L 08/11/2021 - 13:32:27: "VIORA<1><[U:1:94714121]><>" connected, address "127.0.0.1:6969"',
       berlin
     )
-    expect(event).to be_nil
+    expect(event.ip).to eq('0.0.0.0')
   end
 end

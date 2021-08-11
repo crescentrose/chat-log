@@ -3,7 +3,8 @@ class LogFileProcessingService
     @parsers = [
       MessageParserService.new,
       VotekickParserService.new,
-      ConnectionParserService.new
+      ConnectionParserService.new,
+      DisconnectionParserService.new
     ]
   end
 

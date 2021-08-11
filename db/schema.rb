@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_08_11_132732) do
+ActiveRecord::Schema.define(version: 2021_08_11_155648) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -55,6 +55,18 @@ ActiveRecord::Schema.define(version: 2021_08_11_132732) do
     t.index ["player_name"], name: "index_connection_events_on_player_name"
     t.index ["player_steamid3"], name: "index_connection_events_on_player_steamid3"
     t.index ["server_id"], name: "index_connection_events_on_server_id"
+  end
+
+  create_table "disconnection_events", force: :cascade do |t|
+    t.datetime "disconnected_at", null: false
+    t.string "reason"
+    t.string "player_name", null: false
+    t.string "player_steamid3", null: false
+    t.bigint "server_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["player_steamid3"], name: "index_disconnection_events_on_player_steamid3"
+    t.index ["server_id"], name: "index_disconnection_events_on_server_id"
   end
 
   create_table "log_files", force: :cascade do |t|
@@ -114,6 +126,7 @@ ActiveRecord::Schema.define(version: 2021_08_11_132732) do
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
+  add_foreign_key "disconnection_events", "servers"
   add_foreign_key "log_files", "servers"
   add_foreign_key "messages", "servers"
   add_foreign_key "votekick_events", "servers"
