@@ -10,7 +10,7 @@ class SteamId
     when /^7\d{16}$/
       new(identifier)
     else
-      raise NotImplementedError, 'vanity URLs are not supported yet'
+      raise NotImplementedError, 'Vanity URLs are not supported in search yet.'
     end
   end
 

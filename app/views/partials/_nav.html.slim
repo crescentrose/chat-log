@@ -13,6 +13,6 @@ nav.navbar.navbar-expand-lg.navbar-dark.bg-dark
       ul.navbar-nav
         - if current_user
           span.nav-item.navbar-text = "Welcome, #{current_user.name}"
-          span.nav-item = link_to 'Log out', logout_path, class: 'nav-link'
+          span.nav-item = link_to 'Log out', logout_path, class: 'nav-link', method: :delete
         - else
           span.nav-item = link_to 'Log in', '/auth/steam', method: :post, class: 'nav-link'

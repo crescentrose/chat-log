@@ -11,6 +11,22 @@ html
     = csrf_meta_tags
 
   body
+    - if flash[:error]
+      .alert.alert-danger.fade.show.my-4.shadow-sm.fixed-top.alert-dismissible.alert-notification role='alert'
+        p
+          = flash[:error]
+        hr
+        p.mb-0
+          | Wish to report a bug? 
+          = link_to 'Yell at VIORA.', 'http://discord.com/users/95105078385446912', class: 'alert-link'
+        button.btn-close data-bs-dismiss='alert'
+
+    - if flash[:notice]
+      .alert.alert-primary.fade.show.my-4.shadow-sm.fixed-top.alert-dismissible.alert-notification role='alert'
+        div
+          = flash[:notice]
+        button.btn-close data-bs-dismiss='alert'
+
     = render 'partials/nav'
     .container
       == yield

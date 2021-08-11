@@ -9,5 +9,8 @@ class VotekickEventsController < ApplicationController
       .order(time: :desc)
       .page(params[:page])
       .per(50)
+  rescue NotImplementedError => e
+    flash[:error] = e.message
+    redirect_to votekick_events_path
   end
 end
