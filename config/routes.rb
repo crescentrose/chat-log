@@ -6,6 +6,6 @@ Rails.application.routes.draw do
   resources :log_files, only: [:create]
 
   post '/auth/:provider/callback', to: 'sessions#create'
-  post '/auth/failure', to: 'sessions#failure'
+  get '/auth/failure', to: 'sessions#failure'
   delete '/auth', to: 'sessions#destroy', as: :logout
 end
