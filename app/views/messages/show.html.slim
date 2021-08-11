@@ -1,0 +1,62 @@
+.container
+  .alert.alert-warning.my-4
+    ' Showing 20 messages surrounding
+    strong = message.player_name
+    ''s (##{message.id}) at #{message.formatted_sent_at} on #{message.server.name} in
+    strong> chronological
+    ' order.
+    = link_to 'View latest', messages_path(q: { server_name_eq: message.server.name }), class: 'alert-link'
+  table.table.table-striped.d-none.d-md-table
+    thead
+      tr
+        th Server
+        th Player name
+        th Message
+        th Sent at (UTC)
+    tbody
+      - @previous.each do |message|
+        tr
+          td = message.server.name
+          td
+            div
+              = team_color message.player_team, message.player_name
+              span.mx-1.fw-bold.text-muted.font-smaller = "(TEAM)" if message.team?
+            .font-monospace.text-muted = message.player_steamid64
+            .d-flex.font-smaller
+              .font-smaller.mx-1 = link_to 'Context', message_path(message), class: 'text-muted'
+              .font-smaller.mx-1 = link_to 'Messages', messages_path(q: { for_player: message.player_steamid64 }), class: 'text-muted'
+              .font-smaller.mx-1 = link_to 'IP', connection_events_path(q: { for_player: message.player_steamid3 }), class: 'text-muted' if current_user.allowed_to?('connections.index')
+              .font-smaller.mx-1 = link_to 'Profile', steam_url(message.player_steamid64), class:'text-muted'
+          td = message.message
+          td = time_tag message.sent_at 
+
+      tr.table-warning
+        td = message.server.name
+        td
+          div
+            = team_color message.player_team, message.player_name
+            span.mx-1.fw-bold.text-muted.font-smaller = "(TEAM)" if message.team?
+          .font-monospace.text-muted = message.player_steamid64
+          .d-flex.font-smaller
+            .font-smaller.mx-1 = link_to 'Context', message_path(message), class: 'text-muted'
+            .font-smaller.mx-1 = link_to 'Messages', messages_path(q: { for_player: message.player_steamid64 }), class: 'text-muted'
+            .font-smaller.mx-1 = link_to 'IP', connection_events_path(q: { for_player: message.player_steamid3 }), class: 'text-muted' if current_user.allowed_to?('connections.index')
+            .font-smaller.mx-1 = link_to 'Profile', steam_url(message.player_steamid64), class:'text-muted'
+        td = message.message
+        td = time_tag message.sent_at 
+
+      - @next.each do |message|
+        tr
+          td = message.server.name
+          td
+            div
+              = team_color message.player_team, message.player_name
+              span.mx-1.fw-bold.text-muted.font-smaller = "(TEAM)" if message.team?
+            .font-monospace.text-muted = message.player_steamid64
+            .d-flex.font-smaller
+              .font-smaller.mx-1 = link_to 'Context', message_path(message), class: 'text-muted'
+              .font-smaller.mx-1 = link_to 'Messages', messages_path(q: { for_player: message.player_steamid64 }), class: 'text-muted'
+              .font-smaller.mx-1 = link_to 'IP', connection_events_path(q: { for_player: message.player_steamid3 }), class: 'text-muted' if current_user.allowed_to?('connections.index')
+              .font-smaller.mx-1 = link_to 'Profile', steam_url(message.player_steamid64), class:'text-muted'
+          td = message.message
+          td = time_tag message.sent_at 

@@ -40,4 +40,8 @@ class Message < ApplicationRecord
   def player_steamid64
     @player_steamid ||= SteamId.from(player_steamid3).id64
   end
+
+  def formatted_sent_at
+    sent_at.strftime('%c')
+  end
 end

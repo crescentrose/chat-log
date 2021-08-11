@@ -1,6 +1,4 @@
 .my-4.container
-  include Permissionable
-
   = search_form_for @q do |f|
     .row.g-2
       .col-lg-2.col-sm-12
@@ -59,8 +57,9 @@
             div
               = team_color message.player_team, message.player_name
               span.mx-1.fw-bold.text-muted.font-smaller = "(TEAM)" if message.team?
+            .font-monospace.text-muted = message.player_steamid64
             .d-flex.font-smaller
-              .font-monospace.text-muted = message.player_steamid64
+              .font-smaller.mx-1 = link_to 'Context', message_path(message), class: 'text-muted'
               .font-smaller.mx-1 = link_to 'Messages', messages_path(q: { for_player: message.player_steamid64 }), class: 'text-muted'
               .font-smaller.mx-1 = link_to 'IP', connection_events_path(q: { for_player: message.player_steamid3 }), class: 'text-muted' if current_user.allowed_to?('connections.index')
               .font-smaller.mx-1 = link_to 'Profile', steam_url(message.player_steamid64), class:'text-muted'

@@ -1,7 +1,7 @@
 Rails.application.routes.draw do
   root 'messages#index'
 
-  resources :messages, only: [:index]
+  resources :messages, only: [:index, :show]
   resources :votekick_events, only: [:index]
   resources :connection_events, only: [:index]
   resources :log_files, only: [:create]
