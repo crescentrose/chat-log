@@ -42,6 +42,6 @@ class VotekickEvent < ApplicationRecord
   end
 
   def target_steamid64
-    @initiator_steamid64 ||= SteamId.from(initiator_steamid3).id64
+    @target_steamid64 ||= SteamId.from(target_steamid3).id64
   end
 end
