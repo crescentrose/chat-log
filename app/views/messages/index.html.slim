@@ -26,45 +26,8 @@
         = link_to messages_path, class: 'btn btn-secondary mx-2 h-100' do
           .d-flex.justify-content-center.align-items-center.h-100 Clear filters
 
-.d-block.d-md-none.container
-  - @messages.each do |message|
-    .card.my-3
-      .card-header
-        = team_color message.player_team, message.player_name
-        span.mx-1.fw-bold.text-muted.font-smaller = "(TEAM)" if message.team?
-        span.font-monospace.text-muted.font-smaller = message.player_steamid64
-      .card-body
-        = message.message
-      .card-footer.d-flex.justify-content-around.align-items-baseline
-        span.badge.bg-secondary.mx-1 = message.server.name
-        span.text-muted.flex-grow-1.mx-1 = time_tag message.sent_at
-        span.font-smaller.mx-1 = link_to 'Messages', messages_path(q: { for_player: message.player_steamid64 }), class: 'text-muted'
-        span.font-smaller.mx-1 = link_to 'Profile', steam_url(message.player_steamid64), class:'text-muted'
-
 .container
-  table.table.table-striped.d-none.d-md-table
-    thead
-      tr
-        th Server
-        th Player name
-        th Message
-        th Sent at (UTC)
-    tbody
-      - @messages.each do |message|
-        tr
-          td = message.server.name
-          td
-            div
-              = team_color message.player_team, message.player_name
-              span.mx-1.fw-bold.text-muted.font-smaller = "(TEAM)" if message.team?
-            .font-monospace.text-muted = message.player_steamid64
-            .d-flex.font-smaller
-              .font-smaller.mx-1 = link_to 'Context', message_path(message), class: 'text-muted'
-              .font-smaller.mx-1 = link_to 'Messages', messages_path(q: { for_player: message.player_steamid64 }), class: 'text-muted'
-              .font-smaller.mx-1 = link_to 'IP', connection_events_path(q: { for_player: message.player_steamid3 }), class: 'text-muted' if current_user.allowed_to?('connections.index')
-              .font-smaller.mx-1 = link_to 'Profile', steam_url(message.player_steamid64), class:'text-muted'
-          td = message.message
-          td = time_tag message.sent_at 
+  = render @messages
 
   .d-flex.justify-content-center
     nav role="navigation"
