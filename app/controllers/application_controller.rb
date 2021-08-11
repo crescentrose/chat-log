@@ -1,10 +1,14 @@
 class ApplicationController < ActionController::Base
+  include Pundit
+
   helper_method :current_user
+
+  rescue_from Pundit::NotAuthorizedError, with: :user_not_authorized
 
   private
 
   def current_user
-    return unless session[:user_id]
+    return AnonymousUser.new unless session[:user_id]
     @current_user ||= User.find(session[:user_id])
   end
 
@@ -15,5 +19,10 @@ class ApplicationController < ActionController::Base
       session[:user_id] = user.id
       @current_user = User.find(session[:user_id])
     end
+  end
+
+  def user_not_authorized
+    flash[:error] = 'You are not allowed to do this.'
+    redirect_to '/'
   end
 end

@@ -3,7 +3,7 @@ class SessionsController < ApplicationController
 
   def create
     self.current_user = User.find_or_create_from_auth_hash(omniauth_hash)
-    flash[:notice] = "You have been logged in! But there's nothing you can do with that right now. Sorry."
+    flash[:notice] = 'You have been logged in.'
     redirect_to '/'
   end
 
@@ -14,7 +14,7 @@ class SessionsController < ApplicationController
 
   def destroy
     self.current_user = nil
-    flash[:notice] = "You have been logged out. Bye!"
+    flash[:notice] = 'You have been logged out. Bye!'
     redirect_to '/'
   end
 

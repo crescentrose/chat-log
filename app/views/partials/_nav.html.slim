@@ -9,10 +9,11 @@ nav.navbar.navbar-expand-lg.navbar-dark.bg-dark
       ul.navbar-nav.me-auto.mb-2.mb-lg-0
         li.nav-item = active_link_to 'Messages', messages_path, class: 'nav-link'
         li.nav-item = active_link_to 'Votekicks', votekick_events_path, class: 'nav-link'
+        li.nav-item = active_link_to 'IPs', connection_events_path, class: 'nav-link' if current_user.allowed_to?('connections.index')
 
       ul.navbar-nav
-        - if current_user
+        - if current_user.anonymous?
+          span.nav-item = link_to 'Log in', '/auth/steam', method: :post, class: 'nav-link'
+        - else
           span.nav-item.navbar-text = "Welcome, #{current_user.name}"
           span.nav-item = link_to 'Log out', logout_path, class: 'nav-link', method: :delete
-        - else
-          span.nav-item = link_to 'Log in', '/auth/steam', method: :post, class: 'nav-link'

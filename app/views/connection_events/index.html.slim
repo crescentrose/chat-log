@@ -1,0 +1,51 @@
+.my-4.container
+  = search_form_for @q do |f|
+    .row.g-2
+      .col-lg-2.col-sm-12
+        .form-floating
+          = f.search_field :player_name_cont, class: 'form-control', placeholder: 'VIORA'
+          = f.label :player_name_cont, 'Player Name', class: 'form-label'
+
+      .col-lg-2.col-sm-12
+        .form-floating
+          = f.search_field :for_player, class: 'form-control', placeholder: '[U:1:000000000]'
+          = f.label :for_player, 'Player Steam ID', class: 'form-label'
+
+      .col-lg-2.col-sm-12
+        .form-floating
+          = f.search_field :ip_eq, class: 'form-control', placeholder: '127.0.0.1'
+          = f.label :ip_eq, 'IP', class: 'form-label'
+
+      .col-lg-2.col-sm-12
+        .form-floating
+          = f.collection_select :server_name_eq, Server.order(:name), :name, :name, { include_blank: 'All' }, class: 'form-select'
+          = f.label :server_name_eq, 'Server', class: 'form-label'
+
+      .col-lg-3.col-sm-12
+        = f.submit class: 'btn btn-primary md-mx-2 h-100'
+        = link_to connection_events_path, class: 'btn btn-secondary mx-2 h-100' do
+          .d-flex.justify-content-center.align-items-center.h-100 Clear filters
+.container
+  table.table.table-striped
+    thead
+      tr
+        th Server
+        th Player
+        th IP
+        th Time (UTC)
+    tbody
+      - @connection_events.each do |event|
+        tr
+          td = event.server.name
+          td
+            strong = event.player_name
+            .font-monospace.text-muted = event.player_steamid64
+            .d-flex.font-smaller
+              .font-smaller = link_to 'Messages', messages_path(q: { for_player: event.player_steamid3 }), class: 'text-muted'
+              .font-smaller.mx-1 = link_to 'IP', connection_events_path(q: { for_player: event.player_steamid3 }), class: 'text-muted'
+              .font-smaller.mx-1 = link_to 'Profile', steam_url(event.player_steamid64), class:'text-muted'
+          td = event.ip
+          td = time_tag event.connected_at
+
+  .d-flex.justify-content-center
+    = paginate @connection_events

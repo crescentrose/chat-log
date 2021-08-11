@@ -23,10 +23,10 @@
 
       .col-lg-3.col-sm-12
         = f.submit class: 'btn btn-primary md-mx-2 h-100'
-        = link_to messages_path, class: 'btn btn-secondary mx-2 h-100' do
+        = link_to votekick_events_path, class: 'btn btn-secondary mx-2 h-100' do
           .d-flex.justify-content-center.align-items-center.h-100 Clear filters
 .container
-  table.table.table-striped.d-none.d-md-table
+  table.table.table-striped
     thead
       tr
         th Server
@@ -38,14 +38,14 @@
         tr
           td = event.server.name
           td
+            .font-monospace.text-muted = event.initiator_steamid64
             .d-flex.font-smaller
-              .font-monospace.text-muted = event.initiator_steamid64
               .font-smaller.mx-1 = link_to 'Messages', messages_path(q: { for_player: event.initiator_steamid64 }), class: 'text-muted'
               .font-smaller.mx-1 = link_to 'Profile', steam_url(event.initiator_steamid64), class:'text-muted'
           td
-            .font-bold = event.target_name
+            strong = event.target_name
+            .font-monospace.text-muted = event.target_steamid64
             .d-flex.font-smaller
-              .font-monospace.text-muted = event.target_steamid64
               .font-smaller.mx-1 = link_to 'Messages', messages_path(q: { for_player: event.target_steamid64 }), class: 'text-muted'
               .font-smaller.mx-1 = link_to 'Profile', steam_url(event.target_steamid64), class:'text-muted'
           td = time_tag event.time

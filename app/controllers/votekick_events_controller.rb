@@ -1,5 +1,7 @@
 class VotekickEventsController < ApplicationController
   def index
+    authorize VotekickEvent
+
     @q = VotekickEvent
       .includes(:server)
       .ransack(params[:q])

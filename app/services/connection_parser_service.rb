@@ -12,6 +12,7 @@ class ConnectionParserService < ParserService
 
   def parse_line(line, server)
     return unless match = line.strip.match(CONNECTED_REGEX)
+    return if User::TRUSTED_USERS.include? match[:steamid]
 
     ParsedConnectionEvent.new(
       connected_at: match_to_datetime(match, server.timezone),
