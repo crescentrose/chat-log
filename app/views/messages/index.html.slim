@@ -68,4 +68,7 @@
           td = time_tag message.sent_at 
 
   .d-flex.justify-content-center
-    = paginate @messages
+    nav role="navigation"
+      ul class="pagination"
+        li.page-item = link_to_prev_page @messages, 'Previous Page', class: 'page-link'
+        li.page-item = link_to_next_page @messages, 'Next Page', class: 'page-link'
