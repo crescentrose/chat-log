@@ -1,4 +1,4 @@
-class MessageParserService
+class MessageParserService < ParserService
   ParsedMessage = Struct.new(
     :message, :player_name, :player_steamid3, :player_team, :sent_at, :team,
     :server_id, keyword_init: true
@@ -33,23 +33,5 @@ class MessageParserService
       team: !matches[:tc].nil?,
       server_id: server.id
     )
-  end
-
-  private
-
-  def player_team(name)
-    case name
-    when 'Blue'
-      'BLU'
-    when 'Red'
-      'RED'
-    else
-      'SPEC'
-    end
-  end
-
-  def match_to_datetime(matches, timezone)
-    Time.zone = timezone
-    Time.zone.strptime("#{matches[:date]} #{matches[:time]}", '%m/%d/%Y %T')
   end
 end

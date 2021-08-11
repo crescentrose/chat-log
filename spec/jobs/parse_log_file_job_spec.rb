@@ -30,5 +30,15 @@ RSpec.describe ParseLogFileJob, type: :job do
       expect(event.target_name).to eq('VIORA')
       expect(event.time).to eq(Time.utc(2021, 8, 1, 14, 49, 29))
     end
+
+    it 'parses connects' do
+      expect { described_class.perform_now(log_file) }
+        .to change { ConnectionEvent.all.size }
+        .by(1)
+      event = ConnectionEvent.first
+      expect(event.player_name).to eq('Solymr ibn Wali Barad')
+      expect(event.connected_at).to eq(Time.utc(2021, 7, 30, 20, 32, 11))
+      expect(event.ip).to eq('127.0.0.1')
+    end
   end
 end

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_08_10_215431) do
+ActiveRecord::Schema.define(version: 2021_08_11_132732) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -41,6 +41,20 @@ ActiveRecord::Schema.define(version: 2021_08_10_215431) do
     t.bigint "blob_id", null: false
     t.string "variation_digest", null: false
     t.index ["blob_id", "variation_digest"], name: "index_active_storage_variant_records_uniqueness", unique: true
+  end
+
+  create_table "connection_events", force: :cascade do |t|
+    t.string "player_name", null: false
+    t.string "player_steamid3", null: false
+    t.string "ip", null: false
+    t.datetime "connected_at", null: false
+    t.bigint "server_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["ip"], name: "index_connection_events_on_ip"
+    t.index ["player_name"], name: "index_connection_events_on_player_name"
+    t.index ["player_steamid3"], name: "index_connection_events_on_player_steamid3"
+    t.index ["server_id"], name: "index_connection_events_on_server_id"
   end
 
   create_table "log_files", force: :cascade do |t|

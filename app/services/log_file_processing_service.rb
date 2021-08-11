@@ -2,7 +2,8 @@ class LogFileProcessingService
   def initialize
     @parsers = [
       MessageParserService.new,
-      VotekickParserService.new
+      VotekickParserService.new,
+      ConnectionParserService.new
     ]
   end
 

@@ -1,4 +1,4 @@
-class VotekickParserService
+class VotekickParserService < ParserService
   ParsedVoteKickEvent = Struct.new(
     :initiator_steamid3, :target_steamid3, :target_name, :time, :server_id,
     keyword_init: true
@@ -21,12 +21,5 @@ class VotekickParserService
       time: match_to_datetime(matches, server.timezone),
       server_id: server.id
     )
-  end
-
-  private
-
-  def match_to_datetime(matches, timezone)
-    Time.zone = timezone
-    Time.zone.strptime("#{matches[:date]} #{matches[:time]}", '%m/%d/%Y %T')
   end
 end
