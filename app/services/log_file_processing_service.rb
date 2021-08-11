@@ -23,7 +23,8 @@ class LogFileProcessingService
         .map(&:to_model)
 
     ActiveRecord::Base.transaction do
-      events.each(&:save!)
+      # TODO: log errors here
+      events.each { |event| event.save!(validate: false) }
       log_file.update(processed: true)
     end
 
