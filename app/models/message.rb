@@ -27,7 +27,7 @@ class Message < ApplicationRecord
   belongs_to :server, strict_loading: true
 
   validates :player_name, :message, :player_steamid3, :player_team, :sent_at,
-            :team, presence: true
+            presence: true
 
   scope :for_player, ->(identifier) do
     where(player_steamid3: SteamId.from(identifier).id3)

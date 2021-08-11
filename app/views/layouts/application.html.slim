@@ -11,11 +11,6 @@ html
     = csrf_meta_tags
 
   body
-    .container
-      - if current_user
-        = "Welcome, #{current_user.name} #{current_user.steam_id3}."
-        = link_to 'Log out', logout_path
-      - else
-        = link_to 'Log in', '/auth/steam', method: :post
+    = render 'partials/nav'
     .container
       == yield

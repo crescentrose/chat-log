@@ -19,6 +19,7 @@
 class LogFile < ApplicationRecord
   belongs_to :server
   has_one_attached :file
+  after_save :cleanup, if: ->{ processed? }
 
   def contents
     file.open do |tempfile|
@@ -27,4 +28,8 @@ class LogFile < ApplicationRecord
       tempfile.read.bytes.pack("c*").force_encoding('utf-8')
     end
   end
+
+  private
+
+  def cleanup = file.purge_later
 end

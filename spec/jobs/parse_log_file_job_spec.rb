@@ -13,13 +13,22 @@ RSpec.describe ParseLogFileJob, type: :job do
       }.to have_enqueued_job
     end
 
-    it 'parses the file' do
+    it 'parses the messages' do
       expect { described_class.perform_now(log_file) }
         .to change { Message.all.size }
         .by(27)
       message = Message.first
       expect(message.message).to eq('rtv')
       expect(message.sent_at).to eq(Time.utc(2021, 7, 30, 20, 32, 36))
+    end
+
+    it 'parses votekick events' do
+      expect { described_class.perform_now(log_file) }
+        .to change { VotekickEvent.all.size }
+        .by(1)
+      event = VotekickEvent.first
+      expect(event.target_name).to eq('VIORA')
+      expect(event.time).to eq(Time.utc(2021, 8, 1, 14, 49, 29))
     end
   end
 end

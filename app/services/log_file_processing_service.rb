@@ -1,18 +1,38 @@
 class LogFileProcessingService
+  def initialize
+    @parsers = [
+      MessageParserService.new,
+      VotekickParserService.new
+    ]
+  end
+
   def process(log_file)
     return if log_file.processed?
 
-    messages = parser
-      .parse(log_file.contents, log_file.server.timezone)
-      .map { |message| message.to_h.merge(server_id: log_file.server_id, created_at: Time.now, updated_at: Time.now) }
-      .compact
+    server = log_file.server
 
-    Message.insert_all(messages) unless messages.empty?
-  ensure
-    log_file.update(processed: true)
+    events =
+      log_file
+        .contents
+        .then { |log| sanitize(log) }
+        .lines
+        .flat_map do |line|
+          @parsers.flat_map { |parser| parser.parse_line(line, server) }
+        end
+        .compact
+        .map(&:to_model)
+
+    ActiveRecord::Base.transaction do
+      events.each(&:save!)
+      log_file.update(processed: true)
+    end
+
+    events
   end
 
   private
 
-  def parser = @parser ||= MessageParserService.new
+  def sanitize(string)
+    string.encode('utf-8', invalid: :replace, undef: :replace)
+  end
 end

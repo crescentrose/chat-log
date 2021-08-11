@@ -56,6 +56,9 @@ gem 'omniauth-steam'
 # Minimal authorization through OO design and pure Ruby classes
 gem 'pundit'
 
+# Rails view helper to manage "active" state of a link
+gem 'active_link_to'
+
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
   gem 'byebug', platforms: [:mri, :mingw, :x64_mingw]
