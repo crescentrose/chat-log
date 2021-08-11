@@ -21,8 +21,8 @@ class MessagesController < ApplicationController
 
   def show
     authorize message
-    @previous = Message.includes(:server).where(id: ...message.id, server: message.server).order(sent_at: :desc).limit(10).reverse
-    @next = Message.includes(:server).where(id: (message.id+1).., server: message.server).order(sent_at: :asc).limit(10)
+    @previous = Message.includes(:server).where(sent_at: ...message.sent_at, server: message.server).order(sent_at: :desc).limit(10).reverse
+    @next = Message.includes(:server).where(sent_at: message.sent_at..., server: message.server).order(sent_at: :asc).limit(11).drop(1)
   end
 
   private
