@@ -44,7 +44,7 @@
               .font-smaller = link_to 'Messages', messages_path(q: { for_player: event.player_steamid3 }), class: 'text-muted'
               .font-smaller.mx-1 = link_to 'IP', connection_events_path(q: { for_player: event.player_steamid3 }), class: 'text-muted'
               .font-smaller.mx-1 = link_to 'Profile', steam_url(event.player_steamid64), class:'text-muted'
-          td = event.ip
+          td = link_to event.ip, connection_events_path(q: { ip_eq: event.ip }), class: 'link-secondary'
           td = time_tag event.connected_at
 
   .d-flex.justify-content-center
