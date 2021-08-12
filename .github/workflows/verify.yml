@@ -80,6 +80,7 @@ jobs:
           ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
           dokku-host: 'dev.halcyon.hr'
           app-name: 'uncletopia'
+          git-push-flags: '--force'
 
       - name: Update deployment status (success)
         if: success()
