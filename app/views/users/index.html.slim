@@ -11,7 +11,7 @@ table.table
         td = user.name
         td = user.steam_id3
         td = user.role.to_s
-        td = time_tag user.last_login
+        td = time_tag user.last_login unless user.last_login.nil?
         td
         / td = button_to 'Delete', delete_user_path(user)
 
