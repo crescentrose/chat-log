@@ -1,0 +1,18 @@
+table.table
+  thead
+    th Username
+    th SteamID
+    th Role
+    th Last login
+    th Actions
+  tbody
+    - @users.each do |user|
+      tr
+        td = user.name
+        td = user.steam_id3
+        td = user.role.to_s
+        td = time_tag user.last_login
+        td
+        / td = button_to 'Delete', delete_user_path(user)
+
+

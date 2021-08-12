@@ -55,9 +55,17 @@ class User < ApplicationRecord
 
   def permissions
     if TRUSTED_USERS.include? steam_id3
-      DEFAULT_PERMISSIONS + ['connections.index']
+      DEFAULT_PERMISSIONS + ['connections.index', 'users.index']
     else
       DEFAULT_PERMISSIONS
+    end
+  end
+
+  def role
+    if TRUSTED_USERS.include? steam_id3
+      :admin
+    else
+      :user
     end
   end
 end
