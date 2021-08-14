@@ -10,7 +10,8 @@ nav.navbar.navbar-expand-lg.navbar-dark.bg-dark
         li.nav-item = active_link_to 'Messages', messages_path, class: 'nav-link'
         li.nav-item = active_link_to 'Votekicks', votekick_events_path, class: 'nav-link'
         li.nav-item = active_link_to 'IPs', connection_events_path, class: 'nav-link' if policy(ConnectionEvent).index?
-        li.nav-item = active_link_to 'Administration', users_path, class: 'nav-link', active: [['users', 'roles'], []] if policy(User).index? || policy(Role).index?
+        li.nav-item = active_link_to 'Servers', servers_path, class: 'nav-link', active: :exclusive if policy(Server).index?
+        li.nav-item = active_link_to 'Administration', users_path, class: 'nav-link', active: [['users', 'roles'], []] if policy(User).index? || policy(Role).index? || policy(Server).update?
 
       ul.navbar-nav
         - if current_user.anonymous?

@@ -1,0 +1,27 @@
+h2
+  | Servers
+p
+  ' In this section you can manage the servers that are recognized by the system
+  ' and which will show up in the
+  = link_to 'servers overview', servers_path
+  '. Each server is identified by its code (which is used when uploading logs).
+p
+  ' If you opt to add the rcon password, the servers list will update regularly
+  ' to show the currently played map, server population and when was it last
+  ' updated.
+
+= link_to 'Add server', new_server_path, class: 'btn btn-primary'
+
+.my-4
+  - @servers.each do |server|
+    .row.align-items-center.my-4
+      .col-8.d-flex.align-items-center
+        .mx-2
+          .d-inline-block.p-2.bg-secondary.rounded-circle
+        .mx-2
+          div = server.friendly_name
+          code = server.ip
+      .col-4
+        .btn-toolbar
+          = link_to "Edit", edit_server_path(server), class: 'btn btn-outline-primary mx-2'
+          = link_to "Delete", server_path(server), class: 'btn btn-outline-danger mx-2', data: { confirm: "Are you sure you wish to permanently delete #{server.friendly_name}?" }

@@ -17,11 +17,11 @@ class RolesController < ApplicationController
     @role = Role.new(role_params)
     authorize role
 
-    if @role.save
-      flash[:notice] = "Added new role #{@role.name} 🎊"
+    if role.save
+      flash[:notice] = "Added new role #{role.name} 🎊"
       redirect_to roles_path
     else
-      flash.now[:error] = @role.errors.full_messages
+      flash.now[:error] = role.errors.full_messages
       render :edit
     end
   end
@@ -34,10 +34,10 @@ class RolesController < ApplicationController
     authorize role
 
     if role.update(role_params)
-      flash[:notice] = "Updated role #{@role.name} ✅"
+      flash[:notice] = "Updated role #{role.name} ✅"
       redirect_to roles_path
     else
-      flash.now[:error] = @role.errors.full_messages
+      flash.now[:error] = role.errors.full_messages
       render :edit
     end
   end
@@ -49,7 +49,7 @@ class RolesController < ApplicationController
       flash[:notice] = "Role #{role.name} has been removed and its members moved to the Everyone role."
       redirect_to roles_path
     else
-      flash[:error] = @role.errors.full_messages
+      flash[:error] = role.errors.full_messages
       redirect_to roles_path
     end
   end
