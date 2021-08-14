@@ -20,10 +20,10 @@
 #
 FactoryBot.define do
   factory :connection_event do
-    player_name { "MyString" }
-    player_steamid3 { "MyString" }
-    ip { "MyString" }
-    connected_at { "2021-08-11 15:27:32" }
+    player_name { 'VIORA' }
+    player_steamid3 { '[U:1:94714121]' }
+    ip { '127.0.0.1' }
+    connected_at { Time.now }
     server
   end
 end

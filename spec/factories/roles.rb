@@ -14,7 +14,7 @@
 #
 FactoryBot.define do
   factory :role do
-    name { "MyString" }
-    color { "MyString" }
+    name { 'new role' }
+    color { 'ff0000' }
   end
 end

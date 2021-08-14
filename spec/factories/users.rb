@@ -22,9 +22,10 @@
 #
 FactoryBot.define do
   factory :user do
-    name { "MyString" }
-    steam_id3 { "MyString" }
-    avatar_url { "MyString" }
-    last_login { "2021-08-10 23:54:31" }
+    name { 'sussy baka' }
+    sequence(:steam_id3, 1_000_000) { |n| "[U:0:#{n}]" }
+    avatar_url { 'https://placekitten.com/64/64' }
+    last_login { Time.now }
+    role { Role.everyone }
   end
 end
