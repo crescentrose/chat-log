@@ -9,7 +9,7 @@ class ApplicationController < ActionController::Base
 
   def current_user
     return AnonymousUser.new unless session[:user_id]
-    @current_user ||= User.find(session[:user_id])
+    @current_user ||= User.includes(role: :permissions).find(session[:user_id])
   end
 
   def current_user=(user)
@@ -17,7 +17,7 @@ class ApplicationController < ActionController::Base
       session[:user_id] = nil
     else
       session[:user_id] = user.id
-      @current_user = User.find(session[:user_id])
+      current_user
     end
   end
 

@@ -1,18 +1,54 @@
-table.table
-  thead
-    th Username
-    th SteamID
-    th Role
-    th Last login
-    th Actions
-  tbody
-    - @users.each do |user|
-      tr
-        td = user.name
-        td = user.steam_id3
-        td = user.role.to_s
-        td = time_tag user.last_login unless user.last_login.nil?
-        td
-        / td = button_to 'Delete', delete_user_path(user)
+h2
+  | Users
+p
+  ' From here you can manage the users that have logged on to this application.
+  ' Primarily you can use this page to manage their roles.
+p
+  ' If you wish to change someone's access, assign them a new
+  = link_to 'role', roles_path
+  ' .
 
+.my-4
+  = search_form_for @q do |f|
+    .row.g-2
+      .col-lg-3.col-sm-12
+        .form-floating
+          = f.search_field :name_cont, class: 'form-control', placeholder: 'VIORA'
+          = f.label :name_cont, 'Name', class: 'form-label'
 
+      .col-lg-3.col-sm-12
+        .form-floating
+          = f.search_field :for_player, class: 'form-control', placeholder: '[U:1:000000000]'
+          = f.label :for_player, 'Steam ID', class: 'form-label'
+
+      .col-lg-3.col-sm-12
+        .form-floating
+          = f.collection_select :role_name_eq, Role.order(:name), :name, :name, {include_blank: 'All' }, class: 'form-select'
+          = f.label :role_name_eq, 'Role', class: 'form-label'
+
+      .col-lg-3.col-sm-12
+        = f.submit class: 'btn btn-primary md-mx-2 h-100'
+        = link_to users_path, class: 'btn btn-secondary mx-2 h-100' do
+          .d-flex.justify-content-center.align-items-center.h-100 Clear filters
+
+- @users.each do |user|
+  .row.align-items-center.my-2
+    .col-5
+      .d-flex
+        = image_tag user.avatar_url, class: 'rounded', width: 48, height: 48
+        .mx-3
+          div style="color: #{user.role.color}"
+            strong = user.name
+            = " (Owner)" if user.owner?
+          .text-muted = user.steam_id3
+    .col-4
+      - if policy(user).update?
+        = form_with model: user, remote: true do |f|
+          = f.collection_select :role_id, Role.order(:name), :id, :name, {}, class: 'form-select', onchange: 'this.form.submit()'
+      - else
+          span style="color: #{user.role.color}" = user.role.name
+    .col-3
+      = time_tag user.last_login unless user.last_login.nil?
+
+.d-flex.justify-content-center
+  = paginate @users

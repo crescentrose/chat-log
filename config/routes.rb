@@ -5,7 +5,8 @@ Rails.application.routes.draw do
   resources :votekick_events, only: [:index]
   resources :connection_events, only: [:index]
   resources :log_files, only: [:create]
-  resources :users, only: [:index, :destroy]
+  resources :users, only: [:index, :update]
+  resources :roles
 
   post '/auth/:provider/callback', to: 'sessions#create'
   get '/auth/failure', to: 'sessions#failure'

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_08_11_155648) do
+ActiveRecord::Schema.define(version: 2021_08_14_121107) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -92,6 +92,33 @@ ActiveRecord::Schema.define(version: 2021_08_11_155648) do
     t.index ["server_id"], name: "index_messages_on_server_id"
   end
 
+  create_table "permissions", force: :cascade do |t|
+    t.string "name", null: false
+    t.string "description", null: false
+    t.string "code", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["code"], name: "index_permissions_on_code", unique: true
+  end
+
+  create_table "role_permissions", force: :cascade do |t|
+    t.bigint "role_id", null: false
+    t.bigint "permission_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["permission_id"], name: "index_role_permissions_on_permission_id"
+    t.index ["role_id", "permission_id"], name: "index_role_permissions_on_role_id_and_permission_id", unique: true
+    t.index ["role_id"], name: "index_role_permissions_on_role_id"
+  end
+
+  create_table "roles", force: :cascade do |t|
+    t.string "name", null: false
+    t.string "color", default: "#6B7280", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["name"], name: "index_roles_on_name", unique: true
+  end
+
   create_table "servers", force: :cascade do |t|
     t.string "name", null: false
     t.datetime "last_update"
@@ -107,6 +134,8 @@ ActiveRecord::Schema.define(version: 2021_08_11_155648) do
     t.datetime "last_login"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.bigint "role_id", null: false
+    t.index ["role_id"], name: "index_users_on_role_id"
     t.index ["steam_id3"], name: "index_users_on_steam_id3"
   end
 
@@ -129,5 +158,8 @@ ActiveRecord::Schema.define(version: 2021_08_11_155648) do
   add_foreign_key "disconnection_events", "servers"
   add_foreign_key "log_files", "servers"
   add_foreign_key "messages", "servers"
+  add_foreign_key "role_permissions", "permissions"
+  add_foreign_key "role_permissions", "roles"
+  add_foreign_key "users", "roles"
   add_foreign_key "votekick_events", "servers"
 end

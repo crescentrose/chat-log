@@ -1,0 +1,27 @@
+= form_with model: role do |f|
+  h4
+    | Display
+
+  .m-3.row
+    .col-auto
+      = f.color_field :color, class: 'form-control form-control-color'
+    .col-auto
+      = f.text_field :name, class: 'form-control', placeholder: 'Name'
+
+  h4
+    | Permissions
+
+  .m-3
+    = f.collection_check_boxes :permission_ids, assignable_permissions, :id, :name do |box|
+      .row
+        .form-check.form-switch
+          .col.my-1
+            div = box.check_box class: 'form-check-input my-1'
+          .col
+            strong = box.label class: 'form-check-label'
+            .text-muted = box.object.description
+
+  .row.mb-4
+    .col-auto
+      = f.submit class: 'btn btn-primary'
+      = link_to 'Back', roles_path, class: 'btn btn-text', data: { confirm: 'You will lose all changes - are you sure?' }

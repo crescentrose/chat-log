@@ -1,0 +1,27 @@
+h2
+  | Roles
+p
+  ' Use roles to easily manage access to your server and this tool. Remember
+  ' that the owner will always have all permissions.
+p
+  ' The Administrator and Everyone roles are special and may not be deleted. Use
+  ' the Everyone role to assign permissions to all users, including those who
+  ' are not logged in. Then, assign the Administrator role to your most trusted
+  ' admins.
+
+= link_to 'Create role', new_role_path, class: 'btn btn-primary'
+
+table.table-responsive.table
+  thead
+    th.w-50 Role
+    th Options
+  tbody
+    - @roles.each do |role|
+      tr
+        td
+          div style="color: #{role.color}" = role.name
+          = pluralize role.users.size, 'member'
+        td
+          .btn-toolbar
+            = link_to "Edit", edit_role_path(role), class: 'btn btn-outline-primary mx-2'
+            = button_to "Delete", role_path(role), method: :delete, class: 'btn btn-outline-danger mx-2', data: { confirm: 'Are you sure you wish to permanently delete this role?' } 

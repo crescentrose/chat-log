@@ -9,8 +9,8 @@ nav.navbar.navbar-expand-lg.navbar-dark.bg-dark
       ul.navbar-nav.me-auto.mb-2.mb-lg-0
         li.nav-item = active_link_to 'Messages', messages_path, class: 'nav-link'
         li.nav-item = active_link_to 'Votekicks', votekick_events_path, class: 'nav-link'
-        li.nav-item = active_link_to 'Users', users_path, class: 'nav-link' if current_user.allowed_to?('users.index')
-        li.nav-item = active_link_to 'IPs', connection_events_path, class: 'nav-link' if current_user.allowed_to?('connections.index')
+        li.nav-item = active_link_to 'IPs', connection_events_path, class: 'nav-link' if policy(ConnectionEvent).index?
+        li.nav-item = active_link_to 'Administration', users_path, class: 'nav-link', active: [['users', 'roles'], []] if policy(User).index? || policy(Role).index?
 
       ul.navbar-nav
         - if current_user.anonymous?

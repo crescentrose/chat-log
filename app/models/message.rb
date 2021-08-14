@@ -33,15 +33,16 @@ class Message < ApplicationRecord
     where(player_steamid3: SteamId.from(identifier).id3)
   end
 
+
   def self.ransackable_scopes(_)
     %i[for_player]
   end
 
-  def player_steamid64
-    @player_steamid ||= SteamId.from(player_steamid3).id64
-  end
-
   def formatted_sent_at
     sent_at.strftime('%c')
+  end
+
+  def player_steamid64
+    @player_steamid ||= SteamId.from(player_steamid3).id64
   end
 end
