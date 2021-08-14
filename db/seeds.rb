@@ -1,43 +1,21 @@
 # This file should contain all the record creation needed to seed the database with its default values.
 # The data can then be loaded with the bin/rails db:seed command (or created alongside the database with db:setup).
 
-# Current Uncletopia servers
-%w[
-  lax-1
-  sfo-1
-  sea-1
-  chi-1
-  dal-1
-  nyc-1
-  atl-1
-  lon-1
-  ber-1
-  frk-1
-  ham-1
-].each do |name|
-  Server.create(name: name, last_update: Time.now.utc)
-end
 
-
-# Administrator role and permission
+# Permissions and roles
 admin = Role.create!(
   name: 'Administrator',
   color: '#DC2626'
+)
+
+user = Role.create!(
+  name: 'Everyone'
 )
 
 root = Permission.create!(
   code: 'root',
   description: 'This permission allows members to perform ALL actions, including managing all permissions. Use carefully.',
   name: 'Administrator'
-)
-
-RolePermission.create!(
-  role: admin,
-  permission: root
-)
-
-user = Role.create!(
-  name: 'Everyone'
 )
 
 messages = Permission.create!(
@@ -64,6 +42,23 @@ users = Permission.create!(
   name: 'View Users'
 )
 
+servers_index = Permission.create!(
+  code: 'servers.index',
+  name: 'View Servers',
+  description: 'Allows members to view the current list of active servers as well as their status.'
+)
+
+servers_update = Permission.create!(
+  code: 'servers.update',
+  name: 'Manage Servers',
+  description: 'Let members make changes to the server setup, including rcon and ssh keys.'
+)
+
+RolePermission.create!(
+  role: admin,
+  permission: servers_index
+)
+
 RolePermission.create!(
   role: user,
   permission: messages
@@ -72,4 +67,9 @@ RolePermission.create!(
 RolePermission.create!(
   role: user,
   permission: votekicks
+)
+
+RolePermission.create!(
+  role: admin,
+  permission: root
 )

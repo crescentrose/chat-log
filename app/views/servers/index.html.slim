@@ -1,0 +1,11 @@
+.my-4
+  - @servers.each do |server|
+    .row.align-items-center.my-4
+      .col-8.d-flex.align-items-center
+        .mx-2
+          .d-inline-block.p-2.bg-secondary.rounded-circle
+        .mx-2
+          div = server.friendly_name
+          code = server.ip
+      .col-4
+        = link_to "Connect", "steam://connect/#{server.ip}:#{server.port}", class: 'btn btn-outline-primary'

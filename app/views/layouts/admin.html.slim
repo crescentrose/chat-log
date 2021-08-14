@@ -6,6 +6,7 @@
       ul.nav.flex-column.nav-pills
         li.nav-item = active_link_to 'Users', users_path, class: 'nav-link' if policy(User).index?
         li.nav-item = active_link_to 'Roles', roles_path, class: 'nav-link' if policy(Role).index?
+        li.nav-item = active_link_to 'Servers', admin_servers_path, active: /^\/servers/, class: 'nav-link' if policy(Server).update?
     .col-12.col-md-8.col-lg-9
       = yield
 
