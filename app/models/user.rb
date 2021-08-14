@@ -9,18 +9,19 @@
 #  steam_id3  :string           not null
 #  created_at :datetime         not null
 #  updated_at :datetime         not null
+#  role_id    :bigint           not null
 #
 # Indexes
 #
+#  index_users_on_role_id    (role_id)
 #  index_users_on_steam_id3  (steam_id3)
+#
+# Foreign Keys
+#
+#  fk_rails_...  (role_id => roles.id)
 #
 class User < ApplicationRecord
   include Permissionable
-
-  DEFAULT_PERMISSIONS = %w[
-    messages.index
-    votekicks.index
-  ].freeze
 
   # TODO: Replace this with actual permissions system
   TRUSTED_USERS = [
@@ -43,29 +44,32 @@ class User < ApplicationRecord
   validates :avatar_url, :name, :steam_id3, presence: true
   validates :steam_id3, uniqueness: true
 
+  belongs_to :role, strict_loading: true
+
+  scope :for_player, ->(identifier) do
+    where(steam_id3: SteamId.from(identifier).id3)
+  end
+
   def self.find_or_create_from_auth_hash(auth_hash)
     steamid = SteamId.from(auth_hash.uid)
-    create_with(avatar_url: auth_hash.info.image, name: auth_hash.info.nickname)
+    default_role = if ENV['OWNER_STEAMID'] && (steamid.id3 == ENV['OWNER_STEAMID'])
+                     Role.admin
+                   else
+                     Role.everyone
+                   end
+    create_with(
+      avatar_url: auth_hash.info.image,
+      name: auth_hash.info.nickname,
+      role: default_role
+    )
       .find_or_create_by(steam_id3: steamid.id3)
+  end
+
+  def self.ransackable_scopes(_)
+    %i[for_player]
   end
 
   def anonymous?
     false
-  end
-
-  def permissions
-    if TRUSTED_USERS.include? steam_id3
-      DEFAULT_PERMISSIONS + ['connections.index', 'users.index']
-    else
-      DEFAULT_PERMISSIONS
-    end
-  end
-
-  def role
-    if TRUSTED_USERS.include? steam_id3
-      :admin
-    else
-      :user
-    end
   end
 end

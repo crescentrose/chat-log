@@ -1,0 +1,12 @@
+- content_for :content do 
+  .row.mt-4
+    h1 Administration
+  .row.mt-4
+    .col-12.col-md-4.col-lg-3
+      ul.nav.flex-column.nav-pills
+        li.nav-item = active_link_to 'Users', users_path, class: 'nav-link'
+        li.nav-item = active_link_to 'Roles', roles_path, class: 'nav-link'
+    .col-12.col-md-8.col-lg-9
+      = yield
+
+= render template: 'layouts/application'
