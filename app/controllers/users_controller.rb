@@ -19,6 +19,8 @@ class UsersController < ApplicationController
   end
 
   def update
+    authorize user
+
     if user.update(user_params)
       flash[:notice] = "#{user.name}'s role has been set to #{user.role.name}"
     else

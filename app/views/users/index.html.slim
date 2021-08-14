@@ -32,7 +32,7 @@ p
           .d-flex.justify-content-center.align-items-center.h-100 Clear filters
 
 - @users.each do |user|
-  .row.align-items-center
+  .row.align-items-center.my-2
     .col-5
       .d-flex
         = image_tag user.avatar_url, class: 'rounded', width: 48, height: 48
@@ -42,8 +42,11 @@ p
             = " (Owner)" if user.owner?
           .text-muted = user.steam_id3
     .col-4
-      = form_with model: user, remote: true do |f|
-        = f.collection_select :role_id, Role.order(:name), :id, :name, {}, class: 'form-select', onchange: 'this.form.submit()'
+      - if policy(user).update?
+        = form_with model: user, remote: true do |f|
+          = f.collection_select :role_id, Role.order(:name), :id, :name, {}, class: 'form-select', onchange: 'this.form.submit()'
+      - else
+          span style="color: #{user.role.color}" = user.role.name
     .col-3
       = time_tag user.last_login unless user.last_login.nil?
 
