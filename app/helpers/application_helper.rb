@@ -12,4 +12,25 @@ module ApplicationHelper
       ActiveSupport::TimeZone['Berlin'],
     ]
   end
+
+  def health_badge(server)
+    background = case server.health
+                 when :ok
+                   'success'
+                 when :warn
+                   'warning'
+                 when :offline
+                   'secondary'
+                 end
+
+    last_updated = if server.last_update
+                     "#{time_ago_in_words(server.last_update)} ago"
+                   else
+                     'never'
+                   end
+    content_tag :div, nil,
+      class: "d-inline-block p-2 bg-#{background} rounded-circle",
+      data: { bs_toggle: 'tooltip' },
+      title: "Last updated #{last_updated}"
+  end
 end

@@ -17,7 +17,7 @@ p
     .row.align-items-center.my-4
       .col-8.d-flex.align-items-center
         .mx-2
-          .d-inline-block.p-2.bg-secondary.rounded-circle
+          = health_badge(server)
         .mx-2
           div = server.friendly_name
           code = server.ip

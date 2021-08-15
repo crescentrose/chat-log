@@ -20,4 +20,15 @@ class Server < ApplicationRecord
   def self.from_name(name)
     find_by(name: name)
   end
+
+  def health
+    case last_update
+    when 30.minutes.ago..Time.now.utc
+      :ok
+    when 2.hours.ago..30.minutes.ago
+      :warn
+    else
+      :offline
+    end
+  end
 end

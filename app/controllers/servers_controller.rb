@@ -18,6 +18,19 @@ class ServersController < ApplicationController
     render :new, layout: 'admin'
   end
 
+  def create
+    @server = Server.new(server_params)
+    authorize server
+
+    if server.save
+      flash[:notice] = "Created new server #{server.name} ✅"
+      redirect_to admin_servers_path
+    else
+      flash.now[:error] = server.errors.full_messages
+      render :edit, layout: 'admin'
+    end
+  end
+
   def update
     authorize server
 
