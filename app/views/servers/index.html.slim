@@ -9,7 +9,7 @@
           code = server.ip
       .col-4
         div
-          strong = server.map
-        div = "#{server.players} players"
+          strong = server.map unless server.map.blank?
+        div = pluralize server.players, 'player' unless server.players.nil?
       .col-4.d-flex.align-items-center
         = link_to "Connect", "steam://connect/#{server.ip}:#{server.port}", class: 'btn btn-outline-primary'
