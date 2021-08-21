@@ -65,6 +65,14 @@ gem 'rconrb', require: 'rcon'
 # Lightweight job scheduler extension for Sidekiq
 gem 'sidekiq-scheduler'
 
+# Pure Ruby implementation of an SSH (protocol 2) client
+gem 'net-ssh', require: 'net/ssh'
+gem 'ed25519'
+gem 'bcrypt_pbkdf'
+
+# Pure Ruby implementation of the SCP protocol
+gem 'net-scp', require: 'net/scp'
+
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
   gem 'byebug', platforms: [:mri, :mingw, :x64_mingw]

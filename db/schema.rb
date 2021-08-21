@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_08_21_152648) do
+ActiveRecord::Schema.define(version: 2021_08_21_175238) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -131,6 +131,19 @@ ActiveRecord::Schema.define(version: 2021_08_21_152648) do
     t.string "rcon_password"
     t.string "map"
     t.integer "players"
+    t.bigint "ssh_key_id"
+    t.datetime "last_log_sync"
+    t.string "last_uploaded_file"
+    t.index ["ssh_key_id"], name: "index_servers_on_ssh_key_id"
+  end
+
+  create_table "ssh_keys", force: :cascade do |t|
+    t.bigint "user_id", null: false
+    t.string "name"
+    t.text "private_key"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["user_id"], name: "index_ssh_keys_on_user_id"
   end
 
   create_table "users", force: :cascade do |t|
@@ -166,6 +179,8 @@ ActiveRecord::Schema.define(version: 2021_08_21_152648) do
   add_foreign_key "messages", "servers"
   add_foreign_key "role_permissions", "permissions"
   add_foreign_key "role_permissions", "roles"
+  add_foreign_key "servers", "ssh_keys"
+  add_foreign_key "ssh_keys", "users"
   add_foreign_key "users", "roles"
   add_foreign_key "votekick_events", "servers"
 end

@@ -1,0 +1,16 @@
+= form_with model: ssh_key do |f|
+
+  .row.mb-2
+    .col-sm-12.col-md-12
+      = f.label :name, class: 'form-label'
+      = f.text_field :name, required: true, class: 'form-control'
+
+  .row.mb-2
+    .col-sm-12.col-md-12
+      = f.label :private_key, 'Private Key', class: 'form-label'
+      = f.text_area :private_key, required: true, rows: 10, class: 'form-control'
+
+  .row.mb-4
+    .col-auto
+      = f.submit class: 'btn btn-primary'
+      = link_to 'Back', ssh_keys_path, class: 'btn btn-text', data: { confirm: 'You will lose all changes - are you sure?' }

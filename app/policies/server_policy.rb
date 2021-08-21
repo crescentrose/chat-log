@@ -31,4 +31,3 @@ class ServerPolicy < ApplicationPolicy
     update?
   end
 end
-
