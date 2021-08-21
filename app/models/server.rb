@@ -64,7 +64,7 @@ class Server < ApplicationRecord
   end
 
   def last_log_sync_local
-    last_log_sync.in_time_zone(timezone)
+    last_log_sync&.in_time_zone(timezone)
   end
 
   def private_key
