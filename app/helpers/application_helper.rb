@@ -17,8 +17,12 @@ module ApplicationHelper
     background = case server.health
                  when :ok
                    'success'
+                 when :status_only
+                   'primary'
                  when :warn
                    'warning'
+                 when :critical
+                   'danger'
                  when :offline
                    'secondary'
                  end
@@ -28,9 +32,16 @@ module ApplicationHelper
                    else
                      'never'
                    end
+
+    last_log_sync = if server.last_log_sync
+                     "#{time_ago_in_words(server.last_log_sync)} ago"
+                   else
+                     'never'
+                   end
+
     content_tag :div, nil,
       class: "d-inline-block p-2 bg-#{background} rounded-circle",
       data: { bs_toggle: 'tooltip' },
-      title: "Last updated #{last_updated}"
+      title: "Last status update #{last_updated}, last log sync #{last_log_sync}"
   end
 end

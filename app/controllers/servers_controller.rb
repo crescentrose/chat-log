@@ -69,6 +69,6 @@ class ServersController < ApplicationController
   def server_params
     params
       .require(:server)
-      .permit(:friendly_name, :ip, :name, :port, :rcon_password, :timezone)
+      .permit(:friendly_name, :ip, :name, :port, :rcon_password, :timezone, :ssh_key_id)
   end
 end

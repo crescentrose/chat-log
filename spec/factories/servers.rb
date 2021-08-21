@@ -2,18 +2,29 @@
 #
 # Table name: servers
 #
-#  id            :bigint           not null, primary key
-#  friendly_name :string           not null
-#  ip            :string           not null
-#  last_update   :datetime
-#  map           :string
-#  name          :string           not null
-#  players       :integer
-#  port          :integer          default(27015), not null
-#  rcon_password :string
-#  timezone      :string           default("UTC")
-#  created_at    :datetime         not null
-#  updated_at    :datetime         not null
+#  id                 :bigint           not null, primary key
+#  friendly_name      :string           not null
+#  ip                 :string           not null
+#  last_log_sync      :datetime
+#  last_update        :datetime
+#  last_uploaded_file :string
+#  map                :string
+#  name               :string           not null
+#  players            :integer
+#  port               :integer          default(27015), not null
+#  rcon_password      :string
+#  timezone           :string           default("UTC")
+#  created_at         :datetime         not null
+#  updated_at         :datetime         not null
+#  ssh_key_id         :bigint
+#
+# Indexes
+#
+#  index_servers_on_ssh_key_id  (ssh_key_id)
+#
+# Foreign Keys
+#
+#  fk_rails_...  (ssh_key_id => ssh_keys.id)
 #
 FactoryBot.define do
   factory :server do

@@ -28,7 +28,6 @@ class LogFileProcessingService
     ActiveRecord::Base.transaction do
       # TODO: log errors here
       events.each { |event| event.save!(validate: false) }
-      server.update(last_update: Time.now)
       log_file.update(processed: true)
     end
 
