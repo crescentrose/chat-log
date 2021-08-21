@@ -6,7 +6,9 @@
 #  friendly_name :string           not null
 #  ip            :string           not null
 #  last_update   :datetime
+#  map           :string
 #  name          :string           not null
+#  players       :integer
 #  port          :integer          default(27015), not null
 #  rcon_password :string
 #  timezone      :string           default("UTC")
@@ -30,5 +32,18 @@ class Server < ApplicationRecord
     else
       :offline
     end
+  end
+
+  def rcon_client
+    raise 'rcon password must exist to use rcon client' if rcon_password.nil?
+    return @rcon_client unless @rcon_client.nil?
+
+    @rcon_client = Rcon::Client.new(
+      host: ip,
+      port: port,
+      password: rcon_password
+    )
+    @rcon_client.authenticate!
+    @rcon_client
   end
 end
