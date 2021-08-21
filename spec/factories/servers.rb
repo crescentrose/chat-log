@@ -6,7 +6,9 @@
 #  friendly_name :string           not null
 #  ip            :string           not null
 #  last_update   :datetime
+#  map           :string
 #  name          :string           not null
+#  players       :integer
 #  port          :integer          default(27015), not null
 #  rcon_password :string
 #  timezone      :string           default("UTC")

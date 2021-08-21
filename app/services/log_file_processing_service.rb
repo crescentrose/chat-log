@@ -1,5 +1,6 @@
 class LogFileProcessingService
-  def initialize
+  def initialize(logger=nil)
+    @logger = logger || Rails.logger
     @parsers = [
       MessageParserService.new,
       VotekickParserService.new,
@@ -35,6 +36,8 @@ class LogFileProcessingService
   end
 
   private
+
+  attr_reader :logger
 
   def sanitize(string)
     string.encode('utf-8', invalid: :replace, undef: :replace)

@@ -59,6 +59,12 @@ gem 'pundit'
 # Rails view helper to manage "active" state of a link
 gem 'active_link_to'
 
+# A flexible RCON client written in Ruby, based on the Source RCON protocol.
+gem 'rconrb', require: 'rcon'
+
+# Lightweight job scheduler extension for Sidekiq
+gem 'sidekiq-scheduler'
+
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
   gem 'byebug', platforms: [:mri, :mingw, :x64_mingw]
