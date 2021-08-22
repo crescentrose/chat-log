@@ -54,6 +54,12 @@ servers_update = Permission.create!(
   description: 'Let members make changes to the server setup, including rcon and ssh keys.'
 )
 
+hidden_ip = Permission.create!(
+  code: 'connections.obscure',
+  name: 'Prevent IP Logging',
+  description: 'Members will not have their IP addresses saved to the database on connect.'
+)
+
 RolePermission.create!(
   role: admin,
   permission: servers_index
@@ -67,6 +73,11 @@ RolePermission.create!(
 RolePermission.create!(
   role: user,
   permission: votekicks
+)
+
+RolePermission.create!(
+  role: admin,
+  permission: hidden_ip
 )
 
 RolePermission.create!(

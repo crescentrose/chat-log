@@ -10,6 +10,10 @@ class ConnectionParserService < ParserService
 
   CONNECTED_REGEX = /^L (?<date>\d{2}\/\d{2}\/\d{4}) - (?<time>\d{2}:\d{2}:\d{2}): "(?<player>.*)<\d+><(?<steamid>\[U:\d:\d+\])><(?<team>\w*)>" connected,\s*address "(?<ip>\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}):\d*"$/
 
+  def initialize(trusted_users=[])
+    @trusted_users = trusted_users
+  end
+
   def parse_line(line, server)
     return unless match = line.strip.match(CONNECTED_REGEX)
 
@@ -24,8 +28,10 @@ class ConnectionParserService < ParserService
 
   private
 
+  attr_reader :trusted_users
+
   def match_to_ip(match)
-    return '0.0.0.0' if User::TRUSTED_USERS.include? match[:steamid]
+    return '0.0.0.0' if trusted_users.include? match[:steamid]
 
     match[:ip]
   end

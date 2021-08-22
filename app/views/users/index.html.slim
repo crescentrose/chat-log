@@ -31,6 +31,16 @@ p
         = link_to users_path, class: 'btn btn-secondary mx-2 h-100' do
           .d-flex.justify-content-center.align-items-center.h-100 Clear filters
 
+- if policy(User).create?
+    = form_with model: User.new(role: Role.everyone) do |f|
+      .row.align-items-center.my-2
+        .col-5
+          = f.text_field :steam_id, class: 'form-control', placeholder: 'Steam ID'
+        .col-4
+          = f.collection_select :role_id, Role.order(:name), :id, :name, {}, class: 'form-select'
+        .col-3
+          = f.submit 'Add new user', class: 'btn btn-primary'
+
 - @users.each do |user|
   .row.align-items-center.my-2
     .col-5

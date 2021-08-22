@@ -6,4 +6,8 @@ class UserPolicy < ApplicationPolicy
   def update?
     user.root?
   end
+
+  def create?
+    update?
+  end
 end

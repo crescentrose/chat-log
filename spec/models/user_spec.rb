@@ -23,7 +23,23 @@
 require 'rails_helper'
 
 RSpec.describe User, type: :model do
-  let(:user) { create(:user) }
+  let(:user) { create(:user, role: Role.everyone) }
 
   it { expect(user.anonymous?).to be false }
+
+  describe '::with_permission' do
+    let(:permission) { create :permission }
+
+    it 'returns the users with granted permission' do
+      Role.everyone.role_permissions.create(permission: permission)
+
+      expect(User.with_permission(permission.code)).to include(user)
+    end
+
+    it 'does not return the user without the granted permission' do
+      Role.admin.role_permissions.create(permission: permission)
+
+      expect(User.with_permission(permission.code)).not_to include(user)
+    end
+  end
 end

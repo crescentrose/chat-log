@@ -18,6 +18,23 @@ class UsersController < ApplicationController
     redirect_to users_path
   end
 
+  def create
+    user = User.new(
+      user_params.merge(steam_id3: SteamId.from(steamid_param).id3)
+    )
+
+    authorize user
+    user.update_from_steam
+
+    if user.save
+      flash[:notice] = "#{user.name} has been added."
+    else
+      flash[:error] = user.errors.full_messages
+    end
+
+    redirect_to users_path
+  end
+
   def update
     authorize user
 
@@ -38,5 +55,9 @@ class UsersController < ApplicationController
 
   def user_params
     params.require(:user).permit(:role_id)
+  end
+
+  def steamid_param
+    params.require(:user).permit(:steam_id)[:steam_id]
   end
 end

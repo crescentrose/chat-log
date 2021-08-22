@@ -60,4 +60,14 @@ RSpec.describe SteamId do
       expect(described_class.from(steam_id3).id).to eq steam_id
     end
   end
+
+  context 'with vanity url' do
+    let(:steam_id64) { 76561198054979849 }
+
+    it 'resolves vanity url' do
+      VCR.use_cassette('vanity_url') do
+        expect(described_class.from('staplestabler').id64).to eq steam_id64
+      end
+    end
+  end
 end

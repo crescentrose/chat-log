@@ -2,6 +2,8 @@ class SteamId
   STEAM_ID_BASE = 76561197960265727.freeze
 
   def self.from(identifier)
+    return identifier if identifier.kind_of? SteamId
+
     case identifier.to_s
     when /^STEAM_/
       from_id(identifier)
@@ -10,7 +12,7 @@ class SteamId
     when /^7\d{16}$/
       new(identifier)
     else
-      raise NotImplementedError, 'Vanity URLs are not supported in search yet.'
+      SteamService.new.resolve_vanity_url(identifier)
     end
   end
 

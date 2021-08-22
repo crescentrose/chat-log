@@ -4,7 +4,7 @@ class LogFileProcessingService
     @parsers = [
       MessageParserService.new,
       VotekickParserService.new,
-      ConnectionParserService.new,
+      ConnectionParserService.new(trusted_users),
       DisconnectionParserService.new
     ]
   end
@@ -40,5 +40,9 @@ class LogFileProcessingService
 
   def sanitize(string)
     string.encode('utf-8', invalid: :replace, undef: :replace)
+  end
+
+  def trusted_users
+    User.with_permission('connections.obscure').pluck(:steam_id3)
   end
 end

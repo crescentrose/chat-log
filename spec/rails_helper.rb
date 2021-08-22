@@ -67,3 +67,9 @@ RSpec.configure do |config|
 
   config.include AuthHelper
 end
+
+VCR.configure do |config|
+  config.cassette_library_dir = "spec/fixtures/vcr_cassettes"
+  config.hook_into :webmock
+  config.filter_sensitive_data('<API KEY>') { ENV['STEAM_WEB_API_KEY'] }
+end

@@ -2,6 +2,7 @@ require 'rails_helper'
 
 RSpec.describe ConnectionParserService do
   let(:berlin) { create(:server, timezone: 'Europe/Berlin') }
+  subject { described_class.new(['[U:1:94714121]']) }
 
   it 'tracks connecting IPs' do
     event = subject.parse_line(

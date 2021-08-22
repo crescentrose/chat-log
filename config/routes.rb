@@ -9,7 +9,7 @@ Rails.application.routes.draw do
     get :admin, on: :collection
   end
   resources :ssh_keys, only: [:index, :new, :create, :destroy]
-  resources :users, only: [:index, :update]
+  resources :users, only: [:index, :update, :create]
   resources :votekick_events, only: [:index]
 
   post '/auth/:provider/callback', to: 'sessions#create'
