@@ -1,0 +1,37 @@
+---
+http_interactions:
+- request:
+    method: get
+    uri: https://api.steampowered.com/ISteamUser/GetPlayerSummaries/v2?key=<API KEY>&steamids=76561198054979849
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Faraday v1.5.1
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Content-Type:
+      - application/json; charset=UTF-8
+      Vary:
+      - Accept-Encoding
+      Expires:
+      - Sun, 22 Aug 2021 12:11:12 GMT
+      Date:
+      - Sun, 22 Aug 2021 12:11:12 GMT
+      Content-Length:
+      - '839'
+      Connection:
+      - keep-alive
+    body:
+      encoding: UTF-8
+      string: '{"response":{"players":[{"steamid":"76561198054979849","communityvisibilitystate":3,"profilestate":1,"personaname":"VIORA","profileurl":"https://steamcommunity.com/id/staplestabler/","avatar":"https://steamcdn-a.akamaihd.net/steamcommunity/public/images/avatars/c4/c4b027af7bdf6cb5151546603dda376ad27b6f38.jpg","avatarmedium":"https://steamcdn-a.akamaihd.net/steamcommunity/public/images/avatars/c4/c4b027af7bdf6cb5151546603dda376ad27b6f38_medium.jpg","avatarfull":"https://steamcdn-a.akamaihd.net/steamcommunity/public/images/avatars/c4/c4b027af7bdf6cb5151546603dda376ad27b6f38_full.jpg","avatarhash":"c4b027af7bdf6cb5151546603dda376ad27b6f38","lastlogoff":1629591457,"personastate":0,"realname":"VIORA#1203","primaryclanid":"103582791434688789","timecreated":1324562541,"personastateflags":0,"loccountrycode":"NL","locstatecode":"09"}]}}'
+  recorded_at: Sun, 22 Aug 2021 12:11:12 GMT
+recorded_with: VCR 6.0.0

@@ -15,8 +15,8 @@
 #
 FactoryBot.define do
   factory :permission do
-    name { "MyString" }
-    description { "MyString" }
-    code { "MyString" }
+    name { 'Permission Name' }
+    description { 'Permission Description' }
+    code { 'test.permission' }
   end
 end

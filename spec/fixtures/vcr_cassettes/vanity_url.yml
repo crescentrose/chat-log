@@ -1,0 +1,37 @@
+---
+http_interactions:
+- request:
+    method: get
+    uri: https://api.steampowered.com/ISteamUser/ResolveVanityURL/v1?key=<API KEY>&vanityurl=staplestabler
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Faraday v1.5.1
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Content-Type:
+      - application/json; charset=UTF-8
+      Vary:
+      - Accept-Encoding
+      Expires:
+      - Sun, 22 Aug 2021 11:56:26 GMT
+      Date:
+      - Sun, 22 Aug 2021 11:56:26 GMT
+      Content-Length:
+      - '56'
+      Connection:
+      - keep-alive
+    body:
+      encoding: UTF-8
+      string: '{"response":{"steamid":"76561198054979849","success":1}}'
+  recorded_at: Sun, 22 Aug 2021 11:56:26 GMT
+recorded_with: VCR 6.0.0
