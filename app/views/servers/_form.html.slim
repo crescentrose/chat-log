@@ -18,6 +18,16 @@
       = f.text_field :port, required: true, class: 'form-control', default: '27015'
 
   .row.mb-2
+    .form-check.form-switch
+      .col.mx-3
+        div = f.check_box :is_active, class: 'form-check-input my-1'
+      .col.mx-4
+        strong = f.label :is_active, 'Server active?', class: 'form-check-label'
+        .text-muted
+          ' Inactive servers won't be displayed in the server list, nor will
+          ' they be updated, but they will retain their messages.
+
+  .row.mb-2
     .col
       = f.label :rcon_password, 'RCON Password', class: 'form-label'
       = f.password_field :rcon_password, value: server.rcon_password, class: 'form-control', autocomplete: 'off'

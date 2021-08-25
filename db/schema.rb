@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_08_22_123702) do
+ActiveRecord::Schema.define(version: 2021_08_25_121143) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -87,6 +87,7 @@ ActiveRecord::Schema.define(version: 2021_08_22_123702) do
     t.datetime "sent_at", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.datetime "flagged_at"
     t.index ["player_name"], name: "index_messages_on_player_name"
     t.index ["player_steamid3"], name: "index_messages_on_player_steamid3"
     t.index ["server_id"], name: "index_messages_on_server_id"
@@ -134,6 +135,7 @@ ActiveRecord::Schema.define(version: 2021_08_22_123702) do
     t.bigint "ssh_key_id"
     t.datetime "last_log_sync"
     t.string "last_uploaded_file"
+    t.boolean "is_active", default: true, null: false
     t.index ["ssh_key_id"], name: "index_servers_on_ssh_key_id"
   end
 

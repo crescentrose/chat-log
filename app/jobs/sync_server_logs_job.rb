@@ -2,7 +2,7 @@ class SyncServerLogsJob < ApplicationJob
   queue_as :default
 
   def perform
-    Server.where.not(ssh_key_id: nil).find_each do |server|
+    Server.active.ssh_enabled.find_each do |server|
       Sidekiq.logger.info "Logs - Updating server #{server.name}"
       LogSyncService.new.sync(server)
     rescue StandardError => e

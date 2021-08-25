@@ -9,7 +9,7 @@ class SteamId
       from_id(identifier)
     when /^\[U:([0-1]:[0-9]+)\]$/
       from_id3(identifier)
-    when /^7\d{16}$/
+    when /^76\d{16}$/
       new(identifier)
     else
       SteamService.new.resolve_vanity_url(identifier)

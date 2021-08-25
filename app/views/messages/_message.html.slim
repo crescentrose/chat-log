@@ -3,11 +3,13 @@
 .card.my-3 class="#{highlight_message ? 'border border-warning border-3' : ''}"
   a id="message_#{message.id}"
   .card-header
+    span = '🚩' if message.flagged_at?
     = team_color message.player_team, message.player_name
     span.mx-1.fw-bold.text-muted.font-smaller = "(TEAM)" if message.team?
     span.font-monospace.text-muted.font-smaller = message.player_steamid64
-  .card-body 
+  .card-body
     = message.message
+    .text-muted.mt-2 = "Flagged for profanity #{time_ago_in_words(message.flagged_at)} ago" if message.flagged_at?
   .card-footer.d-flex.justify-content-around.align-items-baseline
     span.mx-1 = server_tag(message.server)
     span.text-muted.flex-grow-1.mx-1 = time_tag message.sent_at

@@ -3,6 +3,7 @@
 # Table name: messages
 #
 #  id              :bigint           not null, primary key
+#  flagged_at      :datetime
 #  message         :text             not null
 #  player_name     :string           not null
 #  player_steamid3 :string           not null
@@ -24,6 +25,24 @@
 #  fk_rails_...  (server_id => servers.id)
 #
 class Message < ApplicationRecord
+  COMMON_MESSAGES = [
+    'gg',
+    'ggwp',
+    'gg wp',
+    'lol',
+    'scramble',
+    'vscramble',
+    '!vscramble',
+    'votescramble',
+    'nominate',
+    '!nominate',
+    'rtv',
+    '( ͡° ͜ʖ ͡°)',
+    '***UBERED***',
+    'ok',
+    'hi'
+  ].freeze
+
   belongs_to :server, strict_loading: true
 
   validates :player_name, :message, :player_steamid3, :player_team, :sent_at,
@@ -33,9 +52,11 @@ class Message < ApplicationRecord
     where(player_steamid3: SteamId.from(identifier).id3)
   end
 
+  scope :flagged, ->{ where.not(flagged_at: nil) }
+  scope :uncommon, ->{ where.not(message: COMMON_MESSAGES) }
 
   def self.ransackable_scopes(_)
-    %i[for_player]
+    %i[for_player flagged]
   end
 
   def formatted_sent_at

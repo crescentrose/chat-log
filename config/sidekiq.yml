@@ -12,4 +12,4 @@
     every: '1m'
   logs:
     class: SyncServerLogsJob
-    every: '10m'
+    every: '8m'

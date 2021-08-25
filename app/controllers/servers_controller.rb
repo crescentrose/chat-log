@@ -3,12 +3,12 @@ class ServersController < ApplicationController
 
   def index
     authorize Server
-    @servers = Server.order(:name).all
+    @servers = Server.active.order(:friendly_name)
   end
 
   def admin
     authorize Server
-    @servers = Server.order(:name).all
+    @servers = Server.order(:friendly_name).all
     render :admin, layout: 'admin'
   end
 
@@ -69,6 +69,6 @@ class ServersController < ApplicationController
   def server_params
     params
       .require(:server)
-      .permit(:friendly_name, :ip, :name, :port, :rcon_password, :timezone, :ssh_key_id)
+      .permit(:friendly_name, :ip, :name, :port, :rcon_password, :timezone, :is_active, :ssh_key_id)
   end
 end

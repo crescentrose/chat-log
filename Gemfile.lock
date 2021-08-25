@@ -289,6 +289,7 @@ GEM
       actionpack (>= 4.0)
       activesupport (>= 4.0)
       sprockets (>= 3.0.0)
+    swearjar (1.4.0)
     temple (0.8.2)
     thor (1.1.0)
     thwait (0.2.0)
@@ -357,6 +358,7 @@ DEPENDENCIES
   sidekiq-scheduler
   slim
   spring
+  swearjar
   turbolinks (~> 5)
   vcr
   web-console (>= 4.1.0)

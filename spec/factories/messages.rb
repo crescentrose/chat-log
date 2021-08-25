@@ -3,6 +3,7 @@
 # Table name: messages
 #
 #  id              :bigint           not null, primary key
+#  flagged_at      :datetime
 #  message         :text             not null
 #  player_name     :string           not null
 #  player_steamid3 :string           not null

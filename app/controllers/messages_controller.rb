@@ -5,6 +5,7 @@ class MessagesController < ApplicationController
     authorize Message
 
     @q = Message
+      .uncommon
       .includes(:server)
       .ransack(params[:q])
 

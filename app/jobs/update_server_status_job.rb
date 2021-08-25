@@ -2,7 +2,7 @@ class UpdateServerStatusJob < ApplicationJob
   queue_as :default
 
   def perform
-    Server.where.not(rcon_password: [nil, '']).find_each do |server|
+    Server.active.rcon_enabled.find_each do |server|
       Sidekiq.logger.info "RCON - Updating server #{server.name}"
       ServerStatusUpdateService.new.update(server)
     rescue StandardError => e

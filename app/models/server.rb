@@ -5,6 +5,7 @@
 #  id                 :bigint           not null, primary key
 #  friendly_name      :string           not null
 #  ip                 :string           not null
+#  is_active          :boolean          default(TRUE), not null
 #  last_log_sync      :datetime
 #  last_update        :datetime
 #  last_uploaded_file :string
@@ -30,6 +31,16 @@ class Server < ApplicationRecord
   validates :name, presence: true
 
   belongs_to :ssh_key, optional: true
+
+  has_many :connection_events, dependent: :delete_all
+  has_many :disconnection_events, dependent: :delete_all
+  has_many :messages, dependent: :delete_all
+  has_many :votekick_events, dependent: :delete_all
+  has_many :log_files, dependent: :delete_all
+
+  scope :active, ->{ where(is_active: true) }
+  scope :rcon_enabled, ->{ where.not(rcon_password: [nil, '']) }
+  scope :ssh_enabled, ->{ where.not(ssh_key_id: nil) }
 
   # why did I make this?
   def self.from_name(name)

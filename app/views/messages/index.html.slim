@@ -26,6 +26,11 @@
         = link_to messages_path, class: 'btn btn-secondary mx-2 h-100' do
           .d-flex.justify-content-center.align-items-center.h-100 Clear filters
 
+    .row.g-2.my-2
+      .col-lg-3.col-sm-12.form-check-inline
+        = f.check_box :flagged, class: 'form-check-input'
+        = f.label :flagged, 'Flagged', class: 'form-check-label mx-2'
+
 .container
   = render @messages
 

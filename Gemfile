@@ -76,6 +76,10 @@ gem 'net-scp', require: 'net/scp'
 # Simple, but flexible HTTP client library, with support for multiple backends.
 gem 'faraday'
 
+# Put another nickel in the swearjar. Simple profanity detection with content
+# analysis.
+gem 'swearjar'
+
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
   gem 'byebug', platforms: [:mri, :mingw, :x64_mingw]

@@ -5,6 +5,7 @@
 #  id                 :bigint           not null, primary key
 #  friendly_name      :string           not null
 #  ip                 :string           not null
+#  is_active          :boolean          default(TRUE), not null
 #  last_log_sync      :datetime
 #  last_update        :datetime
 #  last_uploaded_file :string
