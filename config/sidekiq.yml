@@ -7,9 +7,9 @@
   - default
 
 :schedule:
-  status:
-    class: UpdateServerStatusJob
-    every: '1m'
+  # status:
+  #   class: UpdateServerStatusJob
+  #   every: '5m'
   logs:
     class: SyncServerLogsJob
-    every: '8m'
+    every: '17m'
