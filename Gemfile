@@ -5,6 +5,7 @@ ruby '3.0.2'
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails', branch: 'main'
 gem 'rails', '~> 6.1.4'
+gem 'rails-i18n'
 # Use postgresql as the database for Active Record
 gem 'pg', '~> 1.1'
 # Use Puma as the app server
@@ -79,6 +80,12 @@ gem 'faraday'
 # Put another nickel in the swearjar. Simple profanity detection with content
 # analysis.
 gem 'swearjar'
+
+# Steam Hlds Log Parser listens to UDP log packets sent by your (local or
+# remote) HLDS game server, processes data and returns clean or/and translated
+# and readable content that you can use for your website, irc channel, match
+# live streaming, bots, database...
+gem 'steam_hlds_log_parser', git: 'https://github.com/crescentrose/steam_hlds_log_parser'
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
