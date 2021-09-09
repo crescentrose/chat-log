@@ -48,13 +48,13 @@ class Server < ApplicationRecord
   end
 
   def health
-    return :critical if rcon_password && !last_update.nil? && last_update < 2.minutes.ago
+    return :critical if rcon_password && !last_update.nil? && last_update < 10.minutes.ago
     return :status_only if ssh_key_id.nil?
 
     case last_log_sync
-    when 30.minutes.ago..Time.now.utc
+    when 45.minutes.ago..Time.now.utc
       :ok
-    when 2.hours.ago..30.minutes.ago
+    when 2.hours.ago..45.minutes.ago
       :warn
     else
       :offline
