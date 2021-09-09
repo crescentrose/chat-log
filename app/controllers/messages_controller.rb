@@ -10,7 +10,7 @@ class MessagesController < ApplicationController
       .ransack(params[:q])
 
     @messages = @q
-      .result(distinct: true)
+      .result
       .order(sent_at: :desc)
       .page(params[:page])
       .per(50)
