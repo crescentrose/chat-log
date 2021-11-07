@@ -5,11 +5,3 @@
 
 :queues:
   - default
-
-:schedule:
-  status:
-    class: UpdateServerStatusJob
-    every: '5m'
-  logs:
-    class: SyncServerLogsJob
-    every: '17m'

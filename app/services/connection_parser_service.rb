@@ -4,14 +4,18 @@ class ConnectionParserService < ParserService
     keyword_init: true
   ) do
     def to_model
-      ConnectionEvent.new(self.to_h)
+      ConnectionEvent.new(to_h)
     end
   end
 
-  CONNECTED_REGEX = /^L (?<date>\d{2}\/\d{2}\/\d{4}) - (?<time>\d{2}:\d{2}:\d{2}): "(?<player>.*)<\d+><(?<steamid>\[U:\d:\d+\])><(?<team>\w*)>" connected,\s*address "(?<ip>\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}):\d*"$/
+  CONNECTED_REGEX = %r{R?L (?<date>\d{2}/\d{2}/\d{4}) - (?<time>\d{2}:\d{2}:\d{2}): "(?<player>.*)<\d+><(?<steamid>\[U:\d:\d+\])><(?<team>\w*)>" connected,\s*address "(?<ip>\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}):\d*"}.freeze
 
-  def initialize(trusted_users=[])
+  def initialize(trusted_users = [])
     @trusted_users = trusted_users
+  end
+
+  def can_parse?(line)
+    line =~ /connected/
   end
 
   def parse_line(line, server)

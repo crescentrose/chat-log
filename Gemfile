@@ -67,9 +67,9 @@ gem 'rconrb', require: 'rcon'
 gem 'sidekiq-scheduler'
 
 # Pure Ruby implementation of an SSH (protocol 2) client
-gem 'net-ssh', require: 'net/ssh'
-gem 'ed25519'
 gem 'bcrypt_pbkdf'
+gem 'ed25519'
+gem 'net-ssh', require: 'net/ssh'
 
 # Pure Ruby implementation of the SCP protocol
 gem 'net-scp', require: 'net/scp'
@@ -81,15 +81,13 @@ gem 'faraday'
 # analysis.
 gem 'swearjar'
 
-# Steam Hlds Log Parser listens to UDP log packets sent by your (local or
-# remote) HLDS game server, processes data and returns clean or/and translated
-# and readable content that you can use for your website, irc channel, match
-# live streaming, bots, database...
-gem 'steam_hlds_log_parser', git: 'https://github.com/crescentrose/steam_hlds_log_parser'
+# Concurrent wrappers for native Ruby IO & Sockets.
+gem 'async'
+gem 'async-io'
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
-  gem 'byebug', platforms: [:mri, :mingw, :x64_mingw]
+  gem 'byebug', platforms: %i[mri mingw x64_mingw]
 
   # We use a real testing library
   gem 'rspec-rails'
@@ -113,8 +111,8 @@ group :development do
   gem 'web-console', '>= 4.1.0'
   # Display performance information such as SQL time and flame graphs for each request in your browser.
   # Can be configured to work on production as well see: https://github.com/MiniProfiler/rack-mini-profiler/blob/master/README.md
-  gem 'rack-mini-profiler', '~> 2.0'
   gem 'listen', '~> 3.3'
+  gem 'rack-mini-profiler', '~> 2.0'
   # Spring speeds up development by keeping your application running in the background. Read more: https://github.com/rails/spring
   gem 'spring'
 

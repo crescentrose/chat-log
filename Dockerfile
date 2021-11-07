@@ -17,6 +17,6 @@ COPY . /app
 
 RUN bundle exec rails webpacker:compile
 
-EXPOSE 3000
+EXPOSE 3000 27115
 
 CMD ["bin/migrate_and_run"]

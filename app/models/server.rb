@@ -38,9 +38,9 @@ class Server < ApplicationRecord
   has_many :votekick_events, dependent: :delete_all
   has_many :log_files, dependent: :delete_all
 
-  scope :active, ->{ where(is_active: true) }
-  scope :rcon_enabled, ->{ where.not(rcon_password: [nil, '']) }
-  scope :ssh_enabled, ->{ where.not(ssh_key_id: nil) }
+  before_save :convert_hostname_to_ip
+
+  scope :active, -> { where(is_active: true) }
 
   # why did I make this?
   def self.from_name(name)
@@ -48,17 +48,9 @@ class Server < ApplicationRecord
   end
 
   def health
-    return :critical if rcon_password && !last_update.nil? && last_update < 10.minutes.ago
-    return :status_only if ssh_key_id.nil?
+    return :offline unless is_active?
 
-    case last_log_sync
-    when 45.minutes.ago..Time.now.utc
-      :ok
-    when 2.hours.ago..45.minutes.ago
-      :warn
-    else
-      :offline
-    end
+    :status_only
   end
 
   def rcon_client
@@ -80,5 +72,11 @@ class Server < ApplicationRecord
 
   def private_key
     ssh_key&.private_key&.gsub(/\r\n?/, "\n")
+  end
+
+  def convert_hostname_to_ip
+    self.ip = Resolv.getaddress(ip)
+  rescue Resolv::ResolvError
+    # TODO: log
   end
 end

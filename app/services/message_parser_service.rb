@@ -4,25 +4,29 @@ class MessageParserService < ParserService
     :server_id, :flagged_at, keyword_init: true
   ) do
     def to_model
-      Message.new(self.to_h)
+      Message.new(to_h)
     end
   end
 
-  MESSAGE_REGEX = /
-    ^L\                              # Each log line starts with a letter L
+  MESSAGE_REGEX = %r{
+    R?L\                             # Each log line starts with RL or L
                                      # followed by a space.
-    (?<date>\d{2}\/\d{2}\/\d{4})\    # This will match the date (mm-dd-yyyy)
+    (?<date>\d{2}/\d{2}/\d{4})\      # This will match the date (mm-dd-yyyy)
     -\ (?<time>\d{2}:\d{2}:\d{2}):\  # Then we match the time (hh:mm:ss).
     "(?<player>.*)<\d+>              # Match player name and skip over their
                                      # ingame ID (we do not need it yet)
     <(?<steamid>\[U:\d:\d+\])>       # Get their SteamID3 ([U:1:12345678])
     <(?<team>Blue|Red)>"\            # Match their team to either Blu or Red
-    say(?<tc>_team)?\                 # Team chat messages are a bit different.
-    "(?<message>.*)"$                # Match their actual message
-  /x
+    say(?<tc>_team)?\                # Team chat messages are a bit different.
+    "(?<message>.*)"                 # Match their actual message
+  }x.freeze
 
   def initialize
     @filter = Swearjar.new(Rails.root + 'config/swears.yml')
+  end
+
+  def can_parse?(line)
+    line =~ / say "/ || line =~ / say_team "/
   end
 
   def parse_line(line, server)
