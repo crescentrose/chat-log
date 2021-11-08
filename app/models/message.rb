@@ -48,12 +48,14 @@ class Message < ApplicationRecord
   validates :player_name, :message, :player_steamid3, :player_team, :sent_at,
             presence: true
 
-  scope :for_player, ->(identifier) do
-    where(player_steamid3: SteamId.from(identifier).id3)
-  end
+  after_create :report_flagged_message
 
-  scope :flagged, ->{ where.not(flagged_at: nil) }
-  scope :uncommon, ->{ where.not(message: COMMON_MESSAGES) }
+  scope :for_player, lambda { |identifier|
+    where(player_steamid3: SteamId.from(identifier).id3)
+  }
+
+  scope :flagged, -> { where.not(flagged_at: nil) }
+  scope :uncommon, -> { where.not(message: COMMON_MESSAGES) }
 
   def self.ransackable_scopes(_)
     %i[for_player flagged]
@@ -64,6 +66,10 @@ class Message < ApplicationRecord
   end
 
   def player_steamid64
-    @player_steamid ||= SteamId.from(player_steamid3).id64
+    @player_steamid64 ||= SteamId.from(player_steamid3).id64
+  end
+
+  def report_flagged_message
+    ReportFlaggedMessageJob.perform_later(self) if flagged_at?
   end
 end
