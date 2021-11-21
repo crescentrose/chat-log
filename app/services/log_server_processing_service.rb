@@ -29,7 +29,7 @@ class LogServerProcessingService
   attr_reader :logger
 
   def sanitize(string)
-    string.encode('utf-8', invalid: :replace, undef: :replace)
+    string.force_encoding(Encoding::UTF_8)
   end
 
   def trusted_users
