@@ -1,6 +1,6 @@
 - highlight_message ||= false
 
-.row class="#{highlight_message ? 'bg-warning bg-opacity-25' : ''} p-2"
+.row class="#{highlight_message ? 'bg-warning bg-opacity-25' : ''} p-2 g-0"
   a id="message_#{message.id}"
   .col-sm-12.col-md-auto
     span = '🚩' if message.flagged_at?
