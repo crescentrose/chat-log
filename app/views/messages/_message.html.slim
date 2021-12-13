@@ -1,23 +1,25 @@
 - highlight_message ||= false
 
-.card.my-3 class="#{highlight_message ? 'border border-warning border-3' : ''}"
+.row class="#{highlight_message ? 'bg-warning bg-opacity-25' : ''} p-2"
   a id="message_#{message.id}"
-  .card-header
+  .col-sm-12.col-md-auto
     span = '🚩' if message.flagged_at?
-    = team_color message.player_team, message.player_name
+    span.mx-1.mx-md-2 = server_tag(message.server)
+    span.text-muted.flex-grow-1.mx-1.mx-md-2 = time_tag message.sent_at, format: :short
+    = link_to messages_path(q: { for_player: message.player_steamid64 }), class: 'text-decoration-none' do
+      span.mx-md-2 = team_color message.player_team, message.player_name
     span.mx-1.fw-bold.text-muted.font-smaller = "(TEAM)" if message.team?
-    span.font-monospace.text-muted.font-smaller = message.player_steamid64
-  .card-body
-    = message.message
-    .text-muted.mt-2 = "Flagged for profanity #{time_ago_in_words(message.flagged_at)} ago" if message.flagged_at?
-  .card-footer.d-flex.justify-content-around.align-items-baseline
-    span.mx-1 = server_tag(message.server)
-    span.text-muted.flex-grow-1.mx-1 = time_tag message.sent_at
-    .dropdown
-      button.btn.btn-outline-secondary.btn-sm.dropdown-toggle data-bs-toggle="dropdown"
-        | Tools
-      ul.dropdown-menu
-        = link_to 'Message context', message_path(message, anchor: "message_#{message.id}"), class: 'dropdown-item'
-        = link_to 'Messages by player', messages_path(q: { for_player: message.player_steamid64 }), class: 'dropdown-item'
-        = link_to 'IP Tool', connection_events_path(q: { for_player: message.player_steamid3 }), class: 'dropdown-item' if current_user.allowed_to?('connections.index')
-        = link_to 'Steam Profile', steam_url(message.player_steamid64), class:'dropdown-item'
+    / span.font-monospace.text-muted.font-smaller = message.player_steamid64
+  .col-sm-12.col-md
+    .d-flex
+      div.flex-grow-1.ms-2.p-2.ms-md-0.p-md-0
+        = message.message
+      div
+        .dropdown
+          button.btn.btn-outline-secondary.btn-sm.dropdown-toggle data-bs-toggle="dropdown"
+            | Tools
+          ul.dropdown-menu
+            = link_to 'Message context', message_path(message, anchor: "message_#{message.id}"), class: 'dropdown-item'
+            = link_to 'Messages by player', messages_path(q: { for_player: message.player_steamid64 }), class: 'dropdown-item'
+            = link_to 'IP Tool', connection_events_path(q: { for_player: message.player_steamid3 }), class: 'dropdown-item' if current_user.allowed_to?('connections.index')
+            = link_to 'Steam Profile', steam_url(message.player_steamid64), class: 'dropdown-item'
