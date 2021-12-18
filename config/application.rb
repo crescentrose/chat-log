@@ -37,6 +37,6 @@ module ChatLog
 
     config.active_job.queue_adapter = :sidekiq
 
-    routes.default_url_options[:host] = ENV.fetch('HOSTNAME', 'localhost:3000')
+    routes.default_url_options[:host] = ENV.fetch('APP_HOST', 'localhost:3000')
   end
 end
