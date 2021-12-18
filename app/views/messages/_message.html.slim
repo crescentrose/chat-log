@@ -3,7 +3,11 @@
 .row class="#{highlight_message ? 'bg-warning bg-opacity-25' : ''} p-2 g-0"
   a id="message_#{message.id}"
   .col-sm-12.col-md-auto
-    span = '🚩' if message.flagged_at?
+    - if message.flagged?
+      - if message.resolved?
+        span = '🔨'
+      - else
+        span = '🚩'
     span.mx-1.mx-md-2 = server_tag(message.server)
     span.text-muted.flex-grow-1.mx-1.mx-md-2 = time_tag message.sent_at, format: :short
     = link_to messages_path(q: { for_player: message.player_steamid64 }), class: 'text-decoration-none' do
@@ -19,7 +23,8 @@
           button.btn.btn-outline-secondary.btn-sm.dropdown-toggle data-bs-toggle="dropdown"
             | Tools
           ul.dropdown-menu
+            = link_to 'Resolve report', resolve_flag_path(message.flag), class: 'dropdown-item' if message.unresolved? && policy(message.flag).resolve?
             = link_to 'Message context', message_path(message, anchor: "message_#{message.id}"), class: 'dropdown-item'
             = link_to 'Messages by player', messages_path(q: { for_player: message.player_steamid64 }), class: 'dropdown-item'
-            = link_to 'IP Tool', connection_events_path(q: { for_player: message.player_steamid3 }), class: 'dropdown-item' if current_user.allowed_to?('connections.index')
+            = link_to 'Player IPs', connection_events_path(q: { for_player: message.player_steamid3 }), class: 'dropdown-item' if policy(ConnectionEvent).index?
             = link_to 'Steam Profile', steam_url(message.player_steamid64), class: 'dropdown-item'

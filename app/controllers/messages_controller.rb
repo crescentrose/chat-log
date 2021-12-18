@@ -6,7 +6,7 @@ class MessagesController < ApplicationController
 
     @q = Message
       .uncommon
-      .includes(:server)
+      .includes(:server, :flag)
       .ransack(params[:q])
 
     @messages = @q

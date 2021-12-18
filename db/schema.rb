@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_11_07_222633) do
+ActiveRecord::Schema.define(version: 2021_12_18_124107) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -69,6 +69,17 @@ ActiveRecord::Schema.define(version: 2021_11_07_222633) do
     t.index ["server_id"], name: "index_disconnection_events_on_server_id"
   end
 
+  create_table "flags", force: :cascade do |t|
+    t.bigint "message_id", null: false
+    t.string "reason", null: false
+    t.string "resolve_token", null: false
+    t.string "discord_webhook_id"
+    t.datetime "resolved_at"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["message_id"], name: "index_flags_on_message_id"
+  end
+
   create_table "log_files", force: :cascade do |t|
     t.bigint "server_id", null: false
     t.boolean "processed", default: false, null: false
@@ -87,7 +98,6 @@ ActiveRecord::Schema.define(version: 2021_11_07_222633) do
     t.datetime "sent_at", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.datetime "flagged_at"
     t.index ["player_name"], name: "index_messages_on_player_name"
     t.index ["player_steamid3"], name: "index_messages_on_player_steamid3"
     t.index ["server_id"], name: "index_messages_on_server_id"
@@ -177,6 +187,7 @@ ActiveRecord::Schema.define(version: 2021_11_07_222633) do
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
   add_foreign_key "disconnection_events", "servers"
+  add_foreign_key "flags", "messages"
   add_foreign_key "log_files", "servers"
   add_foreign_key "messages", "servers"
   add_foreign_key "role_permissions", "permissions"

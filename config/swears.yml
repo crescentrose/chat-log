@@ -2,6 +2,7 @@
 regex:
   '\w*n[i1]gg[e3]r\w*': ["discriminatory"]
   '\w*f[a4]gg[o0]t\w*': ["discriminatory"]
+  '\w*n[1i]ck ?gurr+\w*': ["discriminatory"]
 simple:
   "dyke": ["discriminatory"]
   "fag": ["discriminatory"]
@@ -36,3 +37,4 @@ simple:
   "kys": ["toxic"]
   "kill yourself": ["toxic"]
   "jew": ["toxic"]
+  "testalertviora": ["test"]

@@ -75,4 +75,5 @@ Rails.application.configure do
   # config.action_cable.disable_request_forgery_protection = true
 
   config.hosts << ENV['HOSTNAME'] if ENV['HOSTNAME']
+  routes.default_url_options[:host] = ENV.fetch('HOSTNAME', 'localhost:3000')
 end

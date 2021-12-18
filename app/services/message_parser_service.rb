@@ -1,7 +1,7 @@
 class MessageParserService < ParserService
   ParsedMessage = Struct.new(
     :message, :player_name, :player_steamid3, :player_team, :sent_at, :team,
-    :server_id, :flagged_at, keyword_init: true
+    :server_id, keyword_init: true
   ) do
     def to_model
       Message.new(to_h)
@@ -21,10 +21,6 @@ class MessageParserService < ParserService
     "(?<message>.*)"                 # Match their actual message
   }x.freeze
 
-  def initialize
-    @filter = Swearjar.new(Rails.root + 'config/swears.yml')
-  end
-
   def can_parse?(line)
     line =~ / say "/ || line =~ / say_team "/
   end
@@ -40,11 +36,6 @@ class MessageParserService < ParserService
       sent_at: match_to_datetime(matches, server.timezone),
       team: !matches[:tc].nil?,
       server_id: server.id,
-      flagged_at: filter.profane?(matches[:message]) ? Time.now.utc : nil
     )
   end
-
-  private
-
-  attr_reader :filter
 end

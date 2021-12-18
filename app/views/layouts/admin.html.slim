@@ -1,4 +1,4 @@
-- content_for :content do 
+- content_for :content do
   .row.mt-4
     h1 Administration
   .row.mt-4
@@ -7,7 +7,6 @@
         li.nav-item = active_link_to 'Users', users_path, class: 'nav-link' if policy(User).index?
         li.nav-item = active_link_to 'Roles', roles_path, class: 'nav-link' if policy(Role).index?
         li.nav-item = active_link_to 'Servers', admin_servers_path, active: /^\/servers/, class: 'nav-link' if policy(Server).update?
-        li.nav-item = active_link_to 'SSH Keys', ssh_keys_path, class: 'nav-link' if policy(SSHKey).create?
     .col-12.col-md-8.col-lg-9
       = yield
 

@@ -7,12 +7,16 @@ Rails.application.routes.draw do
   resources :connection_events, only: [:index]
   resources :messages, only: %i[index show]
   resources :roles
+  resources :users, only: %i[index update create]
+  resources :votekick_events, only: [:index]
+
+  resources :flags, only: %[:destroy] do
+    get :resolve, on: :member
+  end
+
   resources :servers do
     get :admin, on: :collection
   end
-  resources :ssh_keys, only: %i[index new create destroy]
-  resources :users, only: %i[index update create]
-  resources :votekick_events, only: [:index]
 
   post '/auth/:provider/callback', to: 'sessions#create'
   get '/auth/failure', to: 'sessions#failure'

@@ -120,4 +120,6 @@ Rails.application.configure do
 
   config.serve_static_assets = ENV['RAILS_SERVE_STATIC_FILES'].present?
   config.public_file_server.enabled = ENV['RAILS_SERVE_STATIC_FILES'].present?
+
+  routes.default_url_options[:host] = ENV.fetch('HOSTNAME', 'logs.viora.sh')
 end

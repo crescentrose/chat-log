@@ -3,48 +3,58 @@ class ReportFlaggedMessageJob < ApplicationJob
 
   DISCORD_WEBHOOK_URL = ENV.fetch('DISCORD_WEBHOOK_URL', nil).freeze
 
-  def perform(message)
+  def perform(flag)
     return if DISCORD_WEBHOOK_URL.nil?
 
-    message = Message.includes(:server).find(message.id)
+    flag = Flag.includes(message: :server).find(flag.id)
 
-    puts payload(message)
+    response = Faraday.post(DISCORD_WEBHOOK_URL) do |req|
+      req.params['wait'] = 'true'
+      req.headers['Content-Type'] = 'application/json'
+      req.body = payload(flag)
+    end
 
-    Faraday.post(DISCORD_WEBHOOK_URL, payload(message), 'Content-Type' => 'application/json')
+    json = JSON.parse(response.body)
+    flag.update(discord_webhook_id: json.dig('id'))
   end
 
   private
 
-  def payload(message)
+  def payload(flag)
     {
       content: '🚩 A message has been flagged for review.',
       embeds: [
         {
-          description: message.message.to_s,
+          description: flag.message_text,
           color: 15_158_017,
           fields: [
             {
               name: 'Server',
-              value: message.server.friendly_name.to_s,
+              value: flag.message_server,
               inline: true
             },
             {
               name: 'Steam ID',
-              value: message.player_steamid3.to_s,
+              value: flag.message_sender_id,
               inline: true
             },
             {
               name: 'Sent at (UTC)',
-              value: message.sent_at.strftime('%c').to_s
+              value: flag.message_sent_at,
+              inline: true
             },
             {
               name: 'Context',
-              value: "https://logs.viora.sh/messages/#{message.id}#message_#{message.id}"
+              value: "https://logs.viora.sh/messages/#{flag.message.id}#message_#{flag.message.id}"
+            },
+            {
+              name: 'Resolve',
+              value: "[Click here to resolve this report.](#{Rails.application.routes.url_helpers.resolve_flag_url(flag, token: flag.resolve_token)})"
             }
           ],
           author: {
-            name: message.player_name.to_s,
-            url: "https://logs.viora.sh/messages?q%5Bfor_player%5D=#{message.player_steamid3}"
+            name: flag.message.player_name,
+            url: "https://logs.viora.sh/messages?q%5Bfor_player%5D=#{flag.message_sender_id}"
           }
         }
       ]

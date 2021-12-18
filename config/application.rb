@@ -36,5 +36,7 @@ module ChatLog
     config.generators.system_tests = nil
 
     config.active_job.queue_adapter = :sidekiq
+
+    routes.default_url_options[:host] = ENV.fetch('HOSTNAME', 'localhost:3000')
   end
 end

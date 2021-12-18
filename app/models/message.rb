@@ -3,7 +3,6 @@
 # Table name: messages
 #
 #  id              :bigint           not null, primary key
-#  flagged_at      :datetime
 #  message         :text             not null
 #  player_name     :string           not null
 #  player_steamid3 :string           not null
@@ -43,18 +42,19 @@ class Message < ApplicationRecord
     'hi'
   ].freeze
 
+  has_one :flag
   belongs_to :server, strict_loading: true
 
   validates :player_name, :message, :player_steamid3, :player_team, :sent_at,
             presence: true
 
-  after_create :report_flagged_message
+  after_create :process_word_filter
 
   scope :for_player, lambda { |identifier|
     where(player_steamid3: SteamId.from(identifier).id3)
   }
 
-  scope :flagged, -> { where.not(flagged_at: nil) }
+  scope :flagged, -> { joins(:flag).where(flag: { resolved_at: nil }) }
   scope :uncommon, -> { where.not(message: COMMON_MESSAGES) }
 
   def self.ransackable_scopes(_)
@@ -65,11 +65,34 @@ class Message < ApplicationRecord
     sent_at.strftime('%c')
   end
 
+  def flagged?
+    flag.present?
+  end
+
+  def resolved?
+    return true if flag.nil?
+
+    !flag.resolved_at.nil?
+  end
+
+  def unresolved?
+    flagged? && !resolved?
+  end
+
   def player_steamid64
     @player_steamid64 ||= SteamId.from(player_steamid3).id64
   end
 
-  def report_flagged_message
-    ReportFlaggedMessageJob.perform_later(self) if flagged_at?
+  def process_word_filter
+    filter = Swearjar.new(Rails.root + 'config/swears.yml')
+
+    return unless filter.profane?(message)
+
+    create_flag!(
+      reason: filter.scorecard(message).keys.join(', '),
+    )
+
+    # make sure the record has persisted (rails bullshittery)
+    ReportFlaggedMessageJob.set(wait: 5.seconds).perform_later(flag)
   end
 end
