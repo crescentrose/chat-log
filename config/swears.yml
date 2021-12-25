@@ -42,5 +42,5 @@ simple:
   "13%": ["discriminatory"]
   "52%": ["discriminatory"]
   "1488": ["toxic"]
-  "14/88":: ["toxic"]
+  "14/88": ["toxic"]
   "sneed": ["toxic"]
