@@ -15,7 +15,7 @@ class MessagesController < ApplicationController
       .page(params[:page])
       .per(50)
       .without_count
-  rescue NotImplementedError => e
+  rescue NotImplementedError, SteamService::SteamError => e
     flash[:error] = e.message
     redirect_to messages_path
   end

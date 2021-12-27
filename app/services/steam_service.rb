@@ -32,6 +32,8 @@ class SteamService
     details
   end
 
+  class SteamError < StandardError; end
+
   private
 
   def get(interface, method, params={})
@@ -40,8 +42,11 @@ class SteamService
 
     response = Faraday.get(url, params.except(:version))
 
-    raise "steam api request failure (#{url} returned #{response.code})" unless response.success?
+    raise SteamError, "steam api request failure (#{url} returned #{response.status})" unless response.success?
 
-    JSON.parse(response.body)
+    json = JSON.parse(response.body)
+    raise SteamError, "steam can't find this profile (don't use the full URL, I am too lazy to implement that)" unless json.dig('response', 'message') != 'No match'
+
+    json
   end
 end

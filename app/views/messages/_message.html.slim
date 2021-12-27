@@ -1,19 +1,20 @@
 - highlight_message ||= false
 
-.row class="#{highlight_message ? 'bg-warning bg-opacity-25' : ''} p-2 g-0"
+.row class="#{highlight_message ? 'bg-warning bg-opacity-25' : ''} p-md-2 g-0"
   a id="message_#{message.id}"
   .col-sm-12.col-md-auto
-    - if message.flagged?
-      - if message.resolved?
-        span = '🔨'
-      - else
-        span = '🚩'
+    .icon-column
+      - if message.flagged?
+        - if message.resolved?
+          span = '✔'
+        - else
+          span = '🚩'
     span.mx-1.mx-md-2 = server_tag(message.server)
     span.text-muted.flex-grow-1.mx-1.mx-md-2 = time_tag message.sent_at, format: :short
+    span.font-monospace.text-muted.font-smaller.d-none.d-md-inline = message.player_steamid64
     = link_to messages_path(q: { for_player: message.player_steamid64 }), class: 'text-decoration-none' do
       span.mx-md-2 = team_color message.player_team, message.player_name
     span.mx-1.fw-bold.text-muted.font-smaller = "(TEAM)" if message.team?
-    / span.font-monospace.text-muted.font-smaller = message.player_steamid64
   .col-sm-12.col-md
     .d-flex
       div.flex-grow-1.ms-2.p-2.ms-md-0.p-md-0

@@ -1,4 +1,4 @@
-.my-4.container
+.my-4.mx-md-3.container
   = search_form_for @q do |f|
     .row.g-2
       .col-lg-2.col-sm-12
@@ -6,12 +6,12 @@
           = f.search_field :player_name_cont, class: 'form-control', placeholder: 'VIORA'
           = f.label :player_name_cont, 'Name', class: 'form-label'
 
-      .col-lg-2.col-sm-12
+      .col-lg-3.col-sm-12
         .form-floating
           = f.search_field :for_player, class: 'form-control', placeholder: '[U:1:000000000]'
           = f.label :for_player, 'Steam ID', class: 'form-label'
 
-      .col-lg-3.col-sm-12
+      .col-lg-5.col-sm-12
         .form-floating
           = f.search_field :message_cont, class: 'form-control', placeholder: 'Message'
           = f.label :message_cont, 'Message', class: 'form-label'
@@ -21,17 +21,39 @@
           = f.collection_select :server_name_eq, Server.order(:name), :name, :friendly_name, { include_blank: 'All' }, class: 'form-select'
           = f.label :server_name_eq, 'Server', class: 'form-label'
 
-      .col-lg-3.col-sm-12
+    .row.g-2.my-2
+      .col-lg-4.col-sm-12
+        .form-floating
+          = f.datetime_local_field :sent_at_gteq, class: 'form-control'
+          = f.label :sent_at_gteq, 'Sent after', class: 'form-label'
+
+      .col-lg-4.col-sm-12
+        .form-floating
+          = f.datetime_local_field :sent_at_lteq, class: 'form-control'
+          = f.label :sent_at_lteq, 'Sent before', class: 'form-label'
+
+      .col-lg-4.col-sm-12
         = f.submit class: 'btn btn-primary md-mx-2 h-100'
         = link_to messages_path, class: 'btn btn-secondary mx-2 h-100' do
           .d-flex.justify-content-center.align-items-center.h-100 Clear filters
 
-    .row.g-2.my-2
-      .col-lg-3.col-sm-12.form-check-inline
-        = f.check_box :flagged, class: 'form-check-input'
-        = f.label :flagged, 'Flagged', class: 'form-check-label mx-2'
+    .row
+      .col-12
+        .form-check-inline
+          = f.check_box :flagged, class: 'form-check-input'
+          = f.label :flagged, 'Flagged (unresolved)', class: 'form-check-label mx-2'
+
+        .form-check-inline
+          = f.check_box :resolved, class: 'form-check-input'
+          = f.label :resolved, 'Resolved', class: 'form-check-label mx-2'
+
 
 .container
+  - if @messages.empty?
+    p
+      ' No messages match this query.
+      = link_to 'Clear filters?', messages_path
+
   = render @messages
 
   .d-flex.justify-content-center

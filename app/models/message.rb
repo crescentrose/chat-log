@@ -55,10 +55,11 @@ class Message < ApplicationRecord
   }
 
   scope :flagged, -> { joins(:flag).where(flag: { resolved_at: nil }) }
+  scope :resolved, -> { joins(:flag).where.not(flag: { resolved_at: nil }) }
   scope :uncommon, -> { where.not(message: COMMON_MESSAGES) }
 
   def self.ransackable_scopes(_)
-    %i[for_player flagged]
+    %i[for_player flagged resolved]
   end
 
   def formatted_sent_at
