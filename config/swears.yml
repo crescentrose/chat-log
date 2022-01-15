@@ -4,43 +4,101 @@ regex:
   '\w*f[a4]gg[o0]t\w*': ["discriminatory"]
   '\w*n[1i]ck ?gurr+\w*': ["discriminatory"]
 simple:
-  "dyke": ["discriminatory"]
+
+#Racial slurs:
+
+  #Black
+  "negro": ["discriminatory"]
+    # Could be actual Spanish.
+    # ... Probably not.
+  "nig": ["discriminatory"]
+  "niglet": ["discriminatory"]
+  "kneegrow": ["discriminatory"]
+  "negroid": ["discriminatory"]
+  "groid": ["discriminatory"]
+  "13%": ["discriminatory"]
+  "52%": ["discriminatory"]
+    # 13% and 52% are commonly used to reference a statistic
+    # which purports that Black people commit most crime.
+  "niglet": ["discriminatory"]
+  
+  #Hispanic
+  "wetback": ["discriminatory"]
+  "beaner": ["discriminatory"]
+  
+  #Asian:
+  "chink": ["discriminatory"]
+  "chinks": ["discriminatory"]
+  "gook": ["discriminatory"]
+    # Common against South East Asians.
+  
+  #Middle Eastern/Arabic:
+  "paki": ["discriminatory"] 
+    # Used most commonly by British people
+    # against Pakistani people.
+   
+  #Jews:
+  "kike": ["discriminatory"] 
+  "kyke": ["discriminatory"]
+  "jew": ["discriminatory"]
+    # Check context.
+  
+#LGBT slurs:
+
+  #General:
   "fag": ["discriminatory"]
   "fagbag": ["discriminatory"]
   "fagging": ["discriminatory"]
   "fagg": ["discriminatory"]
   "fagot": ["discriminatory"]
   "fagtard": ["discriminatory"]
-  "fucktard": ["discriminatory"]
-  "kike": ["discriminatory"]
-  "kyke": ["discriminatory"]
-  "lesbo": ["discriminatory"]
-  "lezzie": ["discriminatory"]
-  "negro": ["discriminatory"]
-  "nig": ["discriminatory"]
-  "niglet": ["discriminatory"]
-  "kneegrow": ["discriminatory"]
+  "puto": ["discriminatory"]
+  "putos": ["discriminatory"]
+    # Spanish equivalent of faggot
+    # I'm uncertain of including this.
+  
+  #Transphobic:
   "tranny": ["discriminatory"]
   "trannies": ["discriminatory"]
   "trannie": ["discriminatory"]
   "tranner": ["discriminatory"]
   "troon": ["discriminatory"]
+    # "Troon" is a transphobic slur used mainly against 
+    # trans people who do not appear to pass, but can be used 
+    # against any trans person, really.
   "troons": ["discriminatory"]
   "trooner": ["discriminatory"]
-  "trender": ["discriminatory"]
-  "shemale": ["discriminatory"]
-  "wetback": ["discriminatory"]
-  "puto": ["discriminatory"]
-  "putos": ["discriminatory"]
-  "chink": ["discriminatory"]
-  "chinks": ["discriminatory"]
+  "transtrender": ["discriminatory"]
+  "trender": ["discriminatory"] 
+    # Reference to "transtrender", a derogatory term
+    # used to imply that a trans person is not actually trans
+    # and is just jumping on a bandwagon or "trend" to be unique
+    # or something. 
+  "shemale": ["discriminatory"] 
+  "41%": ["discriminatory"]
+    # Reference to a statistic published by
+    # the National Transgender Discrimination Survey (NTDS) 
+    # that 41% of 6,450 respondents said they had attempted 
+    # suicide at some point in their lives. 
+  "ywnbaw": ["discriminatory"]
+    #  Acronym for "You will never be a woman"
+    
+   #Lesbophobic
+    # Note: These are mainly reclaimed. Please check context
+    # to make sure you are not banning an actual lesbian.
+   "dyke": ["discriminatory"] 
+   "lesbo": ["discriminatory"]
+   "lezzie": ["discriminatory"]
+   
+#Toxicity (could also be indicators of lots of toxicity, check logs):
+  "fucktard": ["toxic"]
   "kys": ["toxic"]
   "kill yourself": ["toxic"]
-  "jew": ["toxic"]
   "testalertviora": ["test"]
-  "41%": ["discriminatory"]
-  "13%": ["discriminatory"]
-  "52%": ["discriminatory"]
+    # idiot alert
+    
   "1488": ["toxic"]
   "14/88": ["toxic"]
-  "sneed": ["toxic"]
+    # Reference to the fourteen words
+    # and 88 = HH = Heil Hitler
+  
