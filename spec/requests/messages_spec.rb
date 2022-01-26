@@ -1,8 +1,8 @@
 require 'rails_helper'
 
 RSpec.describe 'Messages', type: :request do
-  let!(:message) { create(:message, message: 'hex smells') }
-  let!(:message2) { create(:message, message: 'viora smells', player_name: 'hexerii', player_steamid3: '[U:1:189701717]') }
+  let!(:message) { create(:message, message: 'hex smells', sent_at: 30.minutes.ago) }
+  let!(:message2) { create(:message, message: 'viora smells', player_name: 'hexerii', player_steamid3: '[U:1:189701717]', sent_at: 30.minutes.ago) }
 
   describe 'GET /messages' do
     it 'renders the messages list' do

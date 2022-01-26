@@ -8,7 +8,7 @@ class MessagePolicy < ApplicationPolicy
   end
 
   def full?
-    user.allowed_to?('message.full_index')
+    user.allowed_to?('message.full_index') || user.root?
   end
 
   class Scope < Scope

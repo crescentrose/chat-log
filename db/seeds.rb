@@ -60,6 +60,12 @@ hidden_ip = Permission.create!(
   description: 'Members will not have their IP addresses saved to the database on connect.'
 )
 
+messages_full = Permission.create!(
+  code: 'messages.full_index',
+  name: '',
+  description: ''
+)
+
 RolePermission.create!(
   role: admin,
   permission: servers_index
@@ -68,6 +74,11 @@ RolePermission.create!(
 RolePermission.create!(
   role: user,
   permission: messages
+)
+
+RolePermission.create!(
+  role: user,
+  permission: messages_full
 )
 
 RolePermission.create!(
