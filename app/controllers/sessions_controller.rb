@@ -3,7 +3,11 @@ class SessionsController < ApplicationController
 
   def create
     self.current_user = User.find_or_create_from_auth_hash(omniauth_hash)
-    self.current_user.update(last_login: Time.now)
+    self.current_user.update(
+      last_login: Time.now,
+      avatar_url: omniauth_hash['info']['image'],
+      name: omniauth_hash['info']['nickname']
+    )
 
     flash[:notice] = 'You have been logged in.'
     redirect_to '/'
