@@ -4,10 +4,10 @@ class MessagesController < ApplicationController
   def index
     authorize Message
 
-    @q = Message
+    @q = policy_scope(Message)
       .uncommon
       .includes(:server, :flag)
-      .ransack(params[:q])
+      .ransack(params[:q], auth_object: ransack_permission_level)
 
     @messages = @q
       .result
@@ -22,13 +22,19 @@ class MessagesController < ApplicationController
 
   def show
     authorize message
-    @previous = Message.includes(:server).where(sent_at: ...message.sent_at, server: message.server).order(sent_at: :desc).limit(20).reverse
-    @next = Message.includes(:server).where(sent_at: message.sent_at..., server: message.server).order(sent_at: :asc).limit(21).drop(1)
+    @previous = policy_scope(Message).includes(:server).where(sent_at: ...message.sent_at, server: message.server).order(sent_at: :desc).limit(20).reverse
+    @next = policy_scope(Message).includes(:server).where(sent_at: message.sent_at..., server: message.server).order(sent_at: :asc).limit(21).drop(1)
   end
 
   private
 
   def message
-    @message ||= Message.includes(:server).find(params[:id])
+    @message ||= policy_scope(Message).includes(:server).find(params[:id])
+  end
+
+  def ransack_permission_level
+    return :admin if policy(Message).full?
+
+    :user
   end
 end

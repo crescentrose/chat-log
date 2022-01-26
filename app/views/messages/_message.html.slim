@@ -9,12 +9,17 @@
           span = '✔'
         - else
           span = '🚩'
-    span.mx-1.mx-md-2 = server_tag(message.server)
-    span.text-muted.flex-grow-1.mx-1.mx-md-2 = time_tag message.sent_at, format: :short
-    span.font-monospace.text-muted.font-smaller.d-none.d-md-inline = message.player_steamid64
-    = link_to messages_path(q: { for_player: message.player_steamid64 }), class: 'text-decoration-none' do
-      span.mx-md-2 = team_color message.player_team, message.player_name
-    span.mx-1.fw-bold.text-muted.font-smaller = "(TEAM)" if message.team?
+    span.mx-1.mx-md-2
+      = link_to messages_path(q: { server_name_eq: message.server.name }) do
+        = server_tag(message.server)
+    span.text-muted.flex-grow-1.mx-1.mx-md-2 =< time_tag message.sent_at, format: :short
+    span.font-monospace.text-muted.font-smaller.d-none.d-md-inline =< message.player_steamid64 if policy(Message).full?
+    - if policy(Message).full?
+      = link_to messages_path(q: { for_player: message.player_steamid64 }), class: 'text-decoration-none' do
+        span.mx-md-2 =< team_color message.player_team, message.player_name
+    - else
+      span.mx-md-2 =< team_color message.player_team, message.player_name
+    span.mx-1.fw-bold.text-muted.font-smaller =< "(TEAM)" if message.team?
   .col-sm-12.col-md
     .d-flex
       div.flex-grow-1.ms-2.p-2.ms-md-0.p-md-0
@@ -26,6 +31,6 @@
           ul.dropdown-menu
             = link_to 'Resolve report', resolve_flag_path(message.flag), class: 'dropdown-item' if message.unresolved? && policy(message.flag).resolve?
             = link_to 'Message context', message_path(message, anchor: "message_#{message.id}"), class: 'dropdown-item'
-            = link_to 'Messages by player', messages_path(q: { for_player: message.player_steamid64 }), class: 'dropdown-item'
+            = link_to 'Messages by player', messages_path(q: { for_player: message.player_steamid64 }), class: 'dropdown-item' if policy(Message).full?
             = link_to 'Player IPs', connection_events_path(q: { for_player: message.player_steamid3 }), class: 'dropdown-item' if policy(ConnectionEvent).index?
-            = link_to 'Steam Profile', steam_url(message.player_steamid64), class: 'dropdown-item'
+            = link_to 'Steam Profile', steam_url(message.player_steamid64), class: 'dropdown-item' if policy(Message).full?

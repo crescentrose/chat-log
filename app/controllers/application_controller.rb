@@ -4,6 +4,7 @@ class ApplicationController < ActionController::Base
   helper_method :current_user
 
   rescue_from Pundit::NotAuthorizedError, with: :user_not_authorized
+  rescue_from ActiveRecord::RecordNotFound, with: :not_found
 
   private
 
@@ -23,6 +24,11 @@ class ApplicationController < ActionController::Base
 
   def user_not_authorized
     flash[:error] = 'You are not allowed to do this.'
+    redirect_to '/'
+  end
+
+  def not_found
+    flash[:error] = 'This record does not exist. (You may have to log in to access it)'
     redirect_to '/'
   end
 end

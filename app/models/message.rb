@@ -57,9 +57,14 @@ class Message < ApplicationRecord
   scope :flagged, -> { joins(:flag).where(flag: { resolved_at: nil }) }
   scope :resolved, -> { joins(:flag).where.not(flag: { resolved_at: nil }) }
   scope :uncommon, -> { where.not(message: COMMON_MESSAGES) }
+  scope :recent, -> { where(sent_at: 2.weeks.ago..15.minutes.ago) }
 
-  def self.ransackable_scopes(_)
-    %i[for_player flagged resolved]
+  def self.ransackable_scopes(auth_level)
+    if auth_level == :admin
+      %i[for_player flagged resolved]
+    else
+      %i[for_player]
+    end
   end
 
   def formatted_sent_at
