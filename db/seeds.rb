@@ -77,12 +77,12 @@ RolePermission.create!(
 )
 
 RolePermission.create!(
-  role: user,
+  role: admin,
   permission: messages_full
 )
 
 RolePermission.create!(
-  role: user,
+  role: admin,
   permission: votekicks
 )
 

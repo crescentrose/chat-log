@@ -13,7 +13,7 @@ class MessagePolicy < ApplicationPolicy
 
   class Scope < Scope
     def resolve
-      return scope.all if user.allowed_to?('message.full_index')
+      return scope.all if user.allowed_to?('messages.full_index')
 
       scope.recent
     end
