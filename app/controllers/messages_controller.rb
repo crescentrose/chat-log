@@ -5,7 +5,6 @@ class MessagesController < ApplicationController
     authorize Message
 
     @q = policy_scope(Message)
-      .uncommon
       .includes(:server, :flag)
       .ransack(params[:q], auth_object: ransack_permission_level)
 

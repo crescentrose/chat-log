@@ -24,24 +24,6 @@
 #  fk_rails_...  (server_id => servers.id)
 #
 class Message < ApplicationRecord
-  COMMON_MESSAGES = [
-    'gg',
-    'ggwp',
-    'gg wp',
-    'lol',
-    'scramble',
-    'vscramble',
-    '!vscramble',
-    'votescramble',
-    'nominate',
-    '!nominate',
-    'rtv',
-    '( ͡° ͜ʖ ͡°)',
-    '***UBERED***',
-    'ok',
-    'hi'
-  ].freeze
-
   has_one :flag
   belongs_to :server, strict_loading: true
 
@@ -56,7 +38,6 @@ class Message < ApplicationRecord
 
   scope :flagged, -> { joins(:flag).where(flag: { resolved_at: nil }) }
   scope :resolved, -> { joins(:flag).where.not(flag: { resolved_at: nil }) }
-  scope :uncommon, -> { where.not(message: COMMON_MESSAGES) }
   scope :recent, -> { where(sent_at: 2.weeks.ago..15.minutes.ago) }
 
   def self.ransackable_scopes(auth_level)
