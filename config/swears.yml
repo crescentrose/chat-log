@@ -44,6 +44,7 @@ simple:
   # LGBT slurs:
   # General:
   "fag": ["discriminatory"]
+  "fgt": ["discriminatory"]
   "fagbag": ["discriminatory"]
   "fagging": ["discriminatory"]
   "fagg": ["discriminatory"]
@@ -93,9 +94,12 @@ simple:
   "kill yourself": ["toxic"]
 
   "testalertviora": ["test"]
-  # idiot alert
 
   "1488": ["toxic"]
   "14/88": ["toxic"]
   # Reference to the fourteen words
   # and 88 = HH = Heil Hitler
+
+  # windmill of friendship variants
+  "卍": ["toxic"]
+  "卐": ["toxic"]
