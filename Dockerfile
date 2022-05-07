@@ -2,7 +2,7 @@ FROM ruby:3.1.2-alpine
 
 WORKDIR /app
 
-RUN apk -U add postgresql-client postgresql-dev build-base
+RUN apk -U add postgresql-client postgresql-dev build-base nodejs tzdata libxslt-dev libxml2-dev imagemagick
 
 COPY Gemfile /app/Gemfile
 COPY Gemfile.lock /app/Gemfile.lock

@@ -6,9 +6,11 @@ html
     meta name="color-scheme" content="light dark"
     meta name="theme-color" content="#111111" media="(prefers-color-scheme: light)"
     meta name="theme-color" content="#eeeeee" media="(prefers-color-scheme: dark)"
-    = stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track': 'reload'
-    = javascript_importmap_tags
     = csrf_meta_tags
+    = csp_meta_tag
+
+    = stylesheet_link_tag 'application', media: 'all', 'data-turbo-track': 'reload'
+    = javascript_importmap_tags
 
   body
     - if flash[:error]
