@@ -90,8 +90,6 @@ simple:
 
   # Toxicity (could also be indicators of lots of toxicity, check logs):
   "fucktard": ["toxic"]
-  "kys": ["toxic"]
-  "kill yourself": ["toxic"]
 
   "testalertviora": ["test"]
 
