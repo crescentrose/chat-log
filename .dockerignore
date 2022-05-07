@@ -1,4 +1,6 @@
-tmp/
+tmp/cache
+tmp/miniprofiler
+tmp/sockets
 public/assets
 public/packs
 public/packs-test
