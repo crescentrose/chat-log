@@ -2,7 +2,7 @@ FROM ruby:3.1.2-alpine
 
 WORKDIR /app
 
-RUN apk -U add postgresql-client build-base
+RUN apk -U add postgresql-client postgresql-dev build-base
 
 COPY Gemfile /app/Gemfile
 COPY Gemfile.lock /app/Gemfile.lock
