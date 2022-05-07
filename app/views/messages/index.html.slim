@@ -62,8 +62,8 @@
     p
       ' No messages match this query.
       = link_to 'Clear filters?', messages_path
-
-  = render @messages
+  - else
+    = render @messages
 
   .d-flex.justify-content-center
     nav role="navigation"

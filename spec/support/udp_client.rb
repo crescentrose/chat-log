@@ -5,6 +5,10 @@ Async do |_task|
   socket = Async::IO::Socket.bind(Async::IO::Address.udp('127.0.0.1', 27_005))
   socket.connect(Async::IO::Address.udp('127.0.0.1', 27_115))
 
-  socket.send('    RL 08/11/2021 - 22:32:36: "LOSER<516><[U:1:000000516]><Red>" say "testalertviora"' + "\n")
-  sleep 0.01
+  while true do
+    datetime = DateTime.now.strftime("%d/%m/%Y - %H:%M:%S")
+    message = ["poop", "smelly", "test", "rtv", "scramble", "message", "very funny", "scrimblo", "sniper op"].sample
+    socket.send("    RL #{datetime}: \"LOSER<516><[U:1:000000516]><Red>\" say \"#{message}\"" + "\n")
+    sleep 5
+  end
 end

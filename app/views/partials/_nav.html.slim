@@ -15,6 +15,6 @@ nav.navbar.navbar-expand-lg.navbar-dark.bg-dark
 
       ul.navbar-nav
         - if current_user.anonymous?
-          span.nav-item = button_to 'Log in', '/auth/steam', method: :post, class: 'nav-link btn btn-link'
+          span.nav-item = button_to 'Log in', '/auth/steam', method: :post, data: { turbo: false }, class: 'nav-link btn btn-link'
         - else
-          span.nav-item = button_to "Log out #{current_user.name}", logout_path, class: 'nav-link btn btn-link', method: :delete
+          span.nav-item = button_to "Log out #{current_user.name}", logout_path, class: 'nav-link btn btn-link', method: :delete, data: { turbo: false }

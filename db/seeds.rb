@@ -62,8 +62,8 @@ hidden_ip = Permission.create!(
 
 messages_full = Permission.create!(
   code: 'messages.full_index',
-  name: '',
-  description: ''
+  name: 'View all messages',
+  description: 'Disregard the normal 2 week scope with a 15 minute delay limit.'
 )
 
 RolePermission.create!(

@@ -25,12 +25,13 @@
 #
 class Message < ApplicationRecord
   has_one :flag
-  belongs_to :server, strict_loading: true
+  belongs_to :server
 
   validates :player_name, :message, :player_steamid3, :player_team, :sent_at,
             presence: true
 
   after_create :process_word_filter
+  after_create_commit -> { broadcast_prepend_later_to "messages" }
 
   scope :for_player, lambda { |identifier|
     where(player_steamid3: SteamId.from(identifier).id3)

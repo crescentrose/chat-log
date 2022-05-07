@@ -23,4 +23,5 @@ Rails.application.routes.draw do
   delete '/auth', to: 'sessions#destroy', as: :logout
 
   mount Sidekiq::Web => '/sidekiq', constraints: AdminConstraint.new
+  mount ActionCable.server => '/cable'
 end

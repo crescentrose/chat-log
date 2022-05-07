@@ -14,6 +14,11 @@ class MessagesController < ApplicationController
       .page(params[:page])
       .per(50)
       .without_count
+
+      respond_to do |format|
+        format.html
+        format.turbo_stream
+      end
   rescue NotImplementedError, SteamService::SteamError => e
     flash[:error] = e.message
     redirect_to messages_path
@@ -23,6 +28,11 @@ class MessagesController < ApplicationController
     authorize message
     @previous = policy_scope(Message).includes(:server).where(sent_at: ...message.sent_at, server: message.server).order(sent_at: :desc).limit(20).reverse
     @next = policy_scope(Message).includes(:server).where(sent_at: message.sent_at..., server: message.server).order(sent_at: :asc).limit(21).drop(1)
+
+    respond_to do |format|
+      format.html
+      format.turbo_stream
+    end
   end
 
   private
