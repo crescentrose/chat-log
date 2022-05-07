@@ -10,8 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_01_26_135638) do
-
+ActiveRecord::Schema[7.0].define(version: 2022_05_07_154539) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -20,7 +19,7 @@ ActiveRecord::Schema.define(version: 2022_01_26_135638) do
     t.string "record_type", null: false
     t.bigint "record_id", null: false
     t.bigint "blob_id", null: false
-    t.datetime "created_at", null: false
+    t.datetime "created_at", precision: nil, null: false
     t.index ["blob_id"], name: "index_active_storage_attachments_on_blob_id"
     t.index ["record_type", "record_id", "name", "blob_id"], name: "index_active_storage_attachments_uniqueness", unique: true
   end
@@ -32,8 +31,8 @@ ActiveRecord::Schema.define(version: 2022_01_26_135638) do
     t.text "metadata"
     t.string "service_name", null: false
     t.bigint "byte_size", null: false
-    t.string "checksum", null: false
-    t.datetime "created_at", null: false
+    t.string "checksum"
+    t.datetime "created_at", precision: nil, null: false
     t.index ["key"], name: "index_active_storage_blobs_on_key", unique: true
   end
 
@@ -47,10 +46,10 @@ ActiveRecord::Schema.define(version: 2022_01_26_135638) do
     t.string "player_name", null: false
     t.string "player_steamid3", null: false
     t.string "ip", null: false
-    t.datetime "connected_at", null: false
+    t.datetime "connected_at", precision: nil, null: false
     t.bigint "server_id", null: false
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.index ["ip"], name: "index_connection_events_on_ip"
     t.index ["player_name"], name: "index_connection_events_on_player_name"
     t.index ["player_steamid3"], name: "index_connection_events_on_player_steamid3"
@@ -58,13 +57,13 @@ ActiveRecord::Schema.define(version: 2022_01_26_135638) do
   end
 
   create_table "disconnection_events", force: :cascade do |t|
-    t.datetime "disconnected_at", null: false
+    t.datetime "disconnected_at", precision: nil, null: false
     t.string "reason"
     t.string "player_name", null: false
     t.string "player_steamid3", null: false
     t.bigint "server_id", null: false
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.index ["player_steamid3"], name: "index_disconnection_events_on_player_steamid3"
     t.index ["server_id"], name: "index_disconnection_events_on_server_id"
   end
@@ -74,17 +73,17 @@ ActiveRecord::Schema.define(version: 2022_01_26_135638) do
     t.string "reason", null: false
     t.string "resolve_token", null: false
     t.string "discord_webhook_id"
-    t.datetime "resolved_at"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
+    t.datetime "resolved_at", precision: nil
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.index ["message_id"], name: "index_flags_on_message_id"
   end
 
   create_table "log_files", force: :cascade do |t|
     t.bigint "server_id", null: false
     t.boolean "processed", default: false, null: false
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.index ["server_id"], name: "index_log_files_on_server_id"
   end
 
@@ -95,9 +94,9 @@ ActiveRecord::Schema.define(version: 2022_01_26_135638) do
     t.boolean "team", default: false, null: false
     t.bigint "server_id", null: false
     t.text "message", null: false
-    t.datetime "sent_at", null: false
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
+    t.datetime "sent_at", precision: nil, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.index ["player_name"], name: "index_messages_on_player_name"
     t.index ["player_steamid3"], name: "index_messages_on_player_steamid3"
     t.index ["server_id"], name: "index_messages_on_server_id"
@@ -107,16 +106,16 @@ ActiveRecord::Schema.define(version: 2022_01_26_135638) do
     t.string "name", null: false
     t.string "description", null: false
     t.string "code", null: false
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.index ["code"], name: "index_permissions_on_code", unique: true
   end
 
   create_table "role_permissions", force: :cascade do |t|
     t.bigint "role_id", null: false
     t.bigint "permission_id", null: false
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.index ["permission_id"], name: "index_role_permissions_on_permission_id"
     t.index ["role_id", "permission_id"], name: "index_role_permissions_on_role_id_and_permission_id", unique: true
     t.index ["role_id"], name: "index_role_permissions_on_role_id"
@@ -125,16 +124,16 @@ ActiveRecord::Schema.define(version: 2022_01_26_135638) do
   create_table "roles", force: :cascade do |t|
     t.string "name", null: false
     t.string "color", default: "#6B7280", null: false
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.index ["name"], name: "index_roles_on_name", unique: true
   end
 
   create_table "servers", force: :cascade do |t|
     t.string "name", null: false
-    t.datetime "last_update"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
+    t.datetime "last_update", precision: nil
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.string "timezone", default: "UTC"
     t.string "friendly_name", null: false
     t.string "ip", null: false
@@ -143,7 +142,7 @@ ActiveRecord::Schema.define(version: 2022_01_26_135638) do
     t.string "map"
     t.integer "players"
     t.bigint "ssh_key_id"
-    t.datetime "last_log_sync"
+    t.datetime "last_log_sync", precision: nil
     t.string "last_uploaded_file"
     t.boolean "is_active", default: true, null: false
     t.index ["ssh_key_id"], name: "index_servers_on_ssh_key_id"
@@ -153,8 +152,8 @@ ActiveRecord::Schema.define(version: 2022_01_26_135638) do
     t.bigint "user_id", null: false
     t.string "name"
     t.text "private_key"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.index ["user_id"], name: "index_ssh_keys_on_user_id"
   end
 
@@ -162,8 +161,8 @@ ActiveRecord::Schema.define(version: 2022_01_26_135638) do
     t.text "message", null: false
     t.bigint "server_id", null: false
     t.string "player_steamid3"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.index ["server_id"], name: "index_stac_events_on_server_id"
   end
 
@@ -171,9 +170,9 @@ ActiveRecord::Schema.define(version: 2022_01_26_135638) do
     t.string "name", null: false
     t.string "steam_id3", null: false
     t.string "avatar_url", null: false
-    t.datetime "last_login"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
+    t.datetime "last_login", precision: nil
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.bigint "role_id", null: false
     t.index ["role_id"], name: "index_users_on_role_id"
     t.index ["steam_id3"], name: "index_users_on_steam_id3"
@@ -183,10 +182,10 @@ ActiveRecord::Schema.define(version: 2022_01_26_135638) do
     t.string "initiator_steamid3"
     t.string "target_steamid3"
     t.string "target_name"
-    t.datetime "time"
+    t.datetime "time", precision: nil
     t.bigint "server_id", null: false
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.index ["initiator_steamid3"], name: "index_votekick_events_on_initiator_steamid3"
     t.index ["server_id"], name: "index_votekick_events_on_server_id"
     t.index ["target_name"], name: "index_votekick_events_on_target_name"

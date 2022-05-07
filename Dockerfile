@@ -1,21 +1,17 @@
-FROM ruby:3.0.2
+FROM ruby:3.1.2-alpine
 
 WORKDIR /app
 
-RUN curl -fsSL https://deb.nodesource.com/setup_14.x | bash - && \
-  apt-get install -y nodejs postgresql-client && \
-  npm install -g yarn
+RUN apk -U add postgresql-client build-base
 
-COPY package.json /app/package.json
-COPY yarn.lock /app/yarn.lock
 COPY Gemfile /app/Gemfile
 COPY Gemfile.lock /app/Gemfile.lock
 
-RUN bundle install && yarn install
+RUN bundle install
 
 COPY . /app
 
-RUN bundle exec rails webpacker:compile
+RUN bundle exec rails assets:precompile
 
 EXPOSE 3000 27115
 
