@@ -7,6 +7,6 @@
     ' order.
     = link_to 'View latest', messages_path(q: { server_name_eq: message.server.name }), class: 'alert-link'
 
-  = render @previous
-  = render message, highlight_message: true
-  = render @next
+  = render @previous, locals: { current_user: current_user }
+  = render message, highlight_message: true, locals: { current_user: current_user }
+  = render @next, locals: { current_user: current_user }

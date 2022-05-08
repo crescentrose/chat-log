@@ -6,9 +6,9 @@ Async do |_task|
   socket.connect(Async::IO::Address.udp('127.0.0.1', 27_115))
 
   while true do
-    datetime = DateTime.now.strftime("%d/%m/%Y - %H:%M:%S")
+    datetime = DateTime.now.strftime("%m/%d/%Y - %H:%M:%S")
     message = ["poop", "smelly", "test", "rtv", "scramble", "message", "very funny", "scrimblo", "sniper op"].sample
-    socket.send("    RL #{datetime}: \"LOSER<516><[U:1:000000516]><Red>\" say \"#{message}\"" + "\n")
+    socket.send("    RL #{datetime}: \"best gamer EU<2><[U:1:94714121]><Red>\" say \"#{message}\"" + "\n")
     sleep 5
   end
 end

@@ -4,7 +4,7 @@
       ' As a guest, you are limited to viewing the chat logs of the past 2 weeks
       ' with a 15 minute delay. Do you want to see more? Make sure you are
       ' logged in and have moderator privileges. Still having troubles?
-      = link_to 'Yell at VIORA.', 'http://discord.com/users/95105078385446912', class: 'alert-link'
+      = link_to 'Gently whisper at viora.', 'http://discord.com/users/95105078385446912', class: 'alert-link'
 
 .my-4.md-3.container
   = search_form_for @q do |f|
@@ -63,7 +63,21 @@
       ' No messages match this query.
       = link_to 'Clear filters?', messages_path
   - else
-    = render @messages
+    / TODO: remove notifications when people are used to this behaviour
+    - if should_stream_messages?
+      .my-4.md-3.container
+        .alert.alert-primary.my-4
+          ' New moderator feature: Messages are now streamed live, as they come in, straight into your eyeballs.
+          img src="https://cdn.discordapp.com/emojis/930823546245111858.gif?size=24&quality=lossless"
+
+      = turbo_stream_from "messages"
+    - if allowed_stream_messages? && !should_stream_messages?
+      .my-4.md-3.container
+        .alert.alert-primary.my-4
+          ' Live updates are turned off as you scroll through history, for your convenience.
+          img src="https://cdn.discordapp.com/emojis/905960623161090069.webp?size=24&quality=lossless"
+    #messages data-controller="truncateable"
+      = render @messages
 
   .d-flex.justify-content-center
     nav role="navigation"

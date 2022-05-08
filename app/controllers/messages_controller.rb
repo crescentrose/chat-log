@@ -1,5 +1,5 @@
 class MessagesController < ApplicationController
-  helper_method :message
+  helper_method :message, :should_stream_messages?, :allowed_stream_messages?
 
   def index
     authorize Message
@@ -15,10 +15,6 @@ class MessagesController < ApplicationController
       .per(50)
       .without_count
 
-      respond_to do |format|
-        format.html
-        format.turbo_stream
-      end
   rescue NotImplementedError, SteamService::SteamError => e
     flash[:error] = e.message
     redirect_to messages_path
@@ -29,9 +25,10 @@ class MessagesController < ApplicationController
     @previous = policy_scope(Message).includes(:server).where(sent_at: ...message.sent_at, server: message.server).order(sent_at: :desc).limit(20).reverse
     @next = policy_scope(Message).includes(:server).where(sent_at: message.sent_at..., server: message.server).order(sent_at: :asc).limit(21).drop(1)
 
-    respond_to do |format|
-      format.html
-      format.turbo_stream
+    if request.headers["turbo-frame"]
+      render partial: 'message', locals: { message: message, animate: true }
+    else
+      render 'show'
     end
   end
 
@@ -39,6 +36,14 @@ class MessagesController < ApplicationController
 
   def message
     @message ||= policy_scope(Message).includes(:server).find(params[:id])
+  end
+
+  def should_stream_messages?
+    allowed_stream_messages? && params[:page].nil?
+  end
+
+  def allowed_stream_messages?
+    policy(Message).full?
   end
 
   def ransack_permission_level

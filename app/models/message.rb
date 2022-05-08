@@ -31,7 +31,7 @@ class Message < ApplicationRecord
             presence: true
 
   after_create :process_word_filter
-  after_create_commit -> { broadcast_prepend_later_to "messages" }
+  after_create_commit :broadcast_create_message
 
   scope :for_player, lambda { |identifier|
     where(player_steamid3: SteamId.from(identifier).id3)
@@ -82,5 +82,9 @@ class Message < ApplicationRecord
 
     # make sure the record has persisted (rails bullshittery)
     ReportFlaggedMessageJob.set(wait: 5.seconds).perform_later(flag)
+  end
+
+  def broadcast_create_message 
+    broadcast_prepend_later_to "messages", partial: 'messages/message_frame', target: "messages"
   end
 end

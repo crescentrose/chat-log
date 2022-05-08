@@ -18,4 +18,8 @@ module Permissionable
   def root?
     permissions.include?('root') || owner?
   end
+
+  def policy(resource)
+    Pundit::PolicyFinder.new(resource).policy.new(self, resource)
+  end
 end
