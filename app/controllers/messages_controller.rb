@@ -39,7 +39,7 @@ class MessagesController < ApplicationController
   end
 
   def should_stream_messages?
-    allowed_stream_messages? && params[:page].nil?
+    allowed_stream_messages? && params[:page].nil? && params[:q].nil?
   end
 
   def allowed_stream_messages?
