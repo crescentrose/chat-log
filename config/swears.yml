@@ -19,6 +19,12 @@ simple:
   # 13% and 52% are commonly used to reference a statistic
   # which purports that Black people commit most crime.
   "niglet": ["discriminatory"]
+  "ni": ["discriminatory"]
+  "gger": ["discriminatory"]
+  "nig/ger": ["discriminatory"]
+  "higgers": ["discriminatory"]
+  "naggers": ["discriminatory"]
+  
 
   # Hispanic
   "wetback": ["discriminatory"]
