@@ -86,23 +86,23 @@ jobs:
       - name: Update log server
         uses: appleboy/ssh-action@master
         env:
-          DATABASE_URL: ${{ secrets.DATABASE_URL }}
-          REDIS_URL: ${{ secrets.REDIS_URL }}
-          SECRET_KEY_BASE: ${{ secrets.SECRET_KEY_BASE }}
+          DATABASE_URL: "${{ secrets.DATABASE_URL }}"
+          REDIS_URL: "${{ secrets.REDIS_URL }}"
+          SECRET_KEY_BASE: "${{ secrets.SECRET_KEY_BASE }}"
         with:
           host: "dev.halcyon.hr"
           username: ${{ secrets.SSH_USERNAME }}
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           envs: DATABASE_URL,REDIS_URL,SECRET_KEY_BASE
-          script_stop: true
           script: |
             docker stop uncletopia.logserver.1
-            docker run --rm -d --link dokku.postgres.uncletopia-postgres:dokku-postgres-uncletopia-postgres --link dokku.redis.uncletopia-redis:dokku-redis-uncletopia-redis \
+            docker run -d --link dokku.postgres.uncletopia-postgres:dokku-postgres-uncletopia-postgres --link dokku.redis.uncletopia-redis:dokku-redis-uncletopia-redis \
               -e DATABASE_URL \
               -e REDIS_URL \
               -e SECRET_KEY_BASE \
               -e "RAILS_ENV=production" \
               -p 27115:27115/udp \
+              --restart=always \
               --name uncletopia.logserver.1 \
               dokku/uncletopia:latest \
               "/app/bin/rake" "log_server:start"
