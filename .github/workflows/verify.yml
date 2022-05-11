@@ -85,14 +85,15 @@ jobs:
 
       - name: Update log server
         uses: appleboy/ssh-action@master
+        env:
+          DATABASE_URL: ${{ secrets.DATABASE_URL }}
+          REDIS_URL: ${{ secrets.REDIS_URL }}
+          SECRET_KEY_BASE: ${{ secrets.SECRET_KEY_BASE }}
         with:
           host: "dev.halcyon.hr"
           username: ${{ secrets.SSH_USERNAME }}
           key: ${{ secrets.SSH_PRIVATE_KEY }}
-          env:
-            DATABASE_URL: ${{ secrets.DATABASE_URL}}
-            REDIS_URL: ${{ secrets.REDIS_URL }}
-            SECRET_KEY_BASE: ${{ secrets.SECRET_KEY_BASE }}
+          envs: DATABASE_URL,REDIS_URL,SECRET_KEY_BASE
           script_stop: true
           script: |
             docker stop uncletopia.logserver.1
