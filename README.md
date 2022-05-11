@@ -1,9 +1,9 @@
 # Chat Logs
 
 This is a small chat log parser for TF2, ostensibly built as a stopgap solution.
-It will take in a log file uploaded from an associated server, optionally
-secured by a secret token, and spin off a background job to parse it and save
-the chat messages.
+It processes logs streamed to the log server through UDP, indexes them and
+performs certain automatic moderation tasks such as reporting messages with
+potentially malicious content.
 
 ## Usage
 
@@ -11,24 +11,26 @@ Run the provided `docker-compose.yml` file. This will set up the database,
 Redis, job runner and the Rails app itself. You can customize your setup by
 copying the `.env.example` file to `.env` and editing the settings inside.
 
+**Important:** Docker mangles the source IP and port of an incoming UDP packet,
+which this app relies on to match the message to the appropriate server
+(unmatched messages will be silently dropped to prevent DoS attacks). You can
+run `sudo conntrack -D -p udp` after your deploy and after the game server has
+had a chance to send an UDP packet to your log server host to flush the
+connection tracking cache and restore functionality.
+
 Alternatively, set up the project yourself:
 
 * set up Ruby 3.0+ (I suggest [rbenv](https://github.com/rbenv/rbenv)) and Node
-    14+
-* set up PostgreSQL 11+
+  (any version will do)
+* set up PostgreSQL 11+ and Redis
 * `bundle` to get your gems in
-* `yarn` to get your frontend packages in
 * `bin/rails db:setup` to set up your database
 * Dane's your uncle!
-
-There's a `support/uploader.sh` script that you can use on the servers - it will
-automatically keep track of the last uploaded log file and upload the ones that
-were not uploaded yet. Run it through cron.
 
 ## License
 
 ```
-Copyright 2021 Ivan Oštrić <ivan@halcyon.hr>
+Copyright 2022 Ivan Oštrić <ivan@halcyon.hr>
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.

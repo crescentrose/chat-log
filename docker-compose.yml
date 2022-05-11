@@ -26,6 +26,21 @@ services:
     depends_on:
       - redis
       - database
+  log_server:
+    build: .
+    volumes:
+      - .:/app
+    environment:
+      DATABASE_URL: "postgresql://chat_log:${POSTGRES_PASSWORD}@database/chat_log"
+    env_file:
+      - .env
+    ports:
+      - "27115:27115"
+    command: ['bundle', 'exec', 'rake', 'log_server:start']
+    depends_on:
+      - redis
+      - database
+      - sidekiq
   redis:
     image: redis
   database:
