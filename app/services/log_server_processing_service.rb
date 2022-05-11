@@ -6,7 +6,6 @@ class LogServerProcessingService
       VotekickParserService.new,
       ConnectionParserService.new(trusted_users),
       DisconnectionParserService.new,
-      StACParserService.new
     ]
 
     @servers = Server.all.index_by { |s| [s.ip, s.port] }

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_05_07_154539) do
+ActiveRecord::Schema[7.0].define(version: 2022_05_11_195340) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -79,14 +79,6 @@ ActiveRecord::Schema[7.0].define(version: 2022_05_07_154539) do
     t.index ["message_id"], name: "index_flags_on_message_id"
   end
 
-  create_table "log_files", force: :cascade do |t|
-    t.bigint "server_id", null: false
-    t.boolean "processed", default: false, null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["server_id"], name: "index_log_files_on_server_id"
-  end
-
   create_table "messages", force: :cascade do |t|
     t.string "player_name", null: false
     t.string "player_team", null: false
@@ -141,29 +133,9 @@ ActiveRecord::Schema[7.0].define(version: 2022_05_07_154539) do
     t.string "rcon_password"
     t.string "map"
     t.integer "players"
-    t.bigint "ssh_key_id"
     t.datetime "last_log_sync", precision: nil
     t.string "last_uploaded_file"
     t.boolean "is_active", default: true, null: false
-    t.index ["ssh_key_id"], name: "index_servers_on_ssh_key_id"
-  end
-
-  create_table "ssh_keys", force: :cascade do |t|
-    t.bigint "user_id", null: false
-    t.string "name"
-    t.text "private_key"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["user_id"], name: "index_ssh_keys_on_user_id"
-  end
-
-  create_table "stac_events", force: :cascade do |t|
-    t.text "message", null: false
-    t.bigint "server_id", null: false
-    t.string "player_steamid3"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["server_id"], name: "index_stac_events_on_server_id"
   end
 
   create_table "users", force: :cascade do |t|
@@ -196,13 +168,9 @@ ActiveRecord::Schema[7.0].define(version: 2022_05_07_154539) do
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
   add_foreign_key "disconnection_events", "servers"
   add_foreign_key "flags", "messages"
-  add_foreign_key "log_files", "servers"
   add_foreign_key "messages", "servers"
   add_foreign_key "role_permissions", "permissions"
   add_foreign_key "role_permissions", "roles"
-  add_foreign_key "servers", "ssh_keys"
-  add_foreign_key "ssh_keys", "users"
-  add_foreign_key "stac_events", "servers"
   add_foreign_key "users", "roles"
   add_foreign_key "votekick_events", "servers"
 end

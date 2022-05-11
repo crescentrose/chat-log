@@ -17,26 +17,14 @@
 #  timezone           :string           default("UTC")
 #  created_at         :datetime         not null
 #  updated_at         :datetime         not null
-#  ssh_key_id         :bigint
-#
-# Indexes
-#
-#  index_servers_on_ssh_key_id  (ssh_key_id)
-#
-# Foreign Keys
-#
-#  fk_rails_...  (ssh_key_id => ssh_keys.id)
 #
 class Server < ApplicationRecord
   validates :name, presence: true
-
-  belongs_to :ssh_key, optional: true
 
   has_many :connection_events, dependent: :delete_all
   has_many :disconnection_events, dependent: :delete_all
   has_many :messages, dependent: :delete_all
   has_many :votekick_events, dependent: :delete_all
-  has_many :log_files, dependent: :delete_all
 
   before_save :convert_hostname_to_ip
 

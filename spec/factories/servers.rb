@@ -17,15 +17,6 @@
 #  timezone           :string           default("UTC")
 #  created_at         :datetime         not null
 #  updated_at         :datetime         not null
-#  ssh_key_id         :bigint
-#
-# Indexes
-#
-#  index_servers_on_ssh_key_id  (ssh_key_id)
-#
-# Foreign Keys
-#
-#  fk_rails_...  (ssh_key_id => ssh_keys.id)
 #
 FactoryBot.define do
   factory :server do

@@ -36,13 +36,6 @@
 
   .row.mb-2
     .col
-      = f.label :ssh_key_id, 'SSH Key', class: 'form-label'
-      = f.collection_select :ssh_key_id, SSHKey.all, :id, :name, { include_blank: true }, class: 'form-select'
-      .form-text
-        | If omitted, server logs will have to be uploaded manually.
-
-  .row.mb-2
-    .col
       = f.label :timezone, class: 'form-label'
       = f.time_zone_select :timezone, default_timezones, {}, required: true, class: 'form-select'
       .form-text
