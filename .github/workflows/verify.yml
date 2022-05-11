@@ -96,7 +96,8 @@ jobs:
           envs: DATABASE_URL,REDIS_URL,SECRET_KEY_BASE
           script: |
             docker stop uncletopia.logserver.1
-            docker run -d --rm \
+            docker rm uncletopia.logserver.1
+            docker run -d \
               --link dokku.postgres.uncletopia-postgres:dokku-postgres-uncletopia-postgres \
               --link dokku.redis.uncletopia-redis:dokku-redis-uncletopia-redis \
               -e "DATABASE_URL=$DATABASE_URL" \
