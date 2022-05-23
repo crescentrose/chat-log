@@ -36,7 +36,7 @@
     tbody
       - @votekick_events.each do |event|
         tr
-          td = event.server.name
+          td = "#{event.server.friendly_name} (#{event.server.name})"
           td
             .font-monospace.text-muted = event.initiator_steamid64
             .d-flex.font-smaller
