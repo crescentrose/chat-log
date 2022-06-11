@@ -3,6 +3,7 @@ regex:
   '\w*n[i1]gg[e3]r\w*': ["discriminatory"]
   '\w*f[a4]gg[o0]t\w*': ["discriminatory"]
   '\w*n[1i]ck ?gurr+\w*': ["discriminatory"]
+  '\w*fag\w*': ["discriminatory"]
 simple:
   # Racial slurs:
   # Black
@@ -25,7 +26,6 @@ simple:
   "higgers": ["discriminatory"]
   "naggers": ["discriminatory"]
   
-
   # Hispanic
   "wetback": ["discriminatory"]
   "beaner": ["discriminatory"]
@@ -49,7 +49,6 @@ simple:
 
   # LGBT slurs:
   # General:
-  "fag": ["discriminatory"]
   "fgt": ["discriminatory"]
   "fagbag": ["discriminatory"]
   "fagging": ["discriminatory"]
