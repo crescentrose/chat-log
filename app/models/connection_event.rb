@@ -4,6 +4,7 @@
 #
 #  id              :bigint           not null, primary key
 #  connected_at    :datetime         not null
+#  disconnect_time :datetime
 #  ip              :string           not null
 #  player_name     :string           not null
 #  player_steamid3 :string           not null
@@ -13,6 +14,7 @@
 #
 # Indexes
 #
+#  index_connection_events_on_connected_at     (connected_at)
 #  index_connection_events_on_ip               (ip)
 #  index_connection_events_on_player_name      (player_name)
 #  index_connection_events_on_player_steamid3  (player_steamid3)

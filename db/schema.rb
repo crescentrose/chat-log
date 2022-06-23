@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_05_11_195340) do
+ActiveRecord::Schema[7.0].define(version: 2022_06_23_131941) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -50,6 +50,8 @@ ActiveRecord::Schema[7.0].define(version: 2022_05_11_195340) do
     t.bigint "server_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.datetime "disconnect_time", precision: nil
+    t.index ["connected_at"], name: "index_connection_events_on_connected_at"
     t.index ["ip"], name: "index_connection_events_on_ip"
     t.index ["player_name"], name: "index_connection_events_on_player_name"
     t.index ["player_steamid3"], name: "index_connection_events_on_player_steamid3"
@@ -64,6 +66,7 @@ ActiveRecord::Schema[7.0].define(version: 2022_05_11_195340) do
     t.bigint "server_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["disconnected_at"], name: "index_disconnection_events_on_disconnected_at"
     t.index ["player_steamid3"], name: "index_disconnection_events_on_player_steamid3"
     t.index ["server_id"], name: "index_disconnection_events_on_server_id"
   end
@@ -91,6 +94,7 @@ ActiveRecord::Schema[7.0].define(version: 2022_05_11_195340) do
     t.datetime "updated_at", null: false
     t.index ["player_name"], name: "index_messages_on_player_name"
     t.index ["player_steamid3"], name: "index_messages_on_player_steamid3"
+    t.index ["sent_at"], name: "index_messages_on_sent_at", order: :desc
     t.index ["server_id"], name: "index_messages_on_server_id"
   end
 

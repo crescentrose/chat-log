@@ -17,6 +17,7 @@
 #
 #  index_messages_on_player_name      (player_name)
 #  index_messages_on_player_steamid3  (player_steamid3)
+#  index_messages_on_sent_at          (sent_at)
 #  index_messages_on_server_id        (server_id)
 #
 # Foreign Keys

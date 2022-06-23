@@ -14,5 +14,6 @@ class CreateMessages < ActiveRecord::Migration[6.1]
 
     add_index :messages, :player_name
     add_index :messages, :player_steamid3
+    add_index :messages, :sent_at, order: { sent_at: :desc }
   end
 end

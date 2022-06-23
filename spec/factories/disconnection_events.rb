@@ -13,6 +13,7 @@
 #
 # Indexes
 #
+#  index_disconnection_events_on_disconnected_at  (disconnected_at)
 #  index_disconnection_events_on_player_steamid3  (player_steamid3)
 #  index_disconnection_events_on_server_id        (server_id)
 #
