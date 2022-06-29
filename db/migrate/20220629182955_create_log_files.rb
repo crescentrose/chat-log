@@ -1,8 +1,9 @@
-class CreateLogFiles < ActiveRecord::Migration[6.1]
+class CreateLogFiles < ActiveRecord::Migration[7.0]
   def change
     create_table :log_files do |t|
       t.references :server, null: false, foreign_key: true
-      t.boolean :processed, null: false, default: false
+      t.string :map_name, null: false
+      t.text :body, null: false
 
       t.timestamps
     end
