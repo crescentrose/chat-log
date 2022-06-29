@@ -10,9 +10,13 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_06_23_131941) do
+ActiveRecord::Schema[7.0].define(version: 2022_06_29_183319) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  # Custom types defined in this database.
+  # Note that some types may not work with other database engines. Be careful if changing database.
+  create_enum "log_file_status", ["new", "processing", "processed", "error"]
 
   create_table "active_storage_attachments", force: :cascade do |t|
     t.string "name", null: false
@@ -80,6 +84,17 @@ ActiveRecord::Schema[7.0].define(version: 2022_06_23_131941) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["message_id"], name: "index_flags_on_message_id"
+  end
+
+  create_table "log_files", force: :cascade do |t|
+    t.bigint "server_id", null: false
+    t.string "map_name", null: false
+    t.text "body", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.enum "status", default: "new", null: false, enum_type: "log_file_status"
+    t.index ["server_id"], name: "index_log_files_on_server_id"
+    t.index ["status"], name: "index_log_files_on_status"
   end
 
   create_table "messages", force: :cascade do |t|
@@ -172,6 +187,7 @@ ActiveRecord::Schema[7.0].define(version: 2022_06_23_131941) do
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
   add_foreign_key "disconnection_events", "servers"
   add_foreign_key "flags", "messages"
+  add_foreign_key "log_files", "servers"
   add_foreign_key "messages", "servers"
   add_foreign_key "role_permissions", "permissions"
   add_foreign_key "role_permissions", "roles"

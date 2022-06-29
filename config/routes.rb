@@ -21,6 +21,7 @@ Rails.application.routes.draw do
   post '/auth/:provider/callback', to: 'sessions#create'
   get '/auth/failure', to: 'sessions#failure'
   delete '/auth', to: 'sessions#destroy', as: :logout
+  post '/upload', to: 'log_files#create'
 
   mount Sidekiq::Web => '/sidekiq', constraints: AdminConstraint.new
   mount ActionCable.server => '/cable'
