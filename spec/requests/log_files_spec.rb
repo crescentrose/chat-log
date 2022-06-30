@@ -38,6 +38,18 @@ RSpec.describe 'Log files', type: :request do
       end
     end
 
+    context 'without required fields' do
+      it 'responds with 401' do
+        json = { 
+          body: sample_log
+        }.to_json
+
+        post '/upload', params: json, headers: { 'CONTENT_TYPE' => 'application/json', 'AUTHORIZATION' => auth_token }
+
+        expect(response).to have_http_status :bad_request
+      end
+    end
+
     context 'when wrong authentication headers are provided' do
       it 'responds with 403' do
         json = {

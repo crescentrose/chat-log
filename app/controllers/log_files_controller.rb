@@ -1,4 +1,6 @@
 class LogFilesController < ApplicationController
+  skip_before_action :verify_authenticity_token
+
   def create
     return head :forbidden unless authorized?
 
