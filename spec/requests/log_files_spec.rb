@@ -4,11 +4,13 @@ RSpec.describe 'Log files', type: :request do
   describe 'POST /upload' do
     let(:server) { create(:server) }
     let(:sample_log) do
-      <<~LOG
-      L 07/30/2021 - 22:32:42: "gamer<526><[U:1:000000526]><Red>" say "._."
-      LOG
+      Base64.encode64(
+        <<~LOG
+          L 07/30/2021 - 22:32:42: "gamer<526><[U:1:000000526]><Red>" say "._."
+        LOG
+      )
     end
-    let(:auth_token) { ENV.fetch("LOG_UPLOAD_PASSWORD") }
+    let(:auth_token) { 'foobar' }
 
     context 'for valid server names and with valid auth headers' do
       it 'accepts the log file' do 

@@ -15,6 +15,7 @@
 #  port               :integer          default(27015), not null
 #  rcon_password      :string
 #  timezone           :string           default("UTC")
+#  upload_token       :string
 #  created_at         :datetime         not null
 #  updated_at         :datetime         not null
 #

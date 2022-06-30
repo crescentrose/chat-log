@@ -29,6 +29,11 @@
 
   .row.mb-2
     .col
+      = f.label :upload_token, 'Log file upload token', class: 'form-label'
+      = f.text_field :upload_token, value: server.upload_token, class: 'form-control', autocomplete: 'off'
+
+  .row.mb-2
+    .col
       = f.label :rcon_password, 'RCON Password', class: 'form-label'
       = f.password_field :rcon_password, value: server.rcon_password, class: 'form-control', autocomplete: 'off'
       .form-text

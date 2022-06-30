@@ -15,6 +15,7 @@
 #  port               :integer          default(27015), not null
 #  rcon_password      :string
 #  timezone           :string           default("UTC")
+#  upload_token       :string
 #  created_at         :datetime         not null
 #  updated_at         :datetime         not null
 #
@@ -25,5 +26,6 @@ FactoryBot.define do
     friendly_name { 'Test Server' }
     ip { 'server.example.com' }
     port { 27015 }
+    upload_token { 'foobar' }
   end
 end

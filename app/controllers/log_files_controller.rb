@@ -2,16 +2,15 @@ class LogFilesController < ApplicationController
   skip_before_action :verify_authenticity_token
 
   def create
-    return head :forbidden unless authorized?
-
     server = Server.find_by(name: log_file_params[:server_name])
 
     return head :bad_request if server.nil?
+    return head :forbidden unless authorized?(server)
 
     log_file = LogFile.new(
       server: server,
       map_name: params[:map_name],
-      body: params[:body]
+      body: Base64.decode64(params[:log_file][:body])
     )
 
     if log_file.save
@@ -25,10 +24,10 @@ class LogFilesController < ApplicationController
   private
 
   def log_file_params
-    params.permit(:server_name, :map_name, :body)
+    params.permit(:server_name, :map_name, :body, log_file: [:body])
   end
 
-  def authorized?
-    request.headers["AUTHORIZATION"] == ENV.fetch('LOG_UPLOAD_PASSWORD')
+  def authorized?(server)
+    request.headers["AUTHORIZATION"] == server.upload_token
   end
 end
