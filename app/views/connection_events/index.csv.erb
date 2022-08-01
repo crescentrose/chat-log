@@ -1,0 +1,4 @@
+<%= CSV.generate_line ['IP', 'Steam ID', 'Connected At', 'Server'] %>
+<%- @connection_events.each do |event| -%>
+<%=   CSV.generate_line([event.ip, event.player_steamid64, event.connected_at, event.server.name]) %>
+<%- end -%>

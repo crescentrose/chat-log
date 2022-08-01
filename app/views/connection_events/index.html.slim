@@ -25,27 +25,36 @@
         = f.submit class: 'btn btn-primary md-mx-2 h-100'
         = link_to connection_events_path, class: 'btn btn-secondary mx-2 h-100' do
           .d-flex.justify-content-center.align-items-center.h-100 Clear filters
-.container
-  table.table.table-striped
-    thead
-      tr
-        th Server
-        th Player
-        th IP
-        th Time (UTC)
-    tbody
-      - @connection_events.each do |event|
-        tr
-          td = event.server.name
-          td
-            strong = event.player_name
-            .font-monospace.text-muted = event.player_steamid64
-            .d-flex.font-smaller
-              .font-smaller = link_to 'Messages', messages_path(q: { for_player: event.player_steamid3 }), class: 'text-muted'
-              .font-smaller.mx-1 = link_to 'IP', connection_events_path(q: { for_player: event.player_steamid3 }), class: 'text-muted'
-              .font-smaller.mx-1 = link_to 'Profile', steam_url(event.player_steamid64), class:'text-muted'
-          td = link_to event.ip, connection_events_path(q: { ip_eq: event.ip }), class: 'link-secondary'
-          td = time_tag event.connected_at
 
-  .d-flex.justify-content-center
-    = paginate @connection_events
+.container
+  .row 
+    .col-sm-12
+      = link_to 'Export current page', connection_events_path(format: :csv), class: 'btn btn-outline-secondary'
+  .row.my-2
+    .col
+      table.table.table-striped
+        thead
+          tr
+            th Server
+            th Player
+            th IP
+            th Time (UTC)
+        tbody
+          - @connection_events.each do |event|
+            tr
+              td = event.server.name
+              td
+                strong = event.player_name
+                .font-monospace.text-muted = event.player_steamid64
+                .d-flex.font-smaller
+                  .font-smaller = link_to 'Messages', messages_path(q: { for_player: event.player_steamid3 }), class: 'text-muted'
+                  .font-smaller.mx-1 = link_to 'IP', connection_events_path(q: { for_player: event.player_steamid3 }), class: 'text-muted'
+                  .font-smaller.mx-1 = link_to 'Profile', steam_url(event.player_steamid64), class:'text-muted'
+              td = link_to event.ip, connection_events_path(q: { ip_eq: event.ip }), class: 'link-secondary'
+              td = time_tag event.connected_at
+
+      .d-flex.justify-content-center
+        nav role="navigation"
+          ul class="pagination"
+            li.page-item = link_to_prev_page @connection_events, 'Previous Page', class: 'page-link'
+            li.page-item = link_to_next_page @connection_events, 'Next Page', class: 'page-link'
