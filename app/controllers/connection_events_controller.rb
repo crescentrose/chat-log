@@ -1,12 +1,14 @@
 require 'csv'
 
 class ConnectionEventsController < ApplicationController
+  helper_method :connection_events_params
+
   def index
     authorize ConnectionEvent
 
     @q = ConnectionEvent
       .includes(:server)
-      .ransack(params[:q])
+      .ransack(connection_events_params)
 
     @connection_events = @q
       .result
@@ -28,5 +30,11 @@ class ConnectionEventsController < ApplicationController
   rescue NotImplementedError => e
     flash[:error] = e.message
     redirect_to votekick_events_path
+  end
+
+  private
+  
+  def connection_events_params
+    params.fetch(:q, {}).permit!
   end
 end

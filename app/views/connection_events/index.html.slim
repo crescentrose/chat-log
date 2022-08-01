@@ -29,7 +29,7 @@
 .container
   .row 
     .col-sm-12
-      = link_to 'Export current page', connection_events_path(format: :csv), class: 'btn btn-outline-secondary'
+      = link_to 'Export current page', connection_events_path(q: connection_events_params, format: :csv), class: 'btn btn-outline-secondary'
   .row.my-2
     .col
       table.table.table-striped
