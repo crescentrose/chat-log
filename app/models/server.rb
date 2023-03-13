@@ -68,4 +68,12 @@ class Server < ApplicationRecord
   rescue Resolv::ResolvError
     # TODO: log
   end
+
+  def self.ransackable_attributes(auth_level)
+    %w[friendly_name name is_active]
+  end
+
+  def self.ransackable_associations(auth_level)
+    %i[message]
+  end
 end

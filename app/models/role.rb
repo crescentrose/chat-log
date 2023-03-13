@@ -57,4 +57,8 @@ class Role < ApplicationRecord
 
     users.update_all(role_id: Role.everyone.id)
   end
+
+  def self.ransackable_attributes(auth_object = nil)
+    ["name", "updated_at"]
+  end
 end

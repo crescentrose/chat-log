@@ -44,4 +44,12 @@ class VotekickEvent < ApplicationRecord
   def target_steamid64
     @target_steamid64 ||= SteamId.from(target_steamid3).id64
   end
+
+  def self.ransackable_attributes(_)
+    %w[time server_id target_name server_id]
+  end
+
+  def self.ransackable_associations(_)
+    %w["server"]
+  end
 end

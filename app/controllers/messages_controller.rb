@@ -6,8 +6,8 @@ class MessagesController < ApplicationController
 
     @q = policy_scope(Message)
       .includes(:server, :flag)
-      .ransack(params[:q], auth_object: ransack_permission_level)
-
+      .ransack(params.fetch(:q, {}).reverse_merge(default_query), auth_object: ransack_permission_level)
+    
     @messages = @q
       .result
       .order(sent_at: :desc)
@@ -50,5 +50,11 @@ class MessagesController < ApplicationController
     return :admin if policy(Message).full?
 
     :user
+  end
+
+  def default_query
+    {
+      sent_at_gteq: 6.weeks.ago.to_date
+    }
   end
 end

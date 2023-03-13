@@ -18,7 +18,7 @@
 
       .col-lg-2.col-sm-12
         .form-floating
-          = f.collection_select :server_name_eq, Server.order(:name), :name, :friendly_name, { include_blank: 'All' }, class: 'form-select'
+          = f.collection_select :server_id_eq, Server.active.order(:friendly_name), :id, :friendly_name, { include_blank: 'All' }, class: 'form-select'
           = f.label :server_name_eq, 'Server', class: 'form-label'
 
       .col-lg-3.col-sm-12

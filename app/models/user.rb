@@ -63,4 +63,12 @@ class User < ApplicationRecord
     summary = SteamService.new.player_summary(steam_id3)
     assign_attributes(name: summary.name, avatar_url: summary.avatar_url)
   end
+
+  def self.ransackable_attributes(_)
+    ["created_at", "id", "last_login", "name", "role_id", "steam_id3", "updated_at"]
+  end
+  
+  def self.ransackable_associations(_)
+    ["role"]
+  end
 end

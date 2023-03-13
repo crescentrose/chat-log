@@ -42,14 +42,6 @@ class Message < ApplicationRecord
   scope :resolved, -> { joins(:flag).where.not(flag: { resolved_at: nil }) }
   scope :recent, -> { where(sent_at: 2.weeks.ago..15.minutes.ago) }
 
-  def self.ransackable_scopes(auth_level)
-    if auth_level == :admin
-      %i[for_player flagged resolved]
-    else
-      %i[for_player]
-    end
-  end
-
   def formatted_sent_at
     sent_at.strftime('%c')
   end
@@ -87,5 +79,25 @@ class Message < ApplicationRecord
 
   def broadcast_create_message 
     broadcast_prepend_later_to "messages", partial: 'messages/message_frame', target: "messages"
+  end
+
+  def self.ransackable_scopes(auth_level)
+    if auth_level == :admin
+      %i[for_player flagged resolved]
+    else
+      %i[for_player]
+    end
+  end
+
+  def self.ransackable_attributes(auth_level)
+    %w[message player_name sent_at server_id]
+  end
+
+  def self.ransackable_associations(auth_level)
+    if auth_level == :admin
+      %i[server flag]
+    else
+      %i[server]
+    end
   end
 end

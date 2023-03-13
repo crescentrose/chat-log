@@ -56,7 +56,7 @@ RSpec.describe 'Messages', type: :request do
       end
 
       it 'by server' do
-        get '/messages', params: { q: { server_name_eq: message.server.name } }
+        get '/messages', params: { q: { server_id_eq: message.server.id } }
         expect(response).to have_http_status(:ok)
         expect(response.body).to include('hex smells')
         expect(response.body).to_not include('viora smells')

@@ -34,4 +34,12 @@ class ConnectionEvent < ApplicationRecord
   def player_steamid64
     @player_steamid ||= SteamId.from(player_steamid3).id64
   end
+
+  def self.ransackable_attributes(auth_object = nil)
+    ["connected_at", "created_at", "disconnect_time", "id", "ip", "player_name", "player_steamid3", "server_id", "updated_at", "server_id"]
+  end
+
+  def self.ransackable_associations(auth_object = nil)
+    ["server"]
+  end
 end
