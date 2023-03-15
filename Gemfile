@@ -13,7 +13,7 @@ gem 'puma', '~> 5.0'
 # Use SCSS for stylesheets
 gem 'sass-rails', '>= 6'
 # We are lazy and use bootstrap
-gem 'bootstrap', '~> 5.1.3'
+gem 'bootstrap', '~> 5.2.3'
 # Use Redis adapter to run Action Cable in production
 gem 'redis', '~> 4.0'
 # Use Active Model has_secure_password

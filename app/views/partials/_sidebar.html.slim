@@ -1,0 +1,39 @@
+.offcanvas-lg.offcanvas-start#navigationSidebar
+  .offcanvas-header 
+    button.btn-close data-bs-dismiss="offcanvas" data-bs-target="#navigationSidebar"
+  .offcanvas-body
+    nav.sidebar.fullheight.flex-shrink-0
+      .my-4.nav-logo
+        = link_to root_path do
+          = image_tag "/logo.png", class: 'img-fluid mx-auto d-block'
+
+      / .my-4.d-flex.flex-column role="search"
+        input.form-control type="search" placeholder="Search for players, messages..."
+
+      .nav.nav-pills.d-flex.flex-column.flex-grow-1.my-2
+        / .nav-item.my-1 = active_link_to '🏠 Dashboard', root_path, class: 'nav-link flex-sm-fill', active: :exact
+        .nav-item.my-1 = active_link_to '💬 Messages', messages_path, class: 'nav-link' if policy(Message).index?
+        .nav-item.my-1 = active_link_to '🖥️ Servers', servers_path, class: 'nav-link', active: :exclusive if policy(Server).index?
+        .nav-item.my-1 = active_link_to '🦵 Votekicks', votekick_events_path, class: 'nav-link' if policy(VotekickEvent).index?
+        .nav-item.my-1 = active_link_to '🕴️ Players', connection_events_path, class: 'nav-link' if policy(ConnectionEvent).index?
+        .nav-item.my-1 = active_link_to '🔧 Administration', users_path, class: 'nav-link', active: [['users', 'roles'], []] if policy(User).index? || policy(Role).index? || policy(Server).update?
+
+      .nav.nav-pills.flex-column.mt-4
+        - if current_user.anonymous?
+          span.nav-item = button_to '🔑 Log in', '/auth/steam', method: :post, data: { turbo: false }, class: 'nav-link'
+        - else
+          .d-flex
+            = image_tag current_user.avatar_url, class: 'rounded', width: 64, height: 64
+            .mx-3.d-flex.flex-column.justify-content-between
+              div style="color: #{current_user.role.color}"
+                strong = current_user.name
+              = button_to 'Log out', logout_path, class: 'btn btn-sm btn-outline-secondary', method: :delete, data: { turbo: false }
+
+        / .mt-4
+        /   h4 Servers
+        /   - server_groups.each do |group| 
+        /     details
+        /       summary.nav-item.my-1.nav-link = "#{group.icon} #{group.name}"
+        /       .server-list
+        /         - group.servers.each do |server|
+        /           .nav-item = active_link_to server.friendly_name, server, class: 'nav-link'

@@ -18,6 +18,15 @@
 #  upload_token       :string
 #  created_at         :datetime         not null
 #  updated_at         :datetime         not null
+#  server_group_id    :bigint
+#
+# Indexes
+#
+#  index_servers_on_server_group_id  (server_group_id)
+#
+# Foreign Keys
+#
+#  fk_rails_...  (server_group_id => server_groups.id)
 #
 class Server < ApplicationRecord
   validates :name, presence: true
@@ -26,6 +35,8 @@ class Server < ApplicationRecord
   has_many :disconnection_events, dependent: :delete_all
   has_many :messages, dependent: :delete_all
   has_many :votekick_events, dependent: :delete_all
+
+  belongs_to :server_group, optional: true
 
   before_save :convert_hostname_to_ip
 

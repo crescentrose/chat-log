@@ -1,13 +1,16 @@
 - content_for :content do
-  .row.mt-4
-    h1 Administration
-  .row.mt-4
-    .col-12.col-md-4.col-lg-3
-      ul.nav.flex-column.nav-pills
-        li.nav-item = active_link_to 'Users', users_path, class: 'nav-link' if policy(User).index?
-        li.nav-item = active_link_to 'Roles', roles_path, class: 'nav-link' if policy(Role).index?
-        li.nav-item = active_link_to 'Servers', admin_servers_path, active: /^\/servers/, class: 'nav-link' if policy(Server).update?
-    .col-12.col-md-8.col-lg-9
-      = yield
+  .container
+    .row.mt-4
+      h1 Chat logs administration
+    .row.mt-4
+      .col-12.col-md-4.col-lg-3
+        ul.nav.flex-column.nav-pills
+          li.nav-item = active_link_to 'Users', users_path, class: 'nav-link' if policy(User).index?
+          li.nav-item = active_link_to 'Roles', roles_path, class: 'nav-link' if policy(Role).index?
+          li.nav-item = active_link_to 'Server Groups', server_groups_path, class: 'nav-link' if policy(ServerGroup).update?
+          li.nav-item = active_link_to 'Servers', admin_servers_path, active: /^\/servers/, class: 'nav-link' if policy(Server).update?
+          li.nav_item.my-4 = active_link_to 'Back to logs', root_path, active: :exact, class: 'nav-link'
+      .col-12.col-md-8.col-lg-9
+        = yield
 
 = render template: 'layouts/application'

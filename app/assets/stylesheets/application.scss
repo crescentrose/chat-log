@@ -1,5 +1,5 @@
 @import "bootstrap";
-// @import '~bootstrap-dark-5/dist/css/bootstrap-dark';
+@import "dark";
 
 $team-red: #B8383B;
 $team-blu: #5885A2;
@@ -79,4 +79,37 @@ span.team-spec {
     transform: translateY(0);
     opacity: 1;
   }
+}
+
+.fullheight {
+  overflow-y: scroll;
+  overflow-x: hidden;
+  height: 100%;
+}
+
+.sidebar {
+  width: 350px;
+  display: flex;
+  flex-direction: column;
+  flex-shrink: 0;
+}
+
+@include media-breakpoint-up(lg) {
+  .sidebar {
+    padding: 2em;
+  }
+
+  .fullheight {
+    max-height: 100vh;
+    min-height: 100vh;
+  }
+}
+
+summary.nav-link::before {
+  content: '🔻';
+  margin-right: 1em;
+}
+
+.server-list {
+  margin-left: 2rem;
 }

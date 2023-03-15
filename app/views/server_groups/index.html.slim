@@ -1,0 +1,33 @@
+h2
+  | Server Groups
+
+- if policy(ServerGroup).create?
+    = form_with model: ServerGroup.new, html: { autocomplete: 'off' }, class: 'mb-4' do |f|
+      .row.align-items-center.my-2
+        .col-2
+          = f.text_field :icon, class: 'form-control', placeholder: 'Icon'
+        .col-5
+          = f.text_field :name, class: 'form-control', placeholder: 'Name'
+        .col-2
+          = f.submit 'Add new group', class: 'btn btn-primary form-control'
+
+- @server_groups.each do |group|
+  .row.align-items-center.my-2
+    - if policy(group).update?
+      = form_with model: group, remote: true, html: { autocomplete: 'off' }, class: 'col-8 row' do |f|
+        .col-1
+          = f.text_field :icon, class: 'form-control', placeholder: 'Icon'
+        .col
+          = f.text_field :name, class: 'form-control', placeholder: 'Name'
+        .col-2
+          = f.submit 'Update', class: 'btn btn-secondary form-control'
+      .col-1
+        = button_to 'Delete', group, method: :delete, class: 'btn btn-danger form-control'
+    - else
+      .col
+        = group.icon
+      .col
+        = group.name 
+
+.d-flex.justify-content-center
+  = paginate @server_groups

@@ -6,7 +6,7 @@
       ' logged in and have moderator privileges. Still having troubles?
       = link_to 'Talk to viora.', 'http://discord.com/users/95105078385446912', class: 'alert-link'
 
-.my-4.md-3.container
+.my-4.md-3
   = search_form_for @q do |f|
     .row.g-2
       .col-lg-2.col-sm-12
@@ -57,17 +57,16 @@
             = f.label :resolved, 'Resolved', class: 'form-check-label mx-2'
 
 
-.container
-  - if @messages.empty?
-    p
-      ' No messages match this query.
-      = link_to 'Clear filters?', messages_path
-  - else
-    #messages data-controller="truncateable"
-      = render @messages
+- if @messages.empty?
+  p
+    ' No messages match this query.
+    = link_to 'Clear filters?', messages_path
+- else
+  #messages data-controller="truncateable"
+    = render @messages
 
-  .d-flex.justify-content-center
-    nav role="navigation"
-      ul class="pagination"
-        li.page-item = link_to_prev_page @messages, 'Previous Page', class: 'page-link'
-        li.page-item = link_to_next_page @messages, 'Next Page', class: 'page-link'
+.d-flex.justify-content-center
+  nav role="navigation"
+    ul class="pagination"
+      li.page-item = link_to_prev_page @messages, 'Previous Page', class: 'page-link'
+      li.page-item = link_to_next_page @messages, 'Next Page', class: 'page-link'

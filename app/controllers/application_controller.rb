@@ -1,7 +1,9 @@
 class ApplicationController < ActionController::Base
   include Pundit::Authorization
 
-  helper_method :current_user
+  layout 'main'
+
+  helper_method :current_user, :server_groups
 
   rescue_from Pundit::NotAuthorizedError, with: :user_not_authorized
   rescue_from ActiveRecord::RecordNotFound, with: :not_found
@@ -30,5 +32,9 @@ class ApplicationController < ActionController::Base
   def not_found
     flash[:error] = 'This record does not exist. (You may have to log in to access it)'
     redirect_to '/'
+  end
+
+  def server_groups
+    ServerGroup.includes(:servers).where(servers: { is_active: true })
   end
 end

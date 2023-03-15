@@ -1,0 +1,14 @@
+- content_for :content do
+  nav.d-lg-none.navbar.navbar-dark.bg-dark
+    .container-fluid
+      .navbar-brand
+        | 🔧
+      button.navbar-toggler.d-lg-none data-bs-toggle="offcanvas" data-bs-target="#navigationSidebar" aria-controls="navigationSidebar"
+        span.navbar-toggler-icon
+  main.d-flex
+    = render 'partials/sidebar'
+
+    .container-fluid
+      = yield
+
+= render template: 'layouts/application'

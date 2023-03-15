@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_07_01_071829) do
+ActiveRecord::Schema[7.0].define(version: 2023_03_15_212320) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -140,6 +140,13 @@ ActiveRecord::Schema[7.0].define(version: 2022_07_01_071829) do
     t.index ["name"], name: "index_roles_on_name", unique: true
   end
 
+  create_table "server_groups", force: :cascade do |t|
+    t.string "name"
+    t.string "icon"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "servers", force: :cascade do |t|
     t.string "name", null: false
     t.datetime "last_update", precision: nil
@@ -156,6 +163,8 @@ ActiveRecord::Schema[7.0].define(version: 2022_07_01_071829) do
     t.string "last_uploaded_file"
     t.boolean "is_active", default: true, null: false
     t.string "upload_token"
+    t.bigint "server_group_id"
+    t.index ["server_group_id"], name: "index_servers_on_server_group_id"
   end
 
   create_table "users", force: :cascade do |t|
@@ -192,6 +201,7 @@ ActiveRecord::Schema[7.0].define(version: 2022_07_01_071829) do
   add_foreign_key "messages", "servers"
   add_foreign_key "role_permissions", "permissions"
   add_foreign_key "role_permissions", "roles"
+  add_foreign_key "servers", "server_groups"
   add_foreign_key "users", "roles"
   add_foreign_key "votekick_events", "servers"
 end

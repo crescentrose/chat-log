@@ -8,6 +8,7 @@ Rails.application.routes.draw do
   resources :messages, only: %i[index show]
   resources :roles
   resources :users, only: %i[index update create]
+  resources :server_groups, only: %i[index update create destroy]
   resources :votekick_events, only: [:index]
 
   resources :flags, only: %[:destroy] do

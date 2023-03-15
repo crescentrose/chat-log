@@ -18,6 +18,15 @@
 #  upload_token       :string
 #  created_at         :datetime         not null
 #  updated_at         :datetime         not null
+#  server_group_id    :bigint
+#
+# Indexes
+#
+#  index_servers_on_server_group_id  (server_group_id)
+#
+# Foreign Keys
+#
+#  fk_rails_...  (server_group_id => server_groups.id)
 #
 FactoryBot.define do
   factory :server do
@@ -27,5 +36,6 @@ FactoryBot.define do
     ip { 'server.example.com' }
     port { 27015 }
     upload_token { 'foobar' }
+    server_group
   end
 end

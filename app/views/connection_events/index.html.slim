@@ -1,4 +1,4 @@
-.my-4.container
+.my-4.container-fluid
   = search_form_for @q do |f|
     .row.g-2
       .col-lg-2.col-sm-12
@@ -26,7 +26,7 @@
         = link_to connection_events_path, class: 'btn btn-secondary mx-2 h-100' do
           .d-flex.justify-content-center.align-items-center.h-100 Clear filters
 
-.container
+.container-fluid
   .row 
     .col-sm-12
       = link_to 'Export current page', connection_events_path(q: connection_events_params, format: :csv), class: 'btn btn-outline-secondary'
