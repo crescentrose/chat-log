@@ -24,10 +24,10 @@
 #
 FactoryBot.define do
   factory :votekick_event do
-    initiator_steamid3 { "MyString" }
-    target_steamid3 { "MyString" }
-    target_name { "MyString" }
+    initiator_steamid3 { "[U:1:0]" }
+    target_steamid3 { "[U:1:1]" }
+    target_name { "test" }
     time { "2021-08-04 19:04:50" }
-    server_references { "MyString" }
+    server
   end
 end

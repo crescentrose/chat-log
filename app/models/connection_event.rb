@@ -31,14 +31,14 @@ class ConnectionEvent < ApplicationRecord
   end
 
   def self.ransackable_scopes(auth_level)
-    %i[for_player] if auth_level == :admin
+    %i[for_player] 
   end
 
   def self.ransackable_attributes(auth_level = nil)
-    ["connected_at", "ip", "player_name", "player_steamid3", "server_id"] if auth_level == :admin
+    ["connected_at", "ip", "player_name", "player_steamid3", "server_id"] 
   end
 
   def self.ransackable_associations(auth_level = nil)
-    ["server"] if auth_level == :admin
+    ["server"]
   end
 end
