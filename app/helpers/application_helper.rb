@@ -32,16 +32,21 @@ module ApplicationHelper
                    else
                      'never'
                    end
-
-    last_log_sync = if server.last_log_sync
-                     "#{time_ago_in_words(server.last_log_sync)} ago"
-                   else
-                     'never'
-                   end
+    
+    cause = case server.health
+            when :ok
+              'Server was recently updated and reported map and player count data.'
+            when :status_only
+              'Server was not set up for remote access, but it is still tracked.'
+            when :warn, :critical
+              "This server is set up for remote access, but was last seen #{last_updated}."
+            when :offline
+              'Server has been disabled.'
+            end
 
     content_tag :div, nil,
       class: "d-inline-block p-2 bg-#{background} rounded-circle",
       data: { bs_toggle: 'tooltip' },
-      title: "Last status update #{last_updated}, last log sync #{last_log_sync}"
+      title: cause
   end
 end

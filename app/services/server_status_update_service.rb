@@ -20,6 +20,13 @@ class ServerStatusUpdateService
     )
 
     server
+  rescue StandardError => e
+    server.update!(
+      map: nil,
+      players: nil
+    )
+
+    raise e
   end
 
   private

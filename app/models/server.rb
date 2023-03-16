@@ -41,6 +41,7 @@ class Server < ApplicationRecord
   before_save :convert_hostname_to_ip
 
   scope :active, -> { where(is_active: true) }
+  scope :rcon_enabled, -> { where.not(rcon_password: nil) }
 
   # why did I make this?
   def self.from_name(name)
@@ -49,8 +50,11 @@ class Server < ApplicationRecord
 
   def health
     return :offline unless is_active?
+    return :status_only if rcon_password.blank?
+    return :warn if last_update.present? && last_update.between?(1.day.ago, 5.minutes.ago)
+    return :critical if last_update.nil? || last_update < 1.day.ago
 
-    :status_only
+    :ok
   end
 
   def rcon_client

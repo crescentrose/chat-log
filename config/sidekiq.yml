@@ -6,7 +6,8 @@
 :queues:
   - default
 
-:schedule:
-  status:
-    class: UpdateServerStatusJob
-    every: '2m'
+:scheduler:
+  schedule:
+    status:
+      class: UpdateServerStatusJob
+      every: '2m'
