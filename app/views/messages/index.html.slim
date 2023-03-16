@@ -1,11 +1,3 @@
-- unless policy(Message).full?
-  .my-4.md-3.container
-    .alert.alert-warning.my-4
-      ' As a guest, you are limited to viewing the chat logs of the past 2 weeks
-      ' with a 15 minute delay. Do you want to see more? Make sure you are
-      ' logged in and have moderator privileges. Still having troubles?
-      = link_to 'Talk to viora.', 'http://discord.com/users/95105078385446912', class: 'alert-link'
-
 .my-4.md-3
   = search_form_for @q do |f|
     .row.g-2

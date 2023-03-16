@@ -55,6 +55,7 @@ class Server < ApplicationRecord
 
   def rcon_client
     raise 'rcon password must exist to use rcon client' if rcon_password.nil?
+
     return @rcon_client unless @rcon_client.nil?
 
     @rcon_client = Rcon::Client.new(
@@ -62,7 +63,7 @@ class Server < ApplicationRecord
       port: port,
       password: rcon_password
     )
-    @rcon_client.authenticate!
+    Timeout::timeout(2) { @rcon_client.authenticate! } # TODO: use something else than timeout here
     @rcon_client
   end
 

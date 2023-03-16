@@ -4,7 +4,6 @@
 #
 #  id              :bigint           not null, primary key
 #  connected_at    :datetime         not null
-#  disconnect_time :datetime
 #  ip              :string           not null
 #  player_name     :string           not null
 #  player_steamid3 :string           not null
@@ -27,19 +26,19 @@ class ConnectionEvent < ApplicationRecord
     where(player_steamid3: SteamId.from(identifier).id3)
   end
 
-  def self.ransackable_scopes(_)
-    %i[for_player]
-  end
-
   def player_steamid64
     @player_steamid ||= SteamId.from(player_steamid3).id64
   end
 
-  def self.ransackable_attributes(auth_object = nil)
-    ["connected_at", "created_at", "disconnect_time", "id", "ip", "player_name", "player_steamid3", "server_id", "updated_at", "server_id"]
+  def self.ransackable_scopes(auth_level)
+    %i[for_player] if auth_level == :admin
   end
 
-  def self.ransackable_associations(auth_object = nil)
-    ["server"]
+  def self.ransackable_attributes(auth_level = nil)
+    ["connected_at", "ip", "player_name", "player_steamid3", "server_id"] if auth_level == :admin
+  end
+
+  def self.ransackable_associations(auth_level = nil)
+    ["server"] if auth_level == :admin
   end
 end

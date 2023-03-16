@@ -4,7 +4,6 @@
 #
 #  id              :bigint           not null, primary key
 #  connected_at    :datetime         not null
-#  disconnect_time :datetime
 #  ip              :string           not null
 #  player_name     :string           not null
 #  player_steamid3 :string           not null
