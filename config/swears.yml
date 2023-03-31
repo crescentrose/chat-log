@@ -4,6 +4,7 @@ regex:
   '\w*f[a4]gg[o0]t\w*': ["discriminatory"]
   '\w*n[1i]ck ?gurr+\w*': ["discriminatory"]
   '\w*fag\w*': ["discriminatory"]
+  '\w*r[e3]t[a4]rd\w*' : ["discriminatory"]
 simple:
   # Racial slurs:
   # Black
@@ -19,7 +20,6 @@ simple:
   "52%": ["discriminatory"]
   # 13% and 52% are commonly used to reference a statistic
   # which purports that Black people commit most crime.
-  "niglet": ["discriminatory"]
   "ni": ["discriminatory"]
   "gger": ["discriminatory"]
   "nig/ger": ["discriminatory"]
