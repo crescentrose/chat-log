@@ -23,6 +23,7 @@ Rails.application.routes.draw do
   get '/auth/failure', to: 'sessions#failure'
   delete '/auth', to: 'sessions#destroy', as: :logout
   post '/upload', to: 'log_files#create'
+  get '/bonca', to: 'stats#index'
 
   mount Sidekiq::Web => '/sidekiq', constraints: AdminConstraint.new
   mount ActionCable.server => '/cable'

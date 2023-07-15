@@ -6,6 +6,7 @@ class LogServerProcessingService
       VotekickParserService.new,
       ConnectionParserService.new(trusted_users),
       DisconnectionParserService.new,
+      StatsParserService.new(redis),
     ]
 
     @servers_by_addr = Server.all.index_by { |s| [s.ip, s.port] }
@@ -38,5 +39,11 @@ class LogServerProcessingService
 
   def trusted_users
     User.with_permission('connections.obscure').pluck(:steam_id3)
+  end
+
+  def redis
+    return nil if ENV.fetch('REDIS_URL', false)
+
+    @redis ||= Redis.new(url: ENV['REDIS_URL'])
   end
 end
